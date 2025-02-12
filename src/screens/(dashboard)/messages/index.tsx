@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import React, { useState } from "react";
 import globalStyles from "@/src/styles/global";
 import { Feather } from "@expo/vector-icons";
@@ -38,7 +38,10 @@ const AllMessagesScreen = () => {
         {canSearch && <SearchInput />}
 
         {/* Messages */}
-        <MessageList messagesData={messagesData} />
+        <Text>
+          {" "}
+          <MessageList messagesData={messagesData} />
+        </Text>
       </View>
     </ScrollView>
   );

@@ -7,7 +7,7 @@ const globalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     paddingHorizontal: 28,
-    paddingTop: 80,
+    paddingVertical: 20,
     minHeight: "100%",
     backgroundColor: theme.colors.white,
   },
@@ -40,8 +40,8 @@ const globalStyles = StyleSheet.create({
 
   // images
   logoRect: {
-    width: 218,
-    height: 80,
+    width: 40,
+    height: 50,
     marginBottom: 16,
     alignSelf: "center",
   },

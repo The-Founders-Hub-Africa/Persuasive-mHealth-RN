@@ -40,8 +40,8 @@ const globalStyles = StyleSheet.create({
 
   // images
   logoRect: {
-    width: 218,
-    height: 80,
+    width: 40,
+    height: 50,
     marginBottom: 16,
     alignSelf: "center",
   },

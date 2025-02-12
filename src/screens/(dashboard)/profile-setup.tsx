@@ -40,9 +40,13 @@ type FormData = {
 
 export default function ProfileSetupScreen({
   navigation,
+  route,
 }: {
   navigation: NavigationProp<any>;
+  route: any;
 }) {
+  const { email, phone } = route.params || {};
+
   const [calendarVisible, setCalendarVisible] = useState(false);
 
   const {
@@ -54,14 +58,19 @@ export default function ProfileSetupScreen({
   } = useForm<FormData>({
     defaultValues: {
       fullName: "",
-      email: "",
-      phone: "",
+      email: email || "",
+      phone: phone || "",
       specialization: "",
       gender: "",
-      dob: new Date().toISOString().split("T")[0], // Default to today
+      dob: new Date().toISOString().split("T")[0],
       avatar: null,
     },
   });
+
+  useEffect(() => {
+    if (email) setValue("email", email);
+    if (phone) setValue("phone", phone);
+  }, [email, phone, setValue]);
 
   // Request permission for image picker
   const requestPermission = async () => {
@@ -190,8 +199,8 @@ export default function ProfileSetupScreen({
           <Controller
             control={control}
             name="email"
-            rules={{ required: "Email is required" }}
-            render={({ field: { onChange, value } }) => (
+            // rules={{ required: "Email is required" }}
+            render={({ field: { value } }) => (
               <View
                 style={[formStyles.inputCntr, formStyles.inputCntrDisabled]}
               >
@@ -202,11 +211,11 @@ export default function ProfileSetupScreen({
                 />
                 <TextInput
                   style={[formStyles.inputText, formStyles.inputTextDisabled]}
-                  placeholder="you@email.com"
-                  placeholderTextColor={theme.colors["disabled-text"]}
-                  keyboardType="email-address"
+                  // placeholder="you@email.com"
+                  // placeholderTextColor={theme.colors["disabled-text"]}
+                  // keyboardType="email-address"
                   value={value}
-                  onChangeText={onChange}
+                  // onChangeText={onChange}
                   readOnly
                 />
               </View>

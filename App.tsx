@@ -20,16 +20,13 @@ import ViewAppointmentScreen from "./src/screens/(dashboard)/appointments/[id]";
 import AllPatientsScreen from "./src/screens/(dashboard)/patients";
 import ViewPatientScreen from "./src/screens/(dashboard)/patients/[id]";
 import SplashScreen from "./src/screens/SplashScreen/SplashScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import BottomTabs from "./src/Navigation/BottomTabs";
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
-  // const [loading, setLoading] = useState(true);
-
-  // if (loading) {
-  //   return <SplashScreen />;
-  // }
-
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -59,19 +56,20 @@ export default function App() {
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="ProfileSetup" component={ProfileSetupScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Notification" component={NotificationsScreen} />
-        <Stack.Screen name="Search" component={SearchScreen} />
-        <Stack.Screen name="ProfileDetails" component={ProfileDetailsScreen} />
-        <Stack.Screen name="AllMessages" component={AllMessagesScreen} />
-        <Stack.Screen name="ViewMessage" component={ViewMessageScreen} />
-        <Stack.Screen name="AllApointments" component={AllAppointmentsScreen} />
-        <Stack.Screen
+        <Stack.Screen name="Dashboard" component={BottomTabs} />
+        {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+        {/* <Stack.Screen name="Notification" component={NotificationsScreen} /> */}
+        {/* <Stack.Screen name="Search" component={SearchScreen} /> */}
+        {/* <Stack.Screen name="ProfileDetails" component={ProfileDetailsScreen} /> */}
+        {/* <Stack.Screen name="AllMessages" component={AllMessagesScreen} /> */}
+        {/* <Stack.Screen name="ViewMessage" component={ViewMessageScreen} /> */}
+        {/* <Stack.Screen name="AllApointments" component={AllAppointmentsScreen} /> */}
+        {/* <Stack.Screen
           name="ViewAppointment"
           component={ViewAppointmentScreen}
-        />
-        <Stack.Screen name="AllPatients" component={AllPatientsScreen} />
-        <Stack.Screen name="ViewPatient" component={ViewPatientScreen} />
+        /> */}
+        {/* <Stack.Screen name="AllPatients" component={AllPatientsScreen} /> */}
+        {/* <Stack.Screen name="ViewPatient" component={ViewPatientScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

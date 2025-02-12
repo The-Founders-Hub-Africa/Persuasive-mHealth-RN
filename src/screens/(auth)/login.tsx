@@ -34,7 +34,7 @@ export default function LoginScreen({
 
   const onSubmit = (data: FormData) => {
     if (data.email && data.password) {
-      navigation.navigate("Home");
+      navigation.navigate("Dashboard");
     } else {
       Alert.alert("Please fill all fields");
     }
@@ -44,7 +44,7 @@ export default function LoginScreen({
     <ScrollView>
       <View style={globalStyles.container}>
         <Image
-          source={require("@/assets/images/logo.png")}
+          source={require("@/assets/purpleLogoIcon.png")}
           style={globalStyles.logoRect}
         />
 
@@ -55,7 +55,8 @@ export default function LoginScreen({
               textAlign: "center",
               marginBottom: 8,
             },
-          ]}>
+          ]}
+        >
           Welcome back!
         </Text>
         <Text
@@ -65,7 +66,8 @@ export default function LoginScreen({
               textAlign: "center",
               marginBottom: 24,
             },
-          ]}>
+          ]}
+        >
           Sign in to continue.
         </Text>
 
@@ -157,7 +159,8 @@ export default function LoginScreen({
         {/* Forgot password */}
         <TouchableOpacity
           onPress={() => navigation.navigate("ForgotPassword")}
-          style={{ alignSelf: "flex-end" }}>
+          style={{ alignSelf: "flex-end" }}
+        >
           <Text style={{ color: theme.colors["purple-700"], fontSize: 14 }}>
             Forgot password?
           </Text>
@@ -171,7 +174,8 @@ export default function LoginScreen({
             {
               marginTop: 40,
             },
-          ]}>
+          ]}
+        >
           <Text style={[formStyles.submitText]}>Login</Text>
         </TouchableOpacity>
 

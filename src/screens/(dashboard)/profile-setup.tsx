@@ -87,7 +87,7 @@ export default function ProfileSetupScreen({
         includeBase64: false,
         quality: 1,
       },
-      response => {
+      (response) => {
         if (response.didCancel) {
           console.log("User cancelled image picker");
         } else if (response.errorMessage) {
@@ -107,21 +107,24 @@ export default function ProfileSetupScreen({
           style={[
             typography.text2XL_SemiBold,
             { textAlign: "left", marginBottom: 8 },
-          ]}>
+          ]}
+        >
           Set up Profile
         </Text>
         <Text
           style={[
             typography.textBase_Regular,
             { textAlign: "left", marginBottom: 24 },
-          ]}>
+          ]}
+        >
           Update your profile to get started
         </Text>
 
         {/* Upload Avatar */}
         <TouchableOpacity
           style={formStyles.profileImageCntr}
-          onPress={handleImageUpload}>
+          onPress={handleImageUpload}
+        >
           <Controller
             control={control}
             name="avatar"
@@ -144,7 +147,8 @@ export default function ProfileSetupScreen({
             {
               marginBottom: 8,
             },
-          ]}>
+          ]}
+        >
           Personal Information
         </Text>
 
@@ -182,13 +186,15 @@ export default function ProfileSetupScreen({
         {/* Email */}
         <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Email</Text>
+
           <Controller
             control={control}
             name="email"
             rules={{ required: "Email is required" }}
             render={({ field: { onChange, value } }) => (
               <View
-                style={[formStyles.inputCntr, formStyles.inputCntrDisabled]}>
+                style={[formStyles.inputCntr, formStyles.inputCntrDisabled]}
+              >
                 <SimpleLineIcons
                   name="envelope"
                   size={20}
@@ -216,13 +222,15 @@ export default function ProfileSetupScreen({
         {/* Phone Number */}
         <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Phone Number</Text>
+
           <Controller
             control={control}
             name="phone"
             rules={{ required: "Phone number is required" }}
             render={({ field: { onChange, value } }) => (
               <View
-                style={[formStyles.inputCntr, formStyles.inputCntrDisabled]}>
+                style={[formStyles.inputCntr, formStyles.inputCntrDisabled]}
+              >
                 <Feather
                   name="phone"
                   size={20}
@@ -254,7 +262,8 @@ export default function ProfileSetupScreen({
               marginTop: 12,
               marginBottom: 8,
             },
-          ]}>
+          ]}
+        >
           Other Information
         </Text>
 
@@ -293,7 +302,8 @@ export default function ProfileSetupScreen({
               <View style={formStyles.genderCntr}>
                 <TouchableOpacity
                   onPress={() => onChange("Male")}
-                  style={[formStyles.inputCntr, formStyles.genderOptionMale]}>
+                  style={[formStyles.inputCntr, formStyles.genderOptionMale]}
+                >
                   <MaterialIcons
                     name={
                       value === "Male" ? "check-box" : "check-box-outline-blank"
@@ -305,7 +315,8 @@ export default function ProfileSetupScreen({
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => onChange("Female")}
-                  style={[formStyles.inputCntr, formStyles.genderOptionFemale]}>
+                  style={[formStyles.inputCntr, formStyles.genderOptionFemale]}
+                >
                   <MaterialIcons
                     name={
                       value === "Female"
@@ -353,7 +364,8 @@ export default function ProfileSetupScreen({
           visible={calendarVisible}
           transparent={true}
           animationType="slide"
-          onRequestClose={() => setCalendarVisible(false)}>
+          onRequestClose={() => setCalendarVisible(false)}
+        >
           <View style={modalStyles.modalCntr}>
             <Calendar
               style={{ borderRadius: theme.rounded.medium, width: 300 }}
@@ -384,7 +396,8 @@ export default function ProfileSetupScreen({
         {/* Continue Button */}
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
-          style={formStyles.submitButton}>
+          style={formStyles.submitButton}
+        >
           <Text style={formStyles.submitText}>Continue</Text>
         </TouchableOpacity>
       </View>

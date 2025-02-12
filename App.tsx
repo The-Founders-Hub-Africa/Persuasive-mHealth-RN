@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 // import { Alert, Pressable, Text } from "react-native";
@@ -19,10 +19,17 @@ import AllAppointmentsScreen from "./src/screens/(dashboard)/appointments";
 import ViewAppointmentScreen from "./src/screens/(dashboard)/appointments/[id]";
 import AllPatientsScreen from "./src/screens/(dashboard)/patients";
 import ViewPatientScreen from "./src/screens/(dashboard)/patients/[id]";
+import SplashScreen from "./src/screens/SplashScreen/SplashScreen";
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  // const [loading, setLoading] = useState(true);
+
+  // if (loading) {
+  //   return <SplashScreen />;
+  // }
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -40,7 +47,8 @@ export default function App() {
           //     <Text>Info</Text>
           //   </Pressable>
           // ),
-        }}>
+        }}
+      >
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen
@@ -57,10 +65,7 @@ export default function App() {
         <Stack.Screen name="ProfileDetails" component={ProfileDetailsScreen} />
         <Stack.Screen name="AllMessages" component={AllMessagesScreen} />
         <Stack.Screen name="ViewMessage" component={ViewMessageScreen} />
-        <Stack.Screen
-          name="AllApointments"
-          component={AllAppointmentsScreen}
-        />
+        <Stack.Screen name="AllApointments" component={AllAppointmentsScreen} />
         <Stack.Screen
           name="ViewAppointment"
           component={ViewAppointmentScreen}

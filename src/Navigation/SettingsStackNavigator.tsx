@@ -5,7 +5,7 @@ import EditProfileScreen from "../screens/(dashboard)/EditProfile";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import theme from "../styles/theme";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { Pressable, TouchableOpacity } from "react-native";
+import {  TouchableOpacity } from "react-native";
 import SettingsScreen from "../screens/(dashboard)/Settings";
 
 const Stack = createNativeStackNavigator();

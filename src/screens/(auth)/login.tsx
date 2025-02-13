@@ -51,6 +51,8 @@ export default function LoginScreen({
 const [login, { isLoading }] = useLoginMutation()
 
 const dispatch = useAppDispatch();
+const user = useAppSelector(state => state.user)
+console.log('user',user)
 
  const data = {data:{
       phone_number: '08132180216',
@@ -67,7 +69,11 @@ const dispatch = useAppDispatch();
     }
     let res = await login(data)
     if (res.data) {
-      dispatch(loginUser({ ...res.data.user, 'usertoken': res.data.token, logedin: true, }))
+      dispatch(loginUser({
+        ...res.data.user,
+        'usertoken': res.data.token,
+        logedin: true,save:true
+      }))
     } else {
       
         console.log('error')

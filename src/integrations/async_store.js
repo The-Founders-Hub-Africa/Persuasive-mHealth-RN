@@ -5,7 +5,6 @@ export const writeToAsyncStorage = async (key, value) => {
     try {
         const jsonValue = JSON.stringify(value);
         await AsyncStorage.setItem(key, jsonValue);
-        return true;
     } catch (error) {
         console.error('Error writing value to AsyncStorage', error);
         return error;
@@ -18,7 +17,7 @@ export const readFromAsyncStorage = async (key) => {
         if (value !== null) {
             return JSON.parse(value);
         }
-        return null;
+        return null
     } catch (error) {
         console.error('Error reading value from AsyncStorage', error);
         return error;

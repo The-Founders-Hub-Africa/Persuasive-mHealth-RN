@@ -39,7 +39,7 @@ export default function SignupScreen({
 
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={[globalStyles.container]}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
           style={globalStyles.logoRect}
@@ -52,8 +52,7 @@ export default function SignupScreen({
               textAlign: "center",
               marginBottom: 8,
             },
-          ]}
-        >
+          ]}>
           Create Account
         </Text>
         <Text
@@ -63,8 +62,7 @@ export default function SignupScreen({
               textAlign: "center",
               marginBottom: 24,
             },
-          ]}
-        >
+          ]}>
           Fill your information below
         </Text>
 
@@ -203,8 +201,7 @@ export default function SignupScreen({
               style={{
                 flexDirection: "row",
                 width: "100%",
-              }}
-            >
+              }}>
               <MaterialIcons
                 name={value ? "check-box" : "check-box-outline-blank"}
                 size={20}
@@ -216,8 +213,7 @@ export default function SignupScreen({
                   {
                     marginLeft: 8,
                   })
-                }
-              >
+                }>
                 Agree with Terms & Conditions
               </Text>
             </TouchableOpacity>
@@ -238,8 +234,7 @@ export default function SignupScreen({
             {
               marginTop: 40,
             },
-          ]}
-        >
+          ]}>
           <Text style={formStyles.submitText}>Sign Up</Text>
         </TouchableOpacity>
 

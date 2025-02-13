@@ -1,11 +1,13 @@
-import { View, Text, Image } from "react-native";
-import React from "react";
+import { View, Text, Image, Pressable, TouchableOpacity, Alert } from "react-native";
+import React, { useLayoutEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
-import { Link } from "expo-router";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 const Greetings = () => {
+  const navigation = useNavigation<NavigationProp<any>>();
+
   return (
     <View
       style={{
@@ -40,14 +42,14 @@ const Greetings = () => {
           alignItems: "center",
           gap: 16,
         }}>
-        <Link href="/notifications">
+        <Pressable onPress={() => navigation.navigate("Notifications")}>
           <Ionicons
             name="notifications-outline"
             size={24}
             color={theme.colors["neutral-700"]}
           />
-        </Link>
-        <Link href="/profile">
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate("ProfileDetails")}>
           <Image
             source={require("@/assets/images/avatar.png")}
             style={{
@@ -57,7 +59,7 @@ const Greetings = () => {
               backgroundColor: theme.colors["purple-100"],
             }}
           />
-        </Link>
+        </Pressable>
       </View>
     </View>
   );

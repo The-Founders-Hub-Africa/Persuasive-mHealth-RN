@@ -18,6 +18,13 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import modalStyles from "@/src/styles/modalStyles";
 
+type FormData = {
+  otp0: string;
+  otp1: string;
+  otp2: string;
+  otp3: string;
+};
+
 export default function OTPVerificationScreen({
   navigation,
 }: {
@@ -32,7 +39,14 @@ export default function OTPVerificationScreen({
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>({
+    defaultValues: {
+      otp0: "",
+      otp1: "",
+      otp2: "",
+      otp3: "",
+    },
+  });
 
   useEffect(() => {
     let timer: string | number | NodeJS.Timeout | undefined;
@@ -144,7 +158,7 @@ export default function OTPVerificationScreen({
                 <Controller
                   key={index}
                   control={control}
-                  name={`otp${index}`}
+                  name={`otp${index}` as keyof FormData} // 👈 Explicitly cast to the valid keys
                   rules={{
                     required: "Required",
                     pattern: { value: /\d/, message: "Only numbers allowed" },

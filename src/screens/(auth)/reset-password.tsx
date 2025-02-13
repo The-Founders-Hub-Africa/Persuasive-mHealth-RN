@@ -29,7 +29,12 @@ export default function ResetPasswordScreen({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
   const onSubmit = (data: FormData) => {
     if (data.password && data.confirmPassword === data.password) {

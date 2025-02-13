@@ -31,7 +31,11 @@ export default function ForgotPasswordScreen({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      email: "",
+    },
+  });
 
   const onSubmit = (data: FormData) => {
     if (data.email) {

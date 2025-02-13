@@ -1,4 +1,4 @@
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, FormState } from "react-hook-form";
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import { Feather, SimpleLineIcons } from "@expo/vector-icons";
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 import { NavigationProp } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 
@@ -22,71 +22,56 @@ import { loginUser } from "@/src/integrations/features/user/usersSlice";
 import {useAppDispatch, useAppSelector} from "@/src/integrations/hooks"
 import { useEffect } from "react";
 
-type FormData = {
-  email: string;
-  password: string;
-};
 
 export default function LoginScreen({
   navigation,
 }: {
   navigation: NavigationProp<any>;
-}) {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+  }) {
+  
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm<FormData>();
+const initialState = {
+      phone_number: "", password: ""
+}
+const [formstate, setFormstate] = useState(initialState);
+const { phone_number, password } = formstate;
 
-  const onSubmit = (data: FormData) => {
-    if (data.email && data.password) {
-      navigation.navigate("Dashboard");
-    } else {
-      Alert.alert("Please fill all fields");
-    }
-  };
+const onChange = (key:string,value:string) => {
+  setFormstate({ ...formstate, [key]: value })
+}
 
+
+const  onSubmit = async ()=>{
+
+  const data = {
+      phone_number: formstate.phone_number,
+      password: formstate.password
+  }
+  console.log(data)
+  let res = await login(data)
+  if (res.data){
+    dispatch(loginUser({
+      ...res.data.user,
+      'usertoken': res.data.token,
+      logedin: true, save: true
+    })) 
+    // setuserlogged(true)
+    navigation.navigate("Dashboard");
+  }else{
+    Alert.alert("Please fill all fields");
+  }
+
+}
 
 
 const [login, { isLoading }] = useLoginMutation()
 
 const dispatch = useAppDispatch();
 const user = useAppSelector(state => state.user)
-console.log('user',user)
-
- const data = {data:{
-      phone_number: '08132180216',
-      password: 'casdonmystery'
-}}
-
-
-  const check = async () => {
-    const data = {
-      
-        phone_number: '08132180216',
-        password: 'casdonmystery'
-      
-    }
-    let res = await login(data)
-    if (res.data) {
-      dispatch(loginUser({
-        ...res.data.user,
-        'usertoken': res.data.token,
-        logedin: true,save:true
-      }))
-    } else {
-      
-        console.log('error')
-    }
-  }
-
-  useEffect(() => {
-  check()
-  }, [])
-
-
-
-
 
   return (
     <ScrollView>
@@ -119,42 +104,27 @@ console.log('user',user)
           Sign in to continue.
         </Text>
 
-        {/* Email Input */}
+        {/* Phone Number Input */}
         <View style={formStyles.inputGroup}>
-          <Text style={formStyles.label}>Email</Text>
+          <Text style={formStyles.label}>Phone Number</Text>
           <View style={formStyles.inputCntr}>
             <SimpleLineIcons
-              name="envelope"
+              name="phone"
               size={20}
               color={theme.colors["neutral-700"]}
             />
-            <Controller
-              control={control}
-              rules={{
-                required: "Email is required",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Enter a valid email",
-                },
-              }}
-              render={({ field: { onChange, value } }) => (
+            
                 <TextInput
                   style={formStyles.inputText}
-                  placeholder="you@email.com"
+                  placeholder="+2348523180"
                   placeholderTextColor={theme.colors["disabled-text"]}
-                  keyboardType="email-address"
-                  value={value}
-                  onChangeText={onChange}
+                  keyboardType="numeric"
+                  onChangeText={(text) => onChange('phone_number', text)}
+                  value={phone_number}
+              
                 />
-              )}
-              name="email"
-            />
+             
           </View>
-          {errors.email && (
-            <Text style={globalStyles.errorText}>
-              {errors.email?.message?.toString()}
-            </Text>
-          )}
         </View>
 
         {/* Password Input */}
@@ -166,42 +136,17 @@ console.log('user',user)
               size={20}
               color={theme.colors["neutral-700"]}
             />
-            <Controller
-              control={control}
-              rules={{
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-                maxLength: {
-                  value: 20,
-                  message: "Password must not exceed 20 characters",
-                },
-                pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                  message:
-                    "Password must contain at least one letter and one number",
-                },
-              }}
-              render={({ field: { onChange, value } }) => (
+            
                 <TextInput
                   style={formStyles.inputText}
                   placeholder="********"
                   placeholderTextColor={theme.colors["disabled-text"]}
                   secureTextEntry
-                  value={value}
-                  onChangeText={onChange}
+                  onChangeText={(text) => onChange('password', text)}
+                  value={password}
                 />
-              )}
-              name="password"
-            />
+              
           </View>
-          {errors.password && (
-            <Text style={globalStyles.errorText}>
-              {errors.password?.message?.toString()}
-            </Text>
-          )}
         </View>
 
         {/* Forgot password */}
@@ -216,7 +161,7 @@ console.log('user',user)
 
         {/* Login Button */}
         <TouchableOpacity
-          onPress={handleSubmit(onSubmit)}
+          onPress={onSubmit}
           style={[
             formStyles.submitButton,
             {

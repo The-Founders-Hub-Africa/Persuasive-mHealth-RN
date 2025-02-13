@@ -21,8 +21,6 @@ import ViewPatientScreen from "./src/screens/(dashboard)/patients/[id]";
 import BottomTabs from "./src/Navigation/BottomTabs";
 import { Provider } from "react-redux";
 import { store } from "./src/integrations/store";
-import { Alert, TouchableOpacity } from "react-native";
-import { Text } from "react-native-gesture-handler";
 
 const Stack = createStackNavigator();
 

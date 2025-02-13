@@ -31,7 +31,14 @@ export default function SignupScreen({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      email: "",
+      phone: "",
+      password: "",
+      agreed: false,
+    },
+  });
 
   const onSubmit = () => {
     navigation.navigate("OTPVerification");
@@ -39,7 +46,7 @@ export default function SignupScreen({
 
   return (
     <ScrollView>
-      <View style={[globalStyles.container]}>
+      <View style={globalStyles.container}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
           style={globalStyles.logoRect}

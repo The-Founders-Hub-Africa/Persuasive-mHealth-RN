@@ -36,7 +36,12 @@ export default function LoginScreen({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      phone_number: "",
+      password: "",
+    },
+  });
 
   const onSubmit = (data: FormData) => {
     if (data.phone_number && data.password) {

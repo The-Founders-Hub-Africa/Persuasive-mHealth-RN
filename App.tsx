@@ -22,12 +22,15 @@ import ViewPatientScreen from "./src/screens/(dashboard)/patients/[id]";
 import SplashScreen from "./src/screens/SplashScreen/SplashScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import BottomTabs from "./src/Navigation/BottomTabs";
+import { Provider } from "react-redux";
+import { store } from "./src/integrations/store";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
+     <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Onboarding"
@@ -71,6 +74,7 @@ export default function App() {
         {/* <Stack.Screen name="AllPatients" component={AllPatientsScreen} /> */}
         {/* <Stack.Screen name="ViewPatient" component={ViewPatientScreen} /> */}
       </Stack.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+      </Provider>
   );
 }

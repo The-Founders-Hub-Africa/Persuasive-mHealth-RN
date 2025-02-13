@@ -16,6 +16,12 @@ import React from "react";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 
+import { useLoginMutation } from "@/src/integrations/features/apis/apiSlice";
+import { loginUser } from "@/src/integrations/features/user/usersSlice";
+// import { useDispatch, useSelector } from "react-redux"
+import {useAppDispatch, useAppSelector} from "@/src/integrations/hooks"
+import { useEffect } from "react";
+
 type FormData = {
   email: string;
   password: string;
@@ -39,6 +45,42 @@ export default function LoginScreen({
       Alert.alert("Please fill all fields");
     }
   };
+
+
+
+const [login, { isLoading }] = useLoginMutation()
+
+const dispatch = useAppDispatch();
+
+ const data = {data:{
+      phone_number: '08132180216',
+      password: 'casdonmystery'
+}}
+
+
+  const check = async () => {
+    const data = {
+      
+        phone_number: '08132180216',
+        password: 'casdonmystery'
+      
+    }
+    let res = await login(data)
+    if (res.data) {
+      dispatch(loginUser({ ...res.data.user, 'usertoken': res.data.token, logedin: true, }))
+    } else {
+      
+        console.log('error')
+    }
+  }
+
+  useEffect(() => {
+  check()
+  }, [])
+
+
+
+
 
   return (
     <ScrollView>

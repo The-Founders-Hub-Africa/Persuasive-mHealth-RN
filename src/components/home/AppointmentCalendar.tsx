@@ -4,8 +4,11 @@ import { SectionHeader } from "../common";
 import { Calendar } from "react-native-calendars";
 import theme, { calendarTheme } from "@/src/styles/theme";
 import { Entypo, Feather } from "@expo/vector-icons";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 const AppointmentCalendar = () => {
+  const navigation = useNavigation<NavigationProp<any>>();
+
   const [selected, setSelected] = useState({
     "2025-02-01": { selected: true, selectedColor: theme.colors["purple-700"] },
     "2025-02-02": { selected: true, selectedColor: theme.colors["yellow-600"] },
@@ -18,7 +21,10 @@ const AppointmentCalendar = () => {
         gap: 16,
         width: "100%",
       }}>
-      <SectionHeader title="Appointments" url="/appointments" />
+      <SectionHeader
+        title="Appointments"
+        onPress={() => navigation.navigate("Appointments")}
+      />
 
       <Calendar
         style={{

@@ -49,7 +49,10 @@ const Greetings = () => {
             color={theme.colors["neutral-700"]}
           />
         </Pressable>
-        <Pressable onPress={() => navigation.navigate("View Profile")}>
+        <Pressable
+          onPress={() =>
+            navigation.navigate("Settings", { screen: "View Profile" })
+          }>
           <Image
             source={require("@/assets/images/avatar.png")}
             style={{

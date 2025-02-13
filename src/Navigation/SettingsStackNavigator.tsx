@@ -5,7 +5,7 @@ import EditProfileScreen from "../screens/(dashboard)/EditProfile";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import theme from "../styles/theme";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { Pressable } from "react-native";
+import { Pressable, TouchableOpacity } from "react-native";
 import SettingsScreen from "../screens/(dashboard)/Settings";
 
 const Stack = createNativeStackNavigator();
@@ -14,11 +14,11 @@ const SettingsStackNavigator = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   const handleEditProfile = () => {
-    navigation.navigate("Edit Profile");
+    navigation.navigate("Settings", { screen: "Edit Profile" });
   };
 
   const handleViewProfile = () => {
-    navigation.navigate("View Profile");
+    navigation.navigate("Settings", { screen: "View Profile" });
   };
 
   return (
@@ -29,13 +29,13 @@ const SettingsStackNavigator = () => {
         component={ViewProfileScreen}
         options={{
           headerRight: () => (
-            <Pressable onPress={handleEditProfile}>
+            <TouchableOpacity onPress={handleEditProfile}>
               <MaterialCommunityIcons
                 name="clipboard-edit-outline"
                 size={24}
                 color={theme.colors["neutral-700"]}
               />
-            </Pressable>
+            </TouchableOpacity>
           ),
         }}
       />
@@ -44,13 +44,13 @@ const SettingsStackNavigator = () => {
         component={EditProfileScreen}
         options={{
           headerRight: () => (
-            <Pressable onPress={handleViewProfile}>
+            <TouchableOpacity onPress={handleViewProfile}>
               <MaterialCommunityIcons
                 name="close"
                 size={24}
                 color={theme.colors["neutral-700"]}
               />
-            </Pressable>
+            </TouchableOpacity>
           ),
         }}
       />

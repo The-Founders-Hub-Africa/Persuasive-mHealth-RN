@@ -1,9 +1,9 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import typography from "@/src/styles/typography";
 import theme from "@/src/styles/theme";
 import { MessageProps } from "@/src/types";
-import { Link } from "expo-router";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 const MessageList = ({ messagesData }: { messagesData: MessageProps[] }) => {
   return (
@@ -18,9 +18,10 @@ const MessageList = ({ messagesData }: { messagesData: MessageProps[] }) => {
 export default MessageList;
 
 const MessageCard = ({ message }: { message: MessageProps }) => {
+  const navigation = useNavigation<NavigationProp<any>>();
   return (
-    <Link
-      href={`/messages/${message.id}`}
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Message Details", { message })}
       style={{
         marginBottom: 24,
       }}>
@@ -54,6 +55,6 @@ const MessageCard = ({ message }: { message: MessageProps }) => {
           </Text>
         </View>
       </View>
-    </Link>
+    </TouchableOpacity>
   );
 };

@@ -1,9 +1,14 @@
-import { View, Text } from "react-native";
-import React from "react";
-import { Link } from "expo-router";
 import typography from "@/src/styles/typography";
+import { Text, TouchableOpacity, View } from "react-native";
+import React from "react";
 
-export const SectionHeader = ({ title, url }: { title: string; url: any }) => {
+export const SectionHeader = ({
+  title,
+  onPress,
+}: {
+  title: string;
+  onPress: any;
+}) => {
   return (
     <View
       style={{
@@ -22,8 +27,8 @@ export const SectionHeader = ({ title, url }: { title: string; url: any }) => {
         {title}
       </Text>
 
-      <Link
-        href={url}
+      <TouchableOpacity
+        onPress={onPress}
         style={[
           typography.textSmall_Light,
           {
@@ -31,7 +36,7 @@ export const SectionHeader = ({ title, url }: { title: string; url: any }) => {
           },
         ]}>
         <Text>View all</Text>
-      </Link>
+      </TouchableOpacity>
     </View>
   );
 };

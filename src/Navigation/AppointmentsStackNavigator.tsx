@@ -16,6 +16,7 @@ const AppointmentsStackNavigator = () => {
   const handleAppointment = () => {
     navigation.navigate("Appointments", { screen: "Add Appointment" });
   };
+  
   return (
     <Stack.Navigator screenOptions={{ headerShadowVisible: false }}>
       <Stack.Screen

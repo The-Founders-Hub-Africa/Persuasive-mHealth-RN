@@ -1,5 +1,5 @@
-import { View, Text, Image, Pressable, TouchableOpacity, Alert } from "react-native";
-import React, { useLayoutEffect } from "react";
+import { View, Text, Image, Pressable } from "react-native";
+import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
@@ -49,7 +49,7 @@ const Greetings = () => {
             color={theme.colors["neutral-700"]}
           />
         </Pressable>
-        <Pressable onPress={() => navigation.navigate("ProfileDetails")}>
+        <Pressable onPress={() => navigation.navigate("View Profile")}>
           <Image
             source={require("@/assets/images/avatar.png")}
             style={{

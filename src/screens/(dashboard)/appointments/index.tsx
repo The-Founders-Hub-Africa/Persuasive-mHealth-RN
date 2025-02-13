@@ -8,7 +8,7 @@ import SearchInput from "@/src/components/search/SearchInput";
 import AppointmentsList from "@/src/components/appointments/AppointmentsList";
 import { appointmentsData } from "@/src/helpers";
 
-const AllAppointmentsScreen = () => {
+const AppointmentsScreen = () => {
   const [addApontment, setAddAppointment] = useState(false);
 
   const handleAppointment = () => {
@@ -76,4 +76,4 @@ const AllAppointmentsScreen = () => {
   );
 };
 
-export default AllAppointmentsScreen;
+export default AppointmentsScreen;

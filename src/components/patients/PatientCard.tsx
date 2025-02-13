@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
-import { useRouter } from "expo-router";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
@@ -9,12 +9,12 @@ import { PatientProps } from "@/src/types";
 import typography from "@/src/styles/typography";
 
 const PatientCard = ({ patient }: { patient: PatientProps }) => {
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
 
   return (
     <TouchableOpacity
-      onPress={() => router.push(`/patients/${patient.id}`)}
+      onPress={() => navigation.navigate("Patient Details", { patient })}
       style={{
         backgroundColor: theme.colors["purple-50"],
         flexDirection: "row",

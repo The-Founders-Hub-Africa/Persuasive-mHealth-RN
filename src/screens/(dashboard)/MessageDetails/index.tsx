@@ -2,14 +2,14 @@ import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import globalStyles from "@/src/styles/global";
 
-const ViewAppointmentScreen = () => {
+const MessageDetailsScreen = () => {
   return (
     <ScrollView>
       <View style={globalStyles.container}>
-        <Text>Appointment Details Screen</Text>
+        <Text>Message Details Screen</Text>
       </View>
     </ScrollView>
   );
 };
 
-export default ViewAppointmentScreen;
+export default MessageDetailsScreen;

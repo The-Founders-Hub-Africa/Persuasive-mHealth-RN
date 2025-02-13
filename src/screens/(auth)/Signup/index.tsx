@@ -6,28 +6,23 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  Alert,
 } from "react-native";
-import { Feather, SimpleLineIcons } from "@expo/vector-icons";
+import { MaterialIcons, SimpleLineIcons, Feather } from "@expo/vector-icons";
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
-import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
-
-import { useLoginMutation } from "@/src/integrations/features/apis/apiSlice";
-import { loginUser } from "@/src/integrations/features/user/usersSlice";
-// import { useDispatch, useSelector } from "react-redux"
-import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import { useEffect } from "react";
+import typography from "@/src/styles/typography";
 
 type FormData = {
-  phone_number: string;
+  email: string;
+  phone: string;
   password: string;
+  agreed: boolean;
 };
 
-export default function LoginScreen({
+export default function SignupScreen({
   navigation,
 }: {
   navigation: NavigationProp<any>;
@@ -38,59 +33,20 @@ export default function LoginScreen({
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      phone_number: "",
+      email: "",
+      phone: "",
       password: "",
+      agreed: false,
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    if (data.phone_number && data.password) {
-      navigation.navigate("Dashboard");
-    } else {
-      Alert.alert("Please fill all fields");
-    }
+  const onSubmit = () => {
+    navigation.navigate("OTP Verification");
   };
-
-  const [login, { isLoading }] = useLoginMutation();
-
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.user);
-  console.log("user", user);
-
-  const data = {
-    data: {
-      phone_number: "08132180216",
-      password: "casdonmystery",
-    },
-  };
-
-  const check = async () => {
-    const data = {
-      phone_number: "08132180216",
-      password: "casdonmystery",
-    };
-    let res = await login(data);
-    if (res.data) {
-      dispatch(
-        loginUser({
-          ...res.data.user,
-          usertoken: res.data.token,
-          logedin: true,
-          save: true,
-        })
-      );
-    } else {
-      console.log("error");
-    }
-  };
-
-  useEffect(() => {
-    check();
-  }, []);
 
   return (
     <ScrollView>
-      <View style={[globalStyles.container]}>
+      <View style={globalStyles.container}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
           style={globalStyles.logoRect}
@@ -104,7 +60,7 @@ export default function LoginScreen({
               marginBottom: 8,
             },
           ]}>
-          Welcome back!
+          Create Account
         </Text>
         <Text
           style={[
@@ -114,14 +70,52 @@ export default function LoginScreen({
               marginBottom: 24,
             },
           ]}>
-          Sign in to continue.
+          Fill your information below
         </Text>
 
-        {/* Number Input */}
+        {/* Email Input */}
+        <View style={formStyles.inputGroup}>
+          <Text style={formStyles.label}>Email</Text>
+          <View style={formStyles.inputCntr}>
+            <SimpleLineIcons
+              name="envelope"
+              size={20}
+              color={theme.colors["neutral-700"]}
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Enter a valid email",
+                },
+              }}
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  style={formStyles.inputText}
+                  placeholder="you@email.com"
+                  placeholderTextColor={theme.colors["disabled-text"]}
+                  keyboardType="email-address"
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
+              name="email"
+            />
+          </View>
+          {errors.email && (
+            <Text style={globalStyles.errorText}>
+              {errors.email?.message?.toString()}
+            </Text>
+          )}
+        </View>
+
+        {/* Phone Number Input */}
         <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Phone Number</Text>
           <View style={formStyles.inputCntr}>
-            <SimpleLineIcons
+            <Feather
               name="phone"
               size={20}
               color={theme.colors["neutral-700"]}
@@ -130,23 +124,27 @@ export default function LoginScreen({
               control={control}
               rules={{
                 required: "Phone number is required",
+                pattern: {
+                  value: /^\+?[1-9]\d{9,14}$/,
+                  message: "Enter a valid phone number",
+                },
               }}
               render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={formStyles.inputText}
-                  placeholder="+63 912 345 6789"
+                  placeholder="+2349012345678"
                   placeholderTextColor={theme.colors["disabled-text"]}
                   keyboardType="phone-pad"
                   value={value}
                   onChangeText={onChange}
                 />
               )}
-              name="phone_number"
+              name="phone"
             />
           </View>
-          {errors.phone_number && (
+          {errors.phone && (
             <Text style={globalStyles.errorText}>
-              {errors.phone_number?.message?.toString()}
+              {errors.phone?.message?.toString()}
             </Text>
           )}
         </View>
@@ -198,16 +196,44 @@ export default function LoginScreen({
           )}
         </View>
 
-        {/* Forgot password */}
-        <TouchableOpacity
-          onPress={() => navigation.navigate("ForgotPassword")}
-          style={{ alignSelf: "flex-end" }}>
-          <Text style={{ color: theme.colors["purple-700"], fontSize: 14 }}>
-            Forgot password?
+        {/* Terms & Conditions */}
+        <Controller
+          control={control}
+          rules={{
+            required: "You must agree to Terms & Conditions",
+          }}
+          render={({ field: { onChange, value } }) => (
+            <TouchableOpacity
+              onPress={() => onChange(!value)}
+              style={{
+                flexDirection: "row",
+                width: "100%",
+              }}>
+              <MaterialIcons
+                name={value ? "check-box" : "check-box-outline-blank"}
+                size={20}
+                color={theme.colors["neutral-700"]}
+              />
+              <Text
+                style={
+                  (typography.textBase_Regular,
+                  {
+                    marginLeft: 8,
+                  })
+                }>
+                Agree with Terms & Conditions
+              </Text>
+            </TouchableOpacity>
+          )}
+          name="agreed"
+        />
+        {errors.agreed && (
+          <Text style={globalStyles.errorText}>
+            {errors.agreed?.message?.toString()}
           </Text>
-        </TouchableOpacity>
+        )}
 
-        {/* Login Button */}
+        {/* Sign Up Button */}
         <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
           style={[
@@ -216,14 +242,14 @@ export default function LoginScreen({
               marginTop: 40,
             },
           ]}>
-          <Text style={[formStyles.submitText]}>Login</Text>
+          <Text style={formStyles.submitText}>Sign Up</Text>
         </TouchableOpacity>
 
-        {/* Don't have an account */}
+        {/* Already have an account */}
         <View style={formStyles.infoGroup}>
-          <Text style={formStyles.infoText}>Don't have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-            <Text style={formStyles.infoLink}>Sign up.</Text>
+          <Text style={formStyles.infoText}>Already have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text style={formStyles.infoLink}>Login.</Text>
           </TouchableOpacity>
         </View>
       </View>

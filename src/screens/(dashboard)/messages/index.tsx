@@ -8,7 +8,7 @@ import { messagesData } from "@/src/helpers";
 import { ScreenTitle } from "@/src/components/common/ScreenTitle";
 import MessageList from "@/src/components/messages/MessageList";
 
-const AllMessagesScreen = () => {
+const MessagesScreen = () => {
   const [canSearch, setCanSearch] = useState(false);
 
   const showSearchInput = () => {
@@ -47,4 +47,4 @@ const AllMessagesScreen = () => {
   );
 };
 
-export default AllMessagesScreen;
+export default MessagesScreen;

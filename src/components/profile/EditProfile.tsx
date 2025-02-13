@@ -8,7 +8,7 @@ import {
   Modal,
   Alert,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import {
   Feather,
   FontAwesome,
@@ -40,7 +40,7 @@ type FormData = {
 };
 
 export default function EditProfile() {
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
 
   const {
@@ -77,7 +77,7 @@ export default function EditProfile() {
 
   const handleContinue = (data: FormData) => {
     console.log("Form Data:", data);
-    router.push("/home");
+    navigation.navigate("Home");
   };
 
   const handleImageUpload = async () => {

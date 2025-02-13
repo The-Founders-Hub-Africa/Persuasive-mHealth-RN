@@ -1,11 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/(dashboard)/home";
-import AllPatientsScreen from "../screens/(dashboard)/patients";
-import AllAppointmentsScreen from "../screens/(dashboard)/appointments";
-import AllMessagesScreen from "../screens/(dashboard)/messages";
-import ProfileDetailsScreen from "../screens/(dashboard)/profile";
 import { Ionicons } from "@expo/vector-icons";
+import HomeStackNavigator from "./HomeStackNavigator";
+import AppointmentsStackNavigator from "./AppointmentsStackNavigator";
+import PatientsStackNavigator from "./PatientsStackNavigator";
+import MessagesStackNavigator from "./MessagesStackNavigator";
+import SettingsStackNavigator from "./SettingsStackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -39,13 +39,12 @@ const BottomTabs = () => {
         tabBarActiveTintColor: "#6200EE",
         tabBarInactiveTintColor: "gray",
         headerShown: false,
-      })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Patients" component={AllPatientsScreen} />
-      <Tab.Screen name="Appointments" component={AllAppointmentsScreen} />
-      <Tab.Screen name="Messages" component={AllMessagesScreen} />
-      <Tab.Screen name="Settings" component={ProfileDetailsScreen} />
+      })}>
+      <Tab.Screen name="Home" component={HomeStackNavigator} />
+      <Tab.Screen name="Patients" component={PatientsStackNavigator} />
+      <Tab.Screen name="Appointments" component={AppointmentsStackNavigator} />
+      <Tab.Screen name="Messages" component={MessagesStackNavigator} />
+      <Tab.Screen name="Settings" component={SettingsStackNavigator} />
     </Tab.Navigator>
   );
 };

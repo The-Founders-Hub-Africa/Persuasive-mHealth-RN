@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
-import { useRouter } from "expo-router";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
@@ -14,14 +14,14 @@ const AppointmentCard = ({
 }: {
   appointment: AppointmentProps;
 }) => {
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
 
   const isPassed = new Date(appointment.date) <= new Date();
 
   return (
     <TouchableOpacity
-      onPress={() => router.push(`/appointments/${appointment.id}`)}
+      onPress={() => navigation.navigate("Appointment Details", { appointment })}
       style={{
         backgroundColor: theme.colors["purple-50"],
         flexDirection: "row",

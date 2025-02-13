@@ -243,7 +243,7 @@ export default function OTPVerificationScreen({
               <TouchableOpacity
                 onPress={() => {
                   setShowModal(false);
-                  navigation.navigate("ProfileSetup");
+                  navigation.navigate("Profile Setup");
                 }}
                 style={modalStyles.modalButton}>
                 <Text style={modalStyles.modalButtonText}>Go to Home</Text>

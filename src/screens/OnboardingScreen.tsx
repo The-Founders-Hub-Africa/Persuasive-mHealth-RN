@@ -46,8 +46,7 @@ export default function OnboardingScreen({
               textAlign: "center",
               marginBottom: 8,
             },
-          ]}
-        >
+          ]}>
           {onboardingData[index].title}
         </Text>
         <Text
@@ -57,8 +56,7 @@ export default function OnboardingScreen({
               textAlign: "center",
               marginBottom: 144,
             },
-          ]}
-        >
+          ]}>
           {onboardingData[index].subTitle}
         </Text>
 
@@ -70,15 +68,13 @@ export default function OnboardingScreen({
               paddingHorizontal: 40,
               borderRadius: 10,
               backgroundColor: theme.colors["purple-700"],
-            }}
-          >
+            }}>
             <Text
               style={{
                 fontSize: 16,
                 fontWeight: "600",
                 color: theme.colors.white,
-              }}
-            >
+              }}>
               {index === onboardingData.length - 1 ? "Continue" : "Next"}
             </Text>
           </TouchableOpacity>
@@ -86,8 +82,7 @@ export default function OnboardingScreen({
           {index < onboardingData.length - 1 && (
             <TouchableOpacity onPress={handleSkip}>
               <Text
-                style={{ fontSize: 16, color: theme.colors["neutral-700"] }}
-              >
+                style={{ fontSize: 16, color: theme.colors["neutral-700"] }}>
                 Skip
               </Text>
             </TouchableOpacity>

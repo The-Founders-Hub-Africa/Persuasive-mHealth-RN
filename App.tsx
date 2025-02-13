@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-// import { Alert, Pressable, Text } from "react-native";
+import { Alert, Pressable, Text } from "react-native";
 import OnboardingScreen from "./src/screens/OnboardingScreen";
 import SignupScreen from "./src/screens/(auth)/signup";
 import LoginScreen from "./src/screens/(auth)/login";
@@ -30,51 +30,104 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-     <Provider store={store}>
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Onboarding"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#fff",
-          },
-          headerTintColor: "#000",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          // headerRight: () => (
-          //   <Pressable onPress={() => Alert.alert("This is a button!")}>
-          //     <Text>Info</Text>
-          //   </Pressable>
-          // ),
-        }}
-      >
-        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen
-          name="OTPVerification"
-          component={OTPVerificationScreen}
-        />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-        <Stack.Screen name="ProfileSetup" component={ProfileSetupScreen} />
-        <Stack.Screen name="Dashboard" component={BottomTabs} />
-        {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-        {/* <Stack.Screen name="Notification" component={NotificationsScreen} /> */}
-        {/* <Stack.Screen name="Search" component={SearchScreen} /> */}
-        {/* <Stack.Screen name="ProfileDetails" component={ProfileDetailsScreen} /> */}
-        {/* <Stack.Screen name="AllMessages" component={AllMessagesScreen} /> */}
-        {/* <Stack.Screen name="ViewMessage" component={ViewMessageScreen} /> */}
-        {/* <Stack.Screen name="AllApointments" component={AllAppointmentsScreen} /> */}
-        {/* <Stack.Screen
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Onboarding"
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "#fff",
+            },
+            headerTintColor: "",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+            // headerRight: () => (
+            //   <Pressable onPress={() => Alert.alert("This is a button!")}>
+            //     <Text>Info</Text>
+            //   </Pressable>
+            // ),
+          }}>
+          <Stack.Screen
+            name="Onboarding"
+            component={OnboardingScreen}
+            options={{
+              headerShadowVisible: false, // ✅ Removes the shadow
+              headerTitle: "", // ✅ Hides the title
+            }}
+          />
+
+          <Stack.Screen
+            name="Signup"
+            component={SignupScreen}
+            options={{
+              headerShadowVisible: false,
+              headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="OTPVerification"
+            component={OTPVerificationScreen}
+            options={{
+              headerShadowVisible: false,
+              headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerShadowVisible: false,
+              headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPasswordScreen}
+            options={{
+              headerShadowVisible: false,
+              headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="ResetPassword"
+            component={ResetPasswordScreen}
+            options={{
+              headerShadowVisible: false,
+              headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="ProfileSetup"
+            component={ProfileSetupScreen}
+            options={{
+              headerShadowVisible: false,
+              headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="Dashboard"
+            component={BottomTabs}
+            options={{
+              headerShadowVisible: false,
+              headerTitle: "",
+            }}
+          />
+          {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+          {/* <Stack.Screen name="Notification" component={NotificationsScreen} /> */}
+          {/* <Stack.Screen name="Search" component={SearchScreen} /> */}
+          {/* <Stack.Screen name="ProfileDetails" component={ProfileDetailsScreen} /> */}
+          {/* <Stack.Screen name="AllMessages" component={AllMessagesScreen} /> */}
+          {/* <Stack.Screen name="ViewMessage" component={ViewMessageScreen} /> */}
+          {/* <Stack.Screen name="AllApointments" component={AllAppointmentsScreen} /> */}
+          {/* <Stack.Screen
           name="ViewAppointment"
           component={ViewAppointmentScreen}
         /> */}
-        {/* <Stack.Screen name="AllPatients" component={AllPatientsScreen} /> */}
-        {/* <Stack.Screen name="ViewPatient" component={ViewPatientScreen} /> */}
-      </Stack.Navigator>
+          {/* <Stack.Screen name="AllPatients" component={AllPatientsScreen} /> */}
+          {/* <Stack.Screen name="ViewPatient" component={ViewPatientScreen} /> */}
+        </Stack.Navigator>
       </NavigationContainer>
-      </Provider>
+    </Provider>
   );
 }

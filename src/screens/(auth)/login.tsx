@@ -19,11 +19,11 @@ import formStyles from "@/src/styles/formStyles";
 import { useLoginMutation } from "@/src/integrations/features/apis/apiSlice";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
 // import { useDispatch, useSelector } from "react-redux"
-import {useAppDispatch, useAppSelector} from "@/src/integrations/hooks"
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { useEffect } from "react";
 
 type FormData = {
-  email: string;
+  phone_number: string;
   password: string;
 };
 
@@ -39,58 +39,53 @@ export default function LoginScreen({
   } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
-    if (data.email && data.password) {
+    if (data.phone_number && data.password) {
       navigation.navigate("Dashboard");
     } else {
       Alert.alert("Please fill all fields");
     }
   };
 
+  const [login, { isLoading }] = useLoginMutation();
 
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  console.log("user", user);
 
-const [login, { isLoading }] = useLoginMutation()
-
-const dispatch = useAppDispatch();
-const user = useAppSelector(state => state.user)
-console.log('user',user)
-
- const data = {data:{
-      phone_number: '08132180216',
-      password: 'casdonmystery'
-}}
-
+  const data = {
+    data: {
+      phone_number: "08132180216",
+      password: "casdonmystery",
+    },
+  };
 
   const check = async () => {
     const data = {
-      
-        phone_number: '08132180216',
-        password: 'casdonmystery'
-      
-    }
-    let res = await login(data)
+      phone_number: "08132180216",
+      password: "casdonmystery",
+    };
+    let res = await login(data);
     if (res.data) {
-      dispatch(loginUser({
-        ...res.data.user,
-        'usertoken': res.data.token,
-        logedin: true,save:true
-      }))
+      dispatch(
+        loginUser({
+          ...res.data.user,
+          usertoken: res.data.token,
+          logedin: true,
+          save: true,
+        })
+      );
     } else {
-      
-        console.log('error')
+      console.log("error");
     }
-  }
+  };
 
   useEffect(() => {
-  check()
-  }, [])
-
-
-
-
+    check();
+  }, []);
 
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={[globalStyles.container]}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
           style={globalStyles.logoRect}
@@ -103,8 +98,7 @@ console.log('user',user)
               textAlign: "center",
               marginBottom: 8,
             },
-          ]}
-        >
+          ]}>
           Welcome back!
         </Text>
         <Text
@@ -114,45 +108,40 @@ console.log('user',user)
               textAlign: "center",
               marginBottom: 24,
             },
-          ]}
-        >
+          ]}>
           Sign in to continue.
         </Text>
 
-        {/* Email Input */}
+        {/* Number Input */}
         <View style={formStyles.inputGroup}>
-          <Text style={formStyles.label}>Email</Text>
+          <Text style={formStyles.label}>Phone Number</Text>
           <View style={formStyles.inputCntr}>
             <SimpleLineIcons
-              name="envelope"
+              name="phone"
               size={20}
               color={theme.colors["neutral-700"]}
             />
             <Controller
               control={control}
               rules={{
-                required: "Email is required",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Enter a valid email",
-                },
+                required: "Phone number is required",
               }}
               render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={formStyles.inputText}
-                  placeholder="you@email.com"
+                  placeholder="+63 912 345 6789"
                   placeholderTextColor={theme.colors["disabled-text"]}
-                  keyboardType="email-address"
+                  keyboardType="phone-pad"
                   value={value}
                   onChangeText={onChange}
                 />
               )}
-              name="email"
+              name="phone_number"
             />
           </View>
-          {errors.email && (
+          {errors.phone_number && (
             <Text style={globalStyles.errorText}>
-              {errors.email?.message?.toString()}
+              {errors.phone_number?.message?.toString()}
             </Text>
           )}
         </View>
@@ -207,8 +196,7 @@ console.log('user',user)
         {/* Forgot password */}
         <TouchableOpacity
           onPress={() => navigation.navigate("ForgotPassword")}
-          style={{ alignSelf: "flex-end" }}
-        >
+          style={{ alignSelf: "flex-end" }}>
           <Text style={{ color: theme.colors["purple-700"], fontSize: 14 }}>
             Forgot password?
           </Text>
@@ -222,8 +210,7 @@ console.log('user',user)
             {
               marginTop: 40,
             },
-          ]}
-        >
+          ]}>
           <Text style={[formStyles.submitText]}>Login</Text>
         </TouchableOpacity>
 

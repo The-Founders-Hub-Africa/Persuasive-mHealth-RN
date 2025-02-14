@@ -1,9 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { get_message_and_code } from './helper';
 
-const initialData = {
+interface AlertState {
+    status_code: number;
+    message: string[];
+}
+
+const initialData: AlertState = {
     status_code: 0,
-    message: ''
+    message: []
 }
 
 export const alertSlice = createSlice({
@@ -15,11 +20,11 @@ export const alertSlice = createSlice({
       const data = get_message_and_code(action.payload)
 
         state.status_code = data.status_code
-        state.message = data.message
+        state.message = [...state.message,...data.message]
     },
     clearAlert :state=>{
       state.status_code = 0
-      state.message = ''
+      state.message = []
     }
    
   },

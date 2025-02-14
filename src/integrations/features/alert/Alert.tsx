@@ -16,17 +16,18 @@ const Alert_System = () => {
           dispatch(logoutUser())
         }
         let type = alert.status_code === 200 ? 'success' : 'error'
-        console.log(type,alert.message)
-          Toast.show({
+        for (const message of alert.message) {
+            Toast.show({
                 type: type,
-                text1: alert.message
+                text1: message
             });
+        }
         dispatch(clearAlert())
       }
     }, [alert])
   
   return (
-      <Toast />
+      <React.Fragment></React.Fragment>
   )
 }
 

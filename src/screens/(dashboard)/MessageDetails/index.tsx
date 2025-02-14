@@ -11,9 +11,16 @@ import {
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
+import Toast from "react-native-toast-message";
+import formStyles from "@/src/styles/formStyles";
 
 const MessageDetailsScreen = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleSaveToProfile = () => {
+    Toast.show({ type: "success", text1: "Image saved to profile!" });
+    setSelectedImage(null);
+  };
 
   return (
     <ScrollView>
@@ -28,16 +35,18 @@ const MessageDetailsScreen = () => {
 
           {/* Image Grid */}
           <View style={styles.imageGrid}>
-            {["1", "2", "3", "4"].map((image, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => setSelectedImage(image)}>
-                <Image
-                  source={require(`@/assets/images/avatar.png`)}
-                  style={styles.image}
-                />
-              </TouchableOpacity>
-            ))}
+            {["avatar.png", "avatar.png", "avatar.png", "avatar.png"].map(
+              (image, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => setSelectedImage(image)}>
+                  <Image
+                    source={require(`@/assets/images/avatar.png`)}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+              )
+            )}
           </View>
 
           <Text style={[styles.messageText]}>
@@ -54,10 +63,17 @@ const MessageDetailsScreen = () => {
             activeOpacity={1}
             onPress={() => setSelectedImage(null)}>
             {selectedImage && (
-              <Image
-                source={require(`@/assets/images/avatar.png`)}
-                style={styles.expandedImage}
-              />
+              <View style={styles.modalContent}>
+                <Image
+                  source={require(`@/assets/images/avatar.png`)}
+                  style={styles.expandedImage}
+                />
+                <TouchableOpacity
+                  style={formStyles.submitButton}
+                  onPress={handleSaveToProfile}>
+                  <Text style={formStyles.submitText}>Save to Profile</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </TouchableOpacity>
         </Modal>
@@ -90,14 +106,34 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
     justifyContent: "center",
     alignItems: "center",
   },
+  modalContent: {
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    padding: 20,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+  },
   expandedImage: {
-    width: "90%",
-    height: "70%",
+    width: 300,
+    height: 300,
     resizeMode: "contain",
+    marginBottom: 20,
+  },
+  saveButton: {
+    backgroundColor: theme.colors["purple-600"],
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: theme.rounded.medium,
+  },
+  saveButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 

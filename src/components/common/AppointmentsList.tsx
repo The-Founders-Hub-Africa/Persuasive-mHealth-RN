@@ -6,8 +6,8 @@ import formStyles from "@/src/styles/formStyles";
 import typography from "@/src/styles/typography";
 import theme from "@/src/styles/theme";
 import { Feather } from "@expo/vector-icons";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
+// import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 const AppointmentsList = ({
   appointmentsData,
@@ -35,16 +35,16 @@ const AppointmentCard = ({
 }: {
   appointment: AppointmentProps;
 }) => {
-  const navigation = useNavigation<NavigationProp<any>>();
+  // const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
 
   const isPassed = new Date(appointment.date) <= new Date();
 
   return (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("Appointment Details", { appointment })
-      }
+    <View
+      // onPress={() =>
+      //   navigation.navigate("Appointment Details", { appointment })
+      // }
       style={{
         backgroundColor: theme.colors["purple-50"],
         flexDirection: "row",
@@ -197,6 +197,6 @@ const AppointmentCard = ({
           </Text>
         </TouchableOpacity>
       )}
-    </TouchableOpacity>
+    </View>
   );
 };

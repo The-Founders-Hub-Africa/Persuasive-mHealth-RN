@@ -60,8 +60,8 @@ const globalStyles = StyleSheet.create({
   },
   actionsDropdown: {
     position: "absolute",
-    right: 10,
-    top: 50,
+    right: 5,
+    top: 30,
     backgroundColor: "white",
     padding: 8,
     borderRadius: 8,
@@ -70,6 +70,7 @@ const globalStyles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
     zIndex: 200,
+    width: 150,
   },
 });
 

@@ -14,7 +14,9 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("Patient Details", { patient })}
+      onPress={() =>
+        navigation.navigate("Patients", )
+      }
       style={{
         backgroundColor: theme.colors["purple-50"],
         flexDirection: "row",
@@ -69,23 +71,25 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
       </View>
 
       {/* Right: Three Dots Dropdown */}
-      <TouchableOpacity
-        onPress={() => setMenuVisible(!menuVisible)}
-        style={globalStyles.actionsBtn}>
-        <Feather name="more-vertical" size={24} color="#555" />
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity
+          onPress={() => setMenuVisible(!menuVisible)}
+          style={globalStyles.actionsBtn}>
+          <Feather name="more-vertical" size={24} color="#555" />
+        </TouchableOpacity>
 
-      {/* Dropdown Menu */}
-      {menuVisible && (
-        <View style={globalStyles.actionsDropdown}>
-          <TouchableOpacity onPress={() => Alert.alert("Edit")}>
-            <Text style={{ padding: 8 }}>Edit</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => Alert.alert("Cancel")}>
-            <Text style={{ padding: 8, color: "red" }}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+        {/* Dropdown Menu */}
+        {menuVisible && (
+          <View style={globalStyles.actionsDropdown}>
+            <TouchableOpacity onPress={() => Alert.alert("Edit")}>
+              <Text style={{ padding: 8 }}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => Alert.alert("Cancel")}>
+              <Text style={{ padding: 8, color: "red" }}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
     </TouchableOpacity>
   );
 };

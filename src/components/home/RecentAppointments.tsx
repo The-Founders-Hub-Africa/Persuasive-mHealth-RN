@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import React from "react";
-import { SectionHeader } from "../common";
+import SectionHeader from "../common/SectionHeader";
 import { AppointmentProps } from "@/src/types";
-import AppointmentsList from "../appointments/AppointmentsList";
+import AppointmentsList from "../common/AppointmentsList";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 const RecentAppointments = ({

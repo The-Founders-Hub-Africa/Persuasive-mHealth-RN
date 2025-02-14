@@ -2,13 +2,7 @@ import typography from "@/src/styles/typography";
 import { Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
-export const SectionHeader = ({
-  title,
-  onPress,
-}: {
-  title: string;
-  onPress: any;
-}) => {
+const SectionHeader = ({ title, onPress }: { title: string; onPress: any }) => {
   return (
     <View
       style={{
@@ -40,3 +34,5 @@ export const SectionHeader = ({
     </View>
   );
 };
+
+export default SectionHeader;

@@ -1,10 +1,10 @@
 import { Text, View } from "react-native";
 import React, { useState } from "react";
-import { SectionHeader } from "../common";
 import { Calendar } from "react-native-calendars";
 import theme, { calendarTheme } from "@/src/styles/theme";
 import { Entypo, Feather } from "@expo/vector-icons";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import SectionHeader from "../common/SectionHeader";
 
 const AppointmentCalendar = () => {
   const navigation = useNavigation<NavigationProp<any>>();

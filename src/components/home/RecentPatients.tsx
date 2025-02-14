@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import React from "react";
-import PatientCard from "../patients/PatientCard";
-import { SectionHeader } from "../common";
+import PatientCard from "../common/PatientCard";
+import SectionHeader from "../common/SectionHeader";
 import { PatientProps } from "@/src/types";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 

@@ -21,7 +21,7 @@ const MessageCard = ({ message }: { message: MessageProps }) => {
   const navigation = useNavigation<NavigationProp<any>>();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("Message Details", { message })}
+      onPress={() => navigation.navigate("Message Details")}
       style={{
         marginBottom: 24,
       }}>

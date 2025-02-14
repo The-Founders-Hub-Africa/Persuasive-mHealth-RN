@@ -35,7 +35,13 @@ const MessagesStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen name="Message Details" component={MessageDetailsScreen} />
+      <Stack.Screen
+        name="Message Details"
+        component={MessageDetailsScreen}
+        options={{
+          title: "John Doe",
+        }}
+      />
     </Stack.Navigator>
   );
 };

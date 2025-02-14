@@ -1,7 +1,7 @@
 import { ScrollView, View } from "react-native";
 import React from "react";
 import globalStyles from "@/src/styles/global";
-import SearchInput from "@/src/components/search/SearchInput";
+import SearchInput from "@/src/components/home/SearchInput";
 
 const SearchScreen = () => {
   return (

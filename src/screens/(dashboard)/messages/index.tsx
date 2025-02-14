@@ -1,9 +1,9 @@
 import { View, ScrollView, Text } from "react-native";
 import React, { useState } from "react";
 import globalStyles from "@/src/styles/global";
-import SearchInput from "@/src/components/search/SearchInput";
+import SearchInput from "@/src/components/home/SearchInput";
 import { messagesData } from "@/src/helpers";
-import MessageList from "@/src/components/messages/MessageList";
+import MessageList from "@/src/components/common/MessageList";
 
 const MessagesScreen = () => {
   const [canSearch, setCanSearch] = useState(false);

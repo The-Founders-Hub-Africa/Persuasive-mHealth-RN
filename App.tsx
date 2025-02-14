@@ -8,7 +8,7 @@ import ResetPasswordScreen from "./src/screens/(auth)/ResetPassword";
 import ForgotPasswordScreen from "./src/screens/(auth)/ForgotPassword";
 import OTPVerificationScreen from "./src/screens/(auth)/OTPVerification";
 import ProfileSetupScreen from "./src/screens/(dashboard)/ProfileSetup";
-import BottomTabs from "./src/Navigation/BottomTabs";
+import BottomTabs from "./src/components/Navigation/BottomTabs";
 import { Provider } from "react-redux";
 import { store } from "./src/integrations/store";
 

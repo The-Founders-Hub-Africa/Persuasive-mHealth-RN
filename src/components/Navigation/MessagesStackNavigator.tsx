@@ -1,12 +1,11 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import MessageDetailsScreen from "../../screens/(dashboard)/MessageDetails";
-// import MessagesScreen from "../../screens/(dashboard)/Messages";
+import MessageDetailsScreen from "@/src/screens/(dashboard)/MessageDetails";
+import MessagesScreen from "@/src/screens/(dashboard)/Messages";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import theme from "../../styles/theme";
+import theme from "@/src/styles/theme";
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-import MessagesScreen from "@/src/screens/(dashboard)/messages";
 
 const Stack = createNativeStackNavigator();
 

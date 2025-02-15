@@ -1,8 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import PatientDetailsScreen from "../../screens/(dashboard)/PatientDetails";
-import PatientsScreen from "@/src/screens/(dashboard)/patients";
-// import PatientsScreen from "../../screens/(dashboard)/Patients";
+import PatientDetailsScreen from "@/src/screens/(dashboard)/PatientDetails";
+import PatientsScreen from "@/src/screens/(dashboard)/Patients";
 
 const Stack = createNativeStackNavigator();
 

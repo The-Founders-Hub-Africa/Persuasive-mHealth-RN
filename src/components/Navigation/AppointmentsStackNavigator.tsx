@@ -1,13 +1,12 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AppointmentDetailsScreen from "../../screens/(dashboard)/AppointmentDetails";
-// import AppointmentsScreen from "../../screens/(dashboard)/Appointments/index";
+import AppointmentDetailsScreen from "@/src/screens/(dashboard)/AppointmentDetails";
+import AppointmentsScreen from "@/src/screens/(dashboard)/Appointments";
+import NewAppointmentsScreen from "@/src/screens/(dashboard)/NewAppointment";
+import theme from "@/src/styles/theme";
+import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import theme from "../../styles/theme";
-import { Feather } from "@expo/vector-icons";
-import NewAppointmentsScreen from "../../screens/(dashboard)/NewAppointment";
-import AppointmentsScreen from "@/src/screens/(dashboard)/appointments";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +16,7 @@ const AppointmentsStackNavigator = () => {
   const handleAppointment = () => {
     navigation.navigate("Appointments", { screen: "Add Appointment" });
   };
-  
+
   return (
     <Stack.Navigator screenOptions={{ headerShadowVisible: false }}>
       <Stack.Screen

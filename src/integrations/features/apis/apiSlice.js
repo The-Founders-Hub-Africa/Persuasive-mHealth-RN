@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 // Define a service using a base URL and expected endpoints
-const baseUrl = 'http://127.0.0.1:8000'
+// const baseUrl = 'http://127.0.0.1:8000'
+const baseUrl = 'https://3dc5-102-89-46-207.ngrok-free.app'
 
 export const mediAppApi = createApi({
   reducerPath: 'mediAppApi',

@@ -57,7 +57,7 @@ export default function SignupScreen({
           if (user.verified_number) {
             navigation.navigate("Dashboard");
           } else {
-             navigation.navigate("OTPVerification");
+             navigation.navigate("OTP Verification");
           }
         
           }
@@ -82,7 +82,7 @@ export default function SignupScreen({
               logedin: true, save: true
             })) 
             // setuserlogged(true)
-            navigation.navigate("OTPVerification");
+            navigation.navigate("OTP Verification");
           } else if (res.error) {
             dispatch(addAlert({ ...res.error, page: 'signup' }))
           }

@@ -23,7 +23,7 @@ export default function OnboardingScreen({
           if (user.verified_number) {
             navigation.navigate("Dashboard");
           } else {
-             navigation.navigate("OTPVerification");
+             navigation.navigate("OTP Verification");
           }
         
           }

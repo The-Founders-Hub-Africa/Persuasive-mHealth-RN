@@ -1,12 +1,13 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AppointmentDetailsScreen from "../../screens/(dashboard)/AppointmentDetails";
-import AppointmentsScreen from "../../screens/(dashboard)/Appointments";
+// import AppointmentsScreen from "../../screens/(dashboard)/Appointments/index";
 import { TouchableOpacity } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import theme from "../../styles/theme";
 import { Feather } from "@expo/vector-icons";
 import NewAppointmentsScreen from "../../screens/(dashboard)/NewAppointment";
+import AppointmentsScreen from "@/src/screens/(dashboard)/appointments";
 
 const Stack = createNativeStackNavigator();
 

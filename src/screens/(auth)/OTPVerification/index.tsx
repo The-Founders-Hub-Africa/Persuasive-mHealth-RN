@@ -18,15 +18,19 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import modalStyles from "@/src/styles/modalStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import { useGetOTPMutation, useVerifyOTPMutation } from "@/src/integrations/features/apis/apiSlice";
+import {
+  useGetOTPMutation,
+  useVerifyOTPMutation,
+} from "@/src/integrations/features/apis/apiSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
-
 
 type FormData = {
   otp0: string;
   otp1: string;
   otp2: string;
   otp3: string;
+  otp4: string;
+  otp5: string;
 };
 
 export default function OTPVerificationScreen({
@@ -49,9 +53,10 @@ export default function OTPVerificationScreen({
       otp1: "",
       otp2: "",
       otp3: "",
+      otp4: "",
+      otp5: "",
     },
   });
-
 
   const getOTP = useGetOTPMutation()[0];
   const verifyOTP = useVerifyOTPMutation()[0];
@@ -68,20 +73,21 @@ export default function OTPVerificationScreen({
   }, [resendTimer]);
 
   const handleGetOTP = async () => {
-
-    let res = await getOTP(user.usertoken)
+    let res = await getOTP(user.usertoken);
     if (res.data) {
-                dispatch(addAlert({
-                  status_code: 200,
-                  message:'OTP Sent'
-                }))
-            setOtpSent(true);
-            setResendTimer(90);
-              } else if (res.error) {
-                dispatch(addAlert({ ...res.error, page: 'otp' }))
+      dispatch(
+        addAlert({
+          status_code: 200,
+          message: "OTP Sent",
+        })
+      );
+      setOtpSent(true);
+      setResendTimer(90);
+    } else if (res.error) {
+      dispatch(addAlert({ ...res.error, page: "otp" }));
     }
-    
-    // 
+
+    //
     // Toast.show({
     //   type: "success",
     //   text1: "OTP Sent",
@@ -91,19 +97,18 @@ export default function OTPVerificationScreen({
 
   const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
     const otpCode = Object.values(data).join("").trim();
-    
-    let data_ = {token:user.usertoken,otp:otpCode}
 
-    
-    let res = await verifyOTP(user.usertoken)
+    let data_ = { token: user.usertoken, otp: otpCode };
+
+    let res = await verifyOTP(user.usertoken);
     if (res.data) {
-               setShowModal(true);
-              } else if (res.error) {
-                dispatch(addAlert({ ...res.error, page: 'otp' }))
+      setShowModal(true);
+    } else if (res.error) {
+      dispatch(addAlert({ ...res.error, page: "otp" }));
     }
 
     // if (otpCode.length === 4) {
-      
+
     // } else {
     //   Toast.show({
     //     type: "error",
@@ -187,7 +192,7 @@ export default function OTPVerificationScreen({
                 justifyContent: "space-between",
                 gap: 16,
               }}>
-              {[0, 1, 2, 3].map(index => (
+              {[0, 1, 2, 3, 4, 5].map(index => (
                 <Controller
                   key={index}
                   control={control}

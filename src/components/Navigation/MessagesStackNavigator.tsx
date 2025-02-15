@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MessageDetailsScreen from "@/src/screens/(dashboard)/MessageDetails";
-import MessagesScreen from "@/src/screens/(dashboard)/Messages";
+import MessagesScreen from "@/src/screens/(dashboard)/messages";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import theme from "@/src/styles/theme";
 import { Feather } from "@expo/vector-icons";

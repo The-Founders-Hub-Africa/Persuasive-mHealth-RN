@@ -1,15 +1,15 @@
-import { View, Text, ScrollView } from "react-native";
+import { ScrollView, View, Text } from "react-native";
 import React from "react";
 import globalStyles from "@/src/styles/global";
 
-const PatientsScreen = () => {
+const SettingsScreen = () => {
   return (
     <ScrollView>
       <View style={globalStyles.container}>
-        <Text>Patients Screen</Text>
+        <Text>Settings Screen</Text>
       </View>
     </ScrollView>
   );
 };
 
-export default PatientsScreen;
+export default SettingsScreen;

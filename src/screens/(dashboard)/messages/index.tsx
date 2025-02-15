@@ -1,45 +1,21 @@
 import { View, ScrollView, Text } from "react-native";
 import React, { useState } from "react";
 import globalStyles from "@/src/styles/global";
-import { Feather } from "@expo/vector-icons";
-import theme from "@/src/styles/theme";
-import SearchInput from "@/src/components/search/SearchInput";
+import SearchInput from "@/src/components/home/SearchInput";
 import { messagesData } from "@/src/helpers";
-import { ScreenTitle } from "@/src/components/common/ScreenTitle";
-import MessageList from "@/src/components/messages/MessageList";
+import MessageList from "@/src/components/common/MessageList";
 
-const AllMessagesScreen = () => {
+const MessagesScreen = () => {
   const [canSearch, setCanSearch] = useState(false);
-
-  const showSearchInput = () => {
-    setCanSearch(!canSearch);
-  };
 
   return (
     <ScrollView>
       <View style={globalStyles.container}>
-        {/* screen title */}
-        <ScreenTitle
-          title="Messages"
-          headerLeft
-          headerRight={{
-            icon: (
-              <Feather
-                name="search"
-                size={24}
-                color={theme.colors["neutral-700"]}
-              />
-            ),
-            onPress: showSearchInput,
-          }}
-        />
-
         {/* Search input */}
         {canSearch && <SearchInput />}
 
         {/* Messages */}
         <Text>
-          {" "}
           <MessageList messagesData={messagesData} />
         </Text>
       </View>
@@ -47,4 +23,4 @@ const AllMessagesScreen = () => {
   );
 };
 
-export default AllMessagesScreen;
+export default MessagesScreen;

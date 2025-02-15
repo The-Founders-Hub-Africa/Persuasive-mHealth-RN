@@ -9,7 +9,7 @@ import {
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 
-export const Tabs = ({
+const Tabs = ({
   tabs,
 }: {
   tabs: { title: string; component: JSX.Element }[];
@@ -49,6 +49,8 @@ export const Tabs = ({
     </View>
   );
 };
+
+export default Tabs;
 
 // Styles
 const styles = StyleSheet.create({

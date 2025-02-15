@@ -1,20 +1,12 @@
 import { View, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import globalStyles from "@/src/styles/global";
-import { ScreenTitle, Tabs } from "@/src/components/common";
-import { Feather } from "@expo/vector-icons";
-import theme from "@/src/styles/theme";
-import SearchInput from "@/src/components/search/SearchInput";
-import AppointmentsList from "@/src/components/appointments/AppointmentsList";
+import  Tabs  from "@/src/components/common/Tabs";
+import SearchInput from "@/src/components/home/SearchInput";
+import AppointmentsList from "@/src/components/common/AppointmentsList";
 import { appointmentsData } from "@/src/helpers";
 
-const AllAppointmentsScreen = () => {
-  const [addApontment, setAddAppointment] = useState(false);
-
-  const handleAppointment = () => {
-    setAddAppointment(!addApontment);
-  };
-
+const AppointmentsScreen = () => {
   // Filter appointments based on date
   const today = new Date();
 
@@ -54,26 +46,10 @@ const AllAppointmentsScreen = () => {
   return (
     <ScrollView>
       <View style={globalStyles.container}>
-        {/* screen title */}
-        <ScreenTitle
-          title="Appointments"
-          headerLeft
-          headerRight={{
-            icon: (
-              <Feather
-                name="plus"
-                size={24}
-                color={theme.colors["neutral-700"]}
-              />
-            ),
-            onPress: handleAppointment,
-          }}
-        />
-        {/* Appointments */}
-        <Tabs tabs={tabs} />;
+        <Tabs tabs={tabs} />
       </View>
     </ScrollView>
   );
 };
 
-export default AllAppointmentsScreen;
+export default AppointmentsScreen;

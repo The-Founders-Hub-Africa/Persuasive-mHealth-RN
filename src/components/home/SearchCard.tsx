@@ -2,12 +2,12 @@ import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import React from "react";
 import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
-import { useRouter } from "expo-router";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import typography from "@/src/styles/typography";
 
 const SearchCard = () => {
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<any>>();
 
   return (
     <View
@@ -33,7 +33,7 @@ const SearchCard = () => {
       <TouchableOpacity
         style={globalStyles.searchInputCntr}
         activeOpacity={0.7}
-        onPress={() => router.push("/search")}>
+        onPress={() => navigation.navigate("Search")}>
         <View
           style={[
             globalStyles.searchIconCntr,

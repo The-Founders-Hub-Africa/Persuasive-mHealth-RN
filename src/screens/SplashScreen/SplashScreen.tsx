@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Image, View, StyleSheet, Text } from "react-native";
-// import logo from "../../../assets/images/logo.jpg";
+import React, { useEffect } from "react";
+import { Image, View } from "react-native";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 

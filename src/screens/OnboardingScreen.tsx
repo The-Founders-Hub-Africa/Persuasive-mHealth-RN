@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import theme from "@/src/styles/theme";
@@ -6,6 +6,7 @@ import globalStyles from "@/src/styles/global";
 import typography from "../styles/typography";
 import formStyles from "../styles/formStyles";
 import { onboardingData } from "@/src/helpers";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 
 export default function OnboardingScreen({
   navigation,
@@ -13,6 +14,20 @@ export default function OnboardingScreen({
   navigation: NavigationProp<any>;
 }) {
   const [index, setIndex] = useState(0);
+
+ const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  
+  useEffect(() => {
+        if (user.logedin) {
+          if (user.verified_number) {
+            navigation.navigate("Dashboard");
+          } else {
+             navigation.navigate("OTPVerification");
+          }
+        
+          }
+        }, [user])
 
   const handleNext = () => {
     if (index < onboardingData.length - 1) {

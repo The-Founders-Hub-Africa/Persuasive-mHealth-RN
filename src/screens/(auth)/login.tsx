@@ -12,7 +12,7 @@ import { Feather, SimpleLineIcons } from "@expo/vector-icons";
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 import { NavigationProp } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 
@@ -45,6 +45,19 @@ export default function LoginScreen({
     },
   });
 
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  
+    useEffect(() => {
+      if (user.logedin) {
+        if (user.verified_number) {
+          navigation.navigate("Dashboard");
+        } else {
+           navigation.navigate("OTPVerification");
+        }
+      
+        }
+      }, [user])
   // const onSubmit = (data: FormData) => {
   //   if (data.phone_number && data.password) {
   //     navigation.navigate("Dashboard");
@@ -55,8 +68,6 @@ export default function LoginScreen({
 
   const [login, { isLoading }] = useLoginMutation();
 
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.user);
  
   const onSubmit = async (formdata: FormData) => {
     

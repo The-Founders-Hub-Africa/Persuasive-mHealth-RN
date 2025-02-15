@@ -2,13 +2,14 @@ import { readFromAsyncStorage, writeToAsyncStorage } from '../../async_store';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialData = {
-    id:0,first_name:"",last_name:"",
-    email: "", user_type: "", phone_number: '',
-    specalization: '', verified_number: false,
-    verified_email: false,usertoken:"",
-    logedin: false,
+  id: 0, full_name: "", email: "",
+  user_type: "", phone_number: '',
+  specialization: '', verified_number: false, 
+  verified_email: false, usertoken: "",
+  image: "", patient_count: 0, gender: "",
+  biography:"", date_of_birth:'',
+  work_experience:0,  logedin: false,
 }
-
 
 export const get_initial_user_data = async () => {
   let data = await readFromAsyncStorage("user")

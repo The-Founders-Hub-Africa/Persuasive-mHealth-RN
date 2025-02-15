@@ -4,9 +4,12 @@ import { Ionicons } from "@expo/vector-icons";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useAppDispatch,useAppSelector } from "@/src/integrations/hooks";
 
 const Greetings = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+   const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
 
   return (
     <View
@@ -31,7 +34,7 @@ const Greetings = () => {
               marginBottom: 4,
             })
           }>
-          Hello, Dr Jane Doe
+          Hello, {user.full_name}
         </Text>
         <Text style={typography.textSmall_Light}>How are yu doing today.</Text>
       </View>

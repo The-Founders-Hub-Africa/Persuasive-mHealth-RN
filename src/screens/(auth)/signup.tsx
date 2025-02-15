@@ -11,7 +11,7 @@ import { MaterialIcons, SimpleLineIcons, Feather } from "@expo/vector-icons";
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 import { NavigationProp } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import formStyles from "@/src/styles/formStyles";
 import typography from "@/src/styles/typography";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
@@ -50,7 +50,18 @@ export default function SignupScreen({
   const [registerUser, { isLoading }] = useRegisterMPUserMutation();
   
     const dispatch = useAppDispatch();
-    const user = useAppSelector(state => state.user);
+  const user = useAppSelector(state => state.user);
+
+  useEffect(() => {
+        if (user.logedin) {
+          if (user.verified_number) {
+            navigation.navigate("Dashboard");
+          } else {
+             navigation.navigate("OTPVerification");
+          }
+        
+          }
+        }, [user])
 
   const onSubmit = async (formdata: FormData) => {
 
@@ -60,8 +71,7 @@ export default function SignupScreen({
         phone_number: formdata.phone,
         password: formdata.password,
         specialization: 'medical practitioner',
-        first_name: 'Not Set',
-        last_name: 'Not Set',
+        full_name: 'Not Set',
       }
       
         let res = await registerUser(data)

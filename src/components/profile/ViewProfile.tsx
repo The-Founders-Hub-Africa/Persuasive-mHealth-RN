@@ -5,8 +5,14 @@ import { Feather } from "@expo/vector-icons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
+import { useAppDispatch,useAppSelector } from "@/src/integrations/hooks";
 
 const ViewProfile = () => {
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  console.log(user)
+
   return (
     <View style={{ gap: 24 }}>
       {/* Top card */}
@@ -19,8 +25,8 @@ const ViewProfile = () => {
           />
 
           <View>
-            <Text style={typography.textLG_Medium}>Jane Doe</Text>
-            <Text style={typography.textBase_Regular}>Cardiology</Text>
+            <Text style={typography.textLG_Medium}>{user.full_name}</Text>
+            <Text style={typography.textBase_Regular}>{user.specialization}</Text>
           </View>
         </View>
 

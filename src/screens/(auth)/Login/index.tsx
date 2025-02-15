@@ -20,7 +20,9 @@ import { useLoginMutation } from "@/src/integrations/features/apis/apiSlice";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
 // import { useDispatch, useSelector } from "react-redux"
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import { useEffect } from "react";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import Alert_System from "@/src/integrations/features/alert/Alert";
+import Toast from "react-native-toast-message";
 
 type FormData = {
   phone_number: string;
@@ -43,53 +45,51 @@ export default function LoginScreen({
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    if (data.phone_number && data.password) {
-      navigation.navigate("Dashboard");
-    } else {
-      Alert.alert("Please fill all fields");
-    }
-  };
+  // const onSubmit = (data: FormData) => {
+  //   if (data.phone_number && data.password) {
+  //     navigation.navigate("Dashboard");
+  //   } else {
+  //     Alert.alert("Please fill all fields");
+  //   }
+  // };
 
   const [login, { isLoading }] = useLoginMutation();
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
-  console.log("user", user);
-
-  const data = {
-    data: {
-      phone_number: "08132180216",
-      password: "casdonmystery",
-    },
-  };
-
-  const check = async () => {
-    const data = {
-      phone_number: "08132180216",
-      password: "casdonmystery",
-    };
-    let res = await login(data);
-    if (res.data) {
-      dispatch(
-        loginUser({
-          ...res.data.user,
-          usertoken: res.data.token,
-          logedin: true,
-          save: true,
-        })
-      );
-    } else {
-      console.log("error");
+ 
+  const onSubmit = async (formdata: FormData) => {
+    
+    if (!formdata.phone_number && !formdata.password) {
+      // remember to dispatch alert
+      Alert.alert("Please fill all fields");
+      return 
     }
-  };
+  
+    const data = {
+        phone_number: formdata.phone_number,
+        password: formdata.password
+    }
 
-  useEffect(() => {
-    check();
-  }, []);
+    let res = await login(data)
+    if (res.data){
+      dispatch(loginUser({
+        ...res.data.user,
+        'usertoken': res.data.token,
+        logedin: true, save: true
+      })) 
+      // setuserlogged(true)
+      navigation.navigate("Dashboard");
+    } else if (res.error) {
+      dispatch(addAlert({ ...res.error, page: 'login' }))
+    }
+    
+    }
+ 
 
   return (
     <ScrollView>
+      <Alert_System/>
       <View style={[globalStyles.container]}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
@@ -116,6 +116,8 @@ export default function LoginScreen({
           ]}>
           Sign in to continue.
         </Text>
+
+        <Toast />
 
         {/* Number Input */}
         <View style={formStyles.inputGroup}>

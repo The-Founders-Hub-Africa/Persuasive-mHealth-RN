@@ -14,6 +14,13 @@ import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import formStyles from "@/src/styles/formStyles";
 import typography from "@/src/styles/typography";
+import { loginUser } from "@/src/integrations/features/user/usersSlice";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { useRegisterMPUserMutation } from "@/src/integrations/features/apis/apiSlice";
+import Alert_System from "@/src/integrations/features/alert/Alert";
+import Toast from "react-native-toast-message";
+
 
 type FormData = {
   email: string;
@@ -40,12 +47,41 @@ export default function SignupScreen({
     },
   });
 
-  const onSubmit = () => {
-    navigation.navigate("OTP Verification");
+  const [registerUser, { isLoading }] = useRegisterMPUserMutation();
+  
+    const dispatch = useAppDispatch();
+    const user = useAppSelector(state => state.user);
+
+  const onSubmit = async (formdata: FormData) => {
+
+    if (formdata.agreed) {
+      const data = {
+        email: formdata.email,
+        phone_number: formdata.phone,
+        password: formdata.password,
+        specialization: 'medical practitioner',
+        first_name: 'Not Set',
+        last_name: 'Not Set',
+      }
+      
+        let res = await registerUser(data)
+          if (res.data){
+            dispatch(loginUser({
+              ...res.data.user,
+              'usertoken': res.data.token,
+              logedin: true, save: true
+            })) 
+            // setuserlogged(true)
+            navigation.navigate("OTPVerification");
+          } else if (res.error) {
+            dispatch(addAlert({ ...res.error, page: 'signup' }))
+          }
+    }
   };
 
   return (
     <ScrollView>
+       <Alert_System/>
       <View style={globalStyles.container}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
@@ -72,7 +108,7 @@ export default function SignupScreen({
           ]}>
           Fill your information below
         </Text>
-
+       <Toast />
         {/* Email Input */}
         <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Email</Text>

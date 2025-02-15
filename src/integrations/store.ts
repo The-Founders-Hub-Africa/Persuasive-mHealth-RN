@@ -3,10 +3,12 @@ import { mediAppApi } from './features/apis/apiSlice';
 import userslice from './features/user/usersSlice';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import initializeStore from './initializeStore';
+import alertSlice  from './features/alert/alertSlice';
 
 export const store = configureStore({
   reducer: {
     user: userslice,
+    alert:alertSlice,
     [mediAppApi.reducerPath] : mediAppApi.reducer
   },
   middleware : getDefaultMiddleware =>

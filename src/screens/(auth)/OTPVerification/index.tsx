@@ -17,6 +17,10 @@ import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import modalStyles from "@/src/styles/modalStyles";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { useGetOTPMutation, useVerifyOTPMutation } from "@/src/integrations/features/apis/apiSlice";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+
 
 type FormData = {
   otp0: string;
@@ -48,6 +52,13 @@ export default function OTPVerificationScreen({
     },
   });
 
+
+  const getOTP = useGetOTPMutation()[0];
+  const verifyOTP = useVerifyOTPMutation()[0];
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+
   useEffect(() => {
     let timer: string | number | NodeJS.Timeout | undefined;
     if (resendTimer > 0) {
@@ -56,28 +67,50 @@ export default function OTPVerificationScreen({
     return () => clearTimeout(timer);
   }, [resendTimer]);
 
-  const handleGetOTP = () => {
-    setOtpSent(true);
-    setResendTimer(90);
-    Toast.show({
-      type: "success",
-      text1: "OTP Sent",
-      text2: "Check your messages.",
-    });
+  const handleGetOTP = async () => {
+
+    let res = await getOTP(user.usertoken)
+    if (res.data) {
+                dispatch(addAlert({
+                  status_code: 200,
+                  message:'OTP Sent'
+                }))
+            setOtpSent(true);
+            setResendTimer(90);
+              } else if (res.error) {
+                dispatch(addAlert({ ...res.error, page: 'otp' }))
+    }
+    
+    // 
+    // Toast.show({
+    //   type: "success",
+    //   text1: "OTP Sent",
+    //   text2: "Check your messages.",
+    // });
   };
 
-  const handleVerifyOTP = (data: { [s: string]: unknown }) => {
+  const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
     const otpCode = Object.values(data).join("").trim();
+    
+    let data_ = {token:user.usertoken,otp:otpCode}
 
-    if (otpCode.length === 4) {
-      setShowModal(true);
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Invalid OTP",
-        text2: "Please enter a valid 4-digit OTP.",
-      });
+    
+    let res = await verifyOTP(user.usertoken)
+    if (res.data) {
+               setShowModal(true);
+              } else if (res.error) {
+                dispatch(addAlert({ ...res.error, page: 'otp' }))
     }
+
+    // if (otpCode.length === 4) {
+      
+    // } else {
+    //   Toast.show({
+    //     type: "error",
+    //     text1: "Invalid OTP",
+    //     text2: "Please enter a valid 4-digit OTP.",
+    //   });
+    // }
   };
 
   return (
@@ -123,7 +156,7 @@ export default function OTPVerificationScreen({
                 />
                 <TextInput
                   style={[formStyles.inputText, formStyles.inputTextDisabled]}
-                  value="+63 912 345 6789"
+                  value={user.phone_number}
                   editable={false}
                 />
               </View>

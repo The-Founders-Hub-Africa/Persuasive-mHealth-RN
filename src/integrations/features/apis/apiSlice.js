@@ -43,13 +43,31 @@ export const mediAppApi = createApi({
                 headers: { "Authorization": `Token ${token}` },
                 method: "POST",
             }),
-    }),
+        }),
+
+        getOTP: builder.mutation({
+            query: token =>({
+                url: `/otp`,
+                headers: { "Authorization": `Token ${token}` },
+                method: "GET",
+            }),
+        }), 
+        verifyOTP: builder.mutation({
+            query: data => ({
+                url: `/otp`,
+                headers: { "Authorization": `Token ${data.token}` },
+                method: "POST",
+                body: data,
+            }),
+        }),
 
   }),
 })
 
 export const {
-        useLoginMutation, useRegisterMPUserMutation,
-        useLogoutMutation
+    useLoginMutation, useRegisterMPUserMutation,
+    useLogoutMutation,
+    useGetOTPMutation,useVerifyOTPMutation,
+    
     } = mediAppApi
               

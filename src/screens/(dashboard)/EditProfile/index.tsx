@@ -27,22 +27,27 @@ import theme, { calendarTheme } from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { useEditUserMutation } from "@/src/integrations/features/apis/apiSlice";
 
 type FormData = {
-  fullName: string;
+  full_name: string;
   email: string;
   phone: string;
   biography: string;
   specialization: string;
-  experience: string;
+  work_experience: string;
   gender: string;
-  dob: string;
+  date_of_birth: string;
   avatar: string | null;
 };
 
 export default function EditProfileScreen() {
   const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
 
   const {
     control,
@@ -52,18 +57,18 @@ export default function EditProfileScreen() {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      fullName: "",
-      email: "",
-      phone: "",
-      biography: "",
-      specialization: "",
-      experience: "",
-      gender: "",
-      dob: new Date().toISOString().split("T")[0], // Default to today
-      avatar: null,
+      full_name: user.full_name,
+      email: user.email,
+      phone: user.phone_number,
+      biography: user.biography,
+      specialization: user.specialization,
+      work_experience: '',
+      gender: user.gender,
+      date_of_birth: user.date_of_birth?user.date_of_birth: new Date().toISOString().split("T")[0], // Default to today
+      avatar: user.image?user.image:null,
     },
   });
-
+ const [editUser, { isLoading }] = useEditUserMutation();
   // Request permission for image picker
   const requestPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -76,8 +81,17 @@ export default function EditProfileScreen() {
     requestPermission();
   }, []);
 
-  const handleContinue = (data: FormData) => {
+  const handleContinue = async (data: FormData) => {
     console.log("Form Data:", data);
+    let data_ = {token:user.usertoken,data:data}
+    let res = await editUser(data_)
+              if (res.data){
+                  console.log(res.data)
+                // setuserlogged(true)
+                
+              } else if (res.error) {
+                console.log('error')
+              }
     navigation.navigate("Home");
   };
 
@@ -174,7 +188,7 @@ export default function EditProfileScreen() {
             <Text style={formStyles.label}>Full Name</Text>
             <Controller
               control={control}
-              name="fullName"
+              name="full_name"
               rules={{ required: "Full Name is required" }}
               render={({ field: { onChange, value } }) => (
                 <View style={formStyles.inputCntr}>
@@ -193,9 +207,9 @@ export default function EditProfileScreen() {
                 </View>
               )}
             />
-            {errors.fullName && (
+            {errors.full_name && (
               <Text style={globalStyles.errorText}>
-                {errors.fullName.message}
+                {errors.full_name.message}
               </Text>
             )}
           </View>
@@ -336,12 +350,12 @@ export default function EditProfileScreen() {
             )}
           </View>
 
-          {/* Experience */}
+          {/* work_experience */}
           <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Years of experience</Text>
+            <Text style={formStyles.label}>Years of Experience</Text>
             <Controller
               control={control}
-              name="experience"
+              name="work_experience"
               rules={{ required: "Experience is required" }}
               render={({ field: { onChange, value } }) => (
                 <View style={formStyles.inputDropdownCntr}>
@@ -353,9 +367,9 @@ export default function EditProfileScreen() {
                 </View>
               )}
             />
-            {errors.experience && (
+            {errors.work_experience && (
               <Text style={globalStyles.errorText}>
-                {errors.experience.message?.toString()}
+                {errors.work_experience.message?.toString()}
               </Text>
             )}
           </View>
@@ -422,7 +436,7 @@ export default function EditProfileScreen() {
                 />
                 <Controller
                   control={control}
-                  name="dob"
+                  name="date_of_birth"
                   render={({ field: { value } }) => (
                     <Text style={formStyles.inputText}>{value}</Text>
                   )}
@@ -450,15 +464,15 @@ export default function EditProfileScreen() {
                     color={theme.colors["neutral-700"]}
                   />
                 )}
-                current={getValues("dob")}
+                current={getValues("date_of_birth")}
                 markedDates={{
-                  [getValues("dob")]: {
+                  [getValues("date_of_birth")]: {
                     selected: true,
                     selectedColor: theme.colors["purple-700"],
                   },
                 }}
                 onDayPress={(day: { dateString: string }) => {
-                  setValue("dob", day.dateString);
+                  setValue("date_of_birth", day.dateString);
                   setCalendarVisible(false);
                 }}
                 enableSwipeMonths

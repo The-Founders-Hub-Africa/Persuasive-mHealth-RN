@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 // Define a service using a base URL and expected endpoints
 // const baseUrl = 'http://127.0.0.1:8000'
-const baseUrl = 'https://3dc5-102-89-46-207.ngrok-free.app'
+const baseUrl = 'https://343a-102-88-71-212.ngrok-free.app'
 
 export const mediAppApi = createApi({
   reducerPath: 'mediAppApi',
@@ -40,20 +40,20 @@ export const mediAppApi = createApi({
 
         logout: builder.mutation({
             query: token => ({
-                url: `/api/logout`,
+                url: `/logout`,
                 headers: { "Authorization": `Token ${token}` },
                 method: "POST",
             }),
         }),
 
-        getOTP: builder.mutation({
-            query: token =>({
-                url: `/otp`,
-                headers: { "Authorization": `Token ${token}` },
-                method: "GET",
-            }),
-        }), 
-        verifyOTP: builder.mutation({
+        // getOTP: builder.mutation({
+        //     query: token =>({
+        //         url: `/otp`,
+        //         headers: { "Authorization": `Token ${token}` },
+        //         method: "POST",
+        //     }),
+        // }), 
+        OTP: builder.mutation({
             query: data => ({
                 url: `/otp`,
                 headers: { "Authorization": `Token ${data.token}` },
@@ -61,14 +61,23 @@ export const mediAppApi = createApi({
                 body: data,
             }),
         }),
-
+        
+        editUser: builder.mutation({
+            query: data => ({
+                url: `/edituser`,
+                headers: {
+                    "Authorization": `Token ${data.token}`,
+                    "Content-Type": "multipart/form-data"},
+                method: "POST",
+                body: data.data,
+            }),
+        }),
   }),
 })
 
 export const {
     useLoginMutation, useRegisterMPUserMutation,
-    useLogoutMutation,
-    useGetOTPMutation,useVerifyOTPMutation,
+    useLogoutMutation,useOTPMutation,useEditUserMutation
     
     } = mediAppApi
               

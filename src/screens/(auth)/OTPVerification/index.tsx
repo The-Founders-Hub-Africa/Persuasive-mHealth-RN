@@ -18,11 +18,9 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import modalStyles from "@/src/styles/modalStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import {
-  useGetOTPMutation,
-  useVerifyOTPMutation,
-} from "@/src/integrations/features/apis/apiSlice";
+import {useOTPMutation} from "@/src/integrations/features/apis/apiSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { loginUser } from "@/src/integrations/features/user/usersSlice";
 
 type FormData = {
   otp0: string;
@@ -58,8 +56,8 @@ export default function OTPVerificationScreen({
     },
   });
 
-  const getOTP = useGetOTPMutation()[0];
-  const verifyOTP = useVerifyOTPMutation()[0];
+  const OTP = useOTPMutation()[0];
+
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -73,7 +71,8 @@ export default function OTPVerificationScreen({
   }, [resendTimer]);
 
   const handleGetOTP = async () => {
-    let res = await getOTP(user.usertoken);
+    let data_ = { token: user.usertoken, otp: '',action:'get' };
+    let res = await OTP(data_);
     if (res.data) {
       dispatch(
         addAlert({
@@ -97,11 +96,11 @@ export default function OTPVerificationScreen({
 
   const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
     const otpCode = Object.values(data).join("").trim();
+    let data_ = { token: user.usertoken, otp: otpCode,action:'verify' };
 
-    let data_ = { token: user.usertoken, otp: otpCode };
-
-    let res = await verifyOTP(user.usertoken);
+    let res = await OTP(data_);
     if (res.data) {
+       dispatch(loginUser({ ...user,verified_number:true,logedin: true, save: true})) 
       setShowModal(true);
     } else if (res.error) {
       dispatch(addAlert({ ...res.error, page: "otp" }));

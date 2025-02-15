@@ -25,6 +25,7 @@ export const get_message_and_code = (data) => {
             } else {
                 mgs.push(value[0])
             }   
+            
         }
 
         if (mgs.length > 0) {

@@ -1,8 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AppointmentDetailsScreen from "@/src/screens/(dashboard)/AppointmentDetails";
-import AppointmentsScreen from "@/src/screens/(dashboard)/appointments";
-import NewAppointmentsScreen from "@/src/screens/(dashboard)/NewAppointment";
+import AppointmentDetailsScreen from "@/src/screens/(dashboard)/AppointmentDetailsScreen";
+import AppointmentsScreen from "@/src/screens/(dashboard)/AppointmentsScreen";
+import NewAppointmentsScreen from "@/src/screens/(dashboard)/NewAppointmentsScreen";
 import theme from "@/src/styles/theme";
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";

@@ -1,12 +1,12 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ViewProfileScreen from "../../screens/(dashboard)/ViewProfile";
-import EditProfileScreen from "../../screens/(dashboard)/EditProfile";
+import ViewProfileScreen from "../../screens/(dashboard)/ViewProfileScreen";
+import EditProfileScreen from "../../screens/(dashboard)/EdEditProfileScreenitProfile";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import theme from "../../styles/theme";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import {  TouchableOpacity } from "react-native";
-import SettingsScreen from "../../screens/(dashboard)/Settings";
+import SettingsScreen from "../../screens/(dashboard)/SettingsScreen";
 
 const Stack = createNativeStackNavigator();
 

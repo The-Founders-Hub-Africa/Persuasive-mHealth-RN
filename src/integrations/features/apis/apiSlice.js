@@ -1,14 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 // Define a service using a base URL and expected endpoints
-// const baseUrl = 'http://127.0.0.1:8000'
-const baseUrl = 'https://343a-102-88-71-212.ngrok-free.app'
+export const baseUrl = 'http://127.0.0.1:8000'
+//export const baseUrl = 'https://343a-102-88-71-212.ngrok-free.app'
 
 export const mediAppApi = createApi({
   reducerPath: 'mediAppApi',
   baseQuery: fetchBaseQuery({ baseUrl,
-    prepareHeaders(headers){
-        headers.set("Content-Type", "application/json")
+      prepareHeaders(headers) {
+          if (!headers.get("Content-Type")) {
+            headers.set("Content-Type", "application/json")
+        }
         return headers
     }
   }),
@@ -46,6 +48,8 @@ export const mediAppApi = createApi({
             }),
         }),
 
+        // 
+
         // getOTP: builder.mutation({
         //     query: token =>({
         //         url: `/otp`,
@@ -62,22 +66,23 @@ export const mediAppApi = createApi({
             }),
         }),
         
-        editUser: builder.mutation({
-            query: data => ({
-                url: `/edituser`,
-                headers: {
-                    "Authorization": `Token ${data.token}`,
-                    "Content-Type": "multipart/form-data"},
-                method: "POST",
-                body: data.data,
-            }),
-        }),
+        // editUser: builder.mutation({
+        //     query: data => ({
+        //         url: `/edituser`,
+        //         headers: {
+        //             "Content-Type": "multipart/form-data; boundary=---->",
+        //             "Authorization": `Token ${data.token}`,},
+        //         method: "POST",
+        //         body: data.data,
+        //         formData:true 
+        //     }),
+        // }),
   }),
 })
 
 export const {
     useLoginMutation, useRegisterMPUserMutation,
-    useLogoutMutation,useOTPMutation,useEditUserMutation
+    useLogoutMutation,useOTPMutation
     
     } = mediAppApi
               

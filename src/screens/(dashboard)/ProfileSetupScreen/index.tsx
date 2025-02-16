@@ -27,15 +27,21 @@ import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import modalStyles from "@/src/styles/modalStyles";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { UserProfile } from "@/src/integrations/axios_store";
+import { loginUser } from "@/src/integrations/features/user/usersSlice";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 
 type FormData = {
-  fullName: string;
+  full_name: string;
   email: string;
-  phone: string;
+  phone_number: string;
   specialization: string;
   gender: string;
-  dob: string;
-  avatar: string | null;
+  date_of_birth: string;
+  image: string | null;
+  biography: string,
+  work_experience: number
 };
 
 export default function ProfileSetupScreen({
@@ -45,9 +51,12 @@ export default function ProfileSetupScreen({
   navigation: NavigationProp<any>;
   route: any;
 }) {
-  const { email, phone } = route.params || {};
-
+  const { email, phone_number } = route.params || {};
   const [calendarVisible, setCalendarVisible] = useState(false);
+
+  const [imageDetails, setimageDetails] = useState({type:"",filename:""});
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
 
   const {
     control,
@@ -57,20 +66,23 @@ export default function ProfileSetupScreen({
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      fullName: "",
-      email: email || "john@doe.com",
-      phone: phone || "2349012345678",
-      specialization: "",
-      gender: "",
-      dob: new Date().toISOString().split("T")[0],
-      avatar: null,
+      full_name: user.full_name,
+      email: user.email,
+      phone_number: user.phone_number,
+      biography: '',
+      specialization: user.specialization,
+      work_experience: 1,
+      gender: user.gender,
+      date_of_birth: user.date_of_birth?user.date_of_birth: new Date().toISOString().split("T")[0], // Default to today
+      // image: user.image?user.image:null,
+      image:null
     },
   });
 
   useEffect(() => {
     if (email) setValue("email", email);
-    if (phone) setValue("phone", phone);
-  }, [email, phone, setValue]);
+    if (phone_number) setValue("phone_number", phone_number);
+  }, [email, phone_number, setValue]);
 
   // Request permission for image picker
   const requestPermission = async () => {
@@ -84,29 +96,97 @@ export default function ProfileSetupScreen({
     requestPermission();
   }, []);
 
-  const handleContinue = (data: FormData) => {
-    console.log("Form Data:", data);
-    navigation.navigate("Home");
-  };
+  // const handleContinue = (data: FormData) => {
+  //   console.log("Form Data:", data);
+  //   navigation.navigate("Home");
+  // };
 
-  const handleImageUpload = async () => {
-    launchImageLibrary(
-      {
-        mediaType: "photo",
-        includeBase64: false,
-        quality: 1,
-      },
-      response => {
-        if (response.didCancel) {
-          console.log("User cancelled image picker");
-        } else if (response.errorMessage) {
-          console.log("Image Picker Error: ", response.errorMessage);
-        } else if (response.assets && response.assets.length > 0) {
-          const uri = response.assets[0].uri || null;
-          setValue("avatar", uri); // Update the form state with avatar URI
+    const handleContinue = async (data: FormData) => {
+      console.log("Form Data:", data);
+  
+      let formdata = new FormData()
+      
+      for (const [key, value] of Object.entries(data)) {
+        if (key == 'image' && value) {
+        
+          const imageFiled = {
+            name: imageDetails.filename,
+            uri: value,
+            type: imageDetails.type
+          }
+          formdata.append(key, imageFiled)
+        } else {
+          formdata.append(key,value)
         }
       }
-    );
+      
+      let data_ = { token: user.usertoken, data: data }
+      // console.log(data_)
+      let res = await UserProfile(data_)
+      if (res.success) {
+           dispatch(loginUser({
+                  ...res.data.user,
+                  'usertoken': res.data.token,
+                  logedin: true, save: true
+           })) 
+        navigation.navigate("Home");
+        
+      } else {
+        let err = { status_code: 500, data:{message:'Error occurred'},page: 'editprofile' }
+        dispatch(addAlert(err))
+        // console.log('Error occurred')
+        
+      }
+  
+      // let res = await editUser(data_)
+      //           if (res.data){
+      //               // console.log(res.data)
+      //             // setuserlogged(true)
+                  
+      //           } else if (res.error) {
+      //             console.log('error')
+      //           }
+  
+  
+      // navigation.navigate("Home");
+    };
+
+  const handleImageUpload = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ['images', 'videos'],
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        if (!result.canceled) {
+          let returndata = result.assets[0]
+          if (returndata.mimeType && returndata.fileName) {
+            const uri = returndata.uri || null;
+            setimageDetails({ type: returndata.mimeType, filename: returndata.fileName })
+            // setValue("image", uri);
+          }
+        } else {
+          console.log("Image Picker Error: ---"); 
+        }
+    // launchImageLibrary(
+    //   {
+    //     mediaType: "photo",
+    //     includeBase64: false,
+    //     quality: 1,
+    //   },
+    //   response => {
+    //     if (response.didCancel) {
+    //       console.log("User cancelled image picker");
+    //     } else if (response.errorMessage) {
+    //       console.log("Image Picker Error: ", response.errorMessage);
+    //     } else if (response.assets && response.assets.length > 0) {
+    //       const uri = response.assets[0].uri || null;
+    //       setValue("image", uri); // Update the form state with image URI
+    //     }
+    //   }
+    // );
+    
   };
 
   return (
@@ -133,7 +213,7 @@ export default function ProfileSetupScreen({
           onPress={handleImageUpload}>
           <Controller
             control={control}
-            name="avatar"
+            name="image"
             render={({ field: { value } }) =>
               value ? (
                 <Image
@@ -162,7 +242,7 @@ export default function ProfileSetupScreen({
           <Text style={formStyles.label}>Full Name</Text>
           <Controller
             control={control}
-            name="fullName"
+            name="full_name"
             rules={{ required: "Full Name is required" }}
             render={({ field: { onChange, value } }) => (
               <View style={formStyles.inputCntr}>
@@ -181,9 +261,9 @@ export default function ProfileSetupScreen({
               </View>
             )}
           />
-          {errors.fullName && (
+          {errors.full_name && (
             <Text style={globalStyles.errorText}>
-              {errors.fullName.message}
+              {errors.full_name.message}
             </Text>
           )}
         </View>
@@ -226,7 +306,7 @@ export default function ProfileSetupScreen({
 
           <Controller
             control={control}
-            name="phone"
+            name="phone_number"
             rules={{ required: "Phone number is required" }}
             render={({ field: { value } }) => (
               <View
@@ -245,9 +325,9 @@ export default function ProfileSetupScreen({
               </View>
             )}
           />
-          {errors.phone && (
+          {errors.phone_number && (
             <Text style={globalStyles.errorText}>
-              {errors.phone.message?.toString()}
+              {errors.phone_number.message?.toString()}
             </Text>
           )}
         </View>
@@ -298,11 +378,11 @@ export default function ProfileSetupScreen({
             render={({ field: { onChange, value } }) => (
               <View style={formStyles.genderCntr}>
                 <TouchableOpacity
-                  onPress={() => onChange("Male")}
+                  onPress={() => onChange("male")}
                   style={[formStyles.inputCntr, formStyles.genderOptionMale]}>
                   <MaterialIcons
                     name={
-                      value === "Male" ? "check-box" : "check-box-outline-blank"
+                      value === "male" ? "check-box" : "check-box-outline-blank"
                     }
                     size={20}
                     color={theme.colors["purple-700"]}
@@ -310,11 +390,11 @@ export default function ProfileSetupScreen({
                   <Text style={formStyles.genderText}>Male</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => onChange("Female")}
+                  onPress={() => onChange("female")}
                   style={[formStyles.inputCntr, formStyles.genderOptionFemale]}>
                   <MaterialIcons
                     name={
-                      value === "Female"
+                      value === "female"
                         ? "check-box"
                         : "check-box-outline-blank"
                     }
@@ -345,7 +425,7 @@ export default function ProfileSetupScreen({
               />
               <Controller
                 control={control}
-                name="dob"
+                name="date_of_birth"
                 render={({ field: { value } }) => (
                   <Text style={formStyles.inputText}>{value}</Text>
                 )}
@@ -371,15 +451,15 @@ export default function ProfileSetupScreen({
                   color={theme.colors["neutral-700"]}
                 />
               )}
-              current={getValues("dob")}
+              current={getValues("date_of_birth")}
               markedDates={{
-                [getValues("dob")]: {
+                [getValues("date_of_birth")]: {
                   selected: true,
                   selectedColor: theme.colors["purple-700"],
                 },
               }}
               onDayPress={(day: { dateString: string }) => {
-                setValue("dob", day.dateString);
+                setValue("date_of_birth", day.dateString);
                 setCalendarVisible(false);
               }}
               enableSwipeMonths

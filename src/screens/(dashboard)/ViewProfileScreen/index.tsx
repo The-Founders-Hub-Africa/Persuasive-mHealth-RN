@@ -14,6 +14,7 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import globalStyles from "@/src/styles/global";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 
 const ViewProfileScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -21,6 +22,9 @@ const ViewProfileScreen = () => {
   const handleEditProfile = () => {
     navigation.navigate("Edit Profile");
   };
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
 
   return (
     <ScrollView>
@@ -35,8 +39,8 @@ const ViewProfileScreen = () => {
             />
 
             <View>
-              <Text style={typography.textLG_Medium}>Jane Doe</Text>
-              <Text style={typography.textBase_Regular}>Cardiology</Text>
+              <Text style={typography.textLG_Medium}>{user.full_name}</Text>
+              <Text style={typography.textBase_Regular}>{ user.specialization}</Text>
             </View>
           </View>
 
@@ -52,7 +56,7 @@ const ViewProfileScreen = () => {
               </View>
 
               <View>
-                <Text style={typography.textLG_Medium}>2000</Text>
+                <Text style={typography.textLG_Medium}>{user.patient_count}</Text>
                 <Text style={typography.textBase_Regular}>Patients</Text>
               </View>
             </View>
@@ -67,7 +71,7 @@ const ViewProfileScreen = () => {
               </View>
 
               <View>
-                <Text style={typography.textLG_Medium}>5 years</Text>
+                <Text style={typography.textLG_Medium}>{user.work_experience} year(s)</Text>
                 <Text style={typography.textBase_Regular}>Work Experience</Text>
               </View>
             </View>
@@ -84,19 +88,19 @@ const ViewProfileScreen = () => {
           <View>
             <Text style={[typography.textBase_Regular]}>Gender</Text>
             <Text style={[typography.textBase_Regular, styles.input]}>
-              Female
+              {user.gender}
             </Text>
           </View>
           <View>
             <Text style={[typography.textBase_Regular]}>Date of birth</Text>
             <Text style={[typography.textBase_Regular, styles.input]}>
-              12/03/1889
+              {user.date_of_birth}
             </Text>
           </View>
           <View>
             <Text style={[typography.textBase_Regular]}>Phone number</Text>
             <Text style={[typography.textBase_Regular, styles.input]}>
-              +2349012345678
+              {user.phone_number}
             </Text>
           </View>
         </View>
@@ -111,11 +115,7 @@ const ViewProfileScreen = () => {
           <View style={{ width: "100%" }}>
             <Text style={[typography.textBase_Regular]}>Biography</Text>
             <Text style={[typography.textBase_Regular, styles.textarea]}>
-              Dr. John Doe is a board-certified cardiologist with over 15 years
-              of experience in diagnosing and treating heart conditions. He
-              combines advanced medical techniques with compassionate care to
-              help patients manage and prevent cardiovascular diseases. A
-              published researcher and community health advocate,
+              {user.biography}
             </Text>
           </View>
         </View>

@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     color: theme.colors["purple-700"],
   },
   contentContainer: {
-    flex: 1,
     marginTop: 16,
   },
 });

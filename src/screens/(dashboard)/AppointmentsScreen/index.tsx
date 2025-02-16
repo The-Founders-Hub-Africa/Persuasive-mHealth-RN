@@ -1,7 +1,7 @@
 import { View, ScrollView } from "react-native";
 import React from "react";
 import globalStyles from "@/src/styles/global";
-import  Tabs  from "@/src/components/common/Tabs";
+import Tabs from "@/src/components/common/Tabs";
 import SearchInput from "@/src/components/home/SearchInput";
 import AppointmentsList from "@/src/components/common/AppointmentsList";
 import { appointmentsData } from "@/src/helpers";

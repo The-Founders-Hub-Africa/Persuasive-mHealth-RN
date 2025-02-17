@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 // Define a service using a base URL and expected endpoints
-// export const baseUrl = 'http://127.0.0.1:8000'
-export const baseUrl = 'https://a04f-102-89-22-18.ngrok-free.app'
+export const baseUrl = 'http://127.0.0.1:8000'
+// export const baseUrl = 'https://a04f-102-89-22-18.ngrok-free.app'
 
 export const mediAppApi = createApi({
   reducerPath: 'mediAppApi',
@@ -65,6 +65,22 @@ export const mediAppApi = createApi({
                 body: data,
             }),
         }),
+
+        patient: builder.mutation({
+            query: data => ({
+                url: `/patient`,
+                headers: { "Authorization": `Token ${data.token}` },
+                method: "POST",
+                body: data.data,
+            }),
+        }),
+
+        patientGet: builder.query({
+        query: data =>({
+        url: `/patient?action=${data.action}`,
+        headers: {"Authorization": `Token ${data.token}`}
+            }),
+        }), 
         
         // editUser: builder.mutation({
         //     query: data => ({
@@ -82,7 +98,8 @@ export const mediAppApi = createApi({
 
 export const {
     useLoginMutation, useRegisterMPUserMutation,
-    useLogoutMutation,useOTPMutation
+    useLogoutMutation, useOTPMutation, usePatientGetQuery,
+    usePatientMutation
     
     } = mediAppApi
               

@@ -78,78 +78,79 @@ export const notificationsData: NotificationProps[] = [
   },
 ];
 
-export const messagesData: MessageProps[] = [
-  {
-    id: "1",
-    name: "John Doe",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "3",
-  },
-  {
-    id: "2",
-    name: "Peter Parker",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "2025-02-06",
-  },
-  {
-    id: "3",
-    name: "New Appointment with Sandy",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "2025-02-06",
-  },
-  {
-    id: "4",
-    name: "Dr. Strange",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "2025-02-06",
-  },
-  {
-    id: "5",
-    name: "John Doe",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "2025-02-06",
-  },
-  {
-    id: "6",
-    name: "Peter Parker",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "2025-03-06",
-  },
-  {
-    id: "7",
-    name: "John Doe",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "2025-03-06",
-  },
-  {
-    id: "8",
-    name: "Peter Parker",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "2025-03-06",
-  },
-  {
-    id: "9",
-    name: "New Appointment with Sandy",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "2025-03-06",
-  },
-  {
-    id: "10",
-    name: "Dr. Strange",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    image: require("@/assets/images/avatar.png"),
-    date: "2025-03-06",
-  },
-];
+// export const messagesData: MessageProps[] = [
+
+//   {
+//     id: "1",
+//     name: "John Doe",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "3",
+//   },
+//   {
+//     id: "2",
+//     name: "Peter Parker",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "2025-02-06",
+//   },
+//   {
+//     id: "3",
+//     name: "New Appointment with Sandy",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "2025-02-06",
+//   },
+//   {
+//     id: "4",
+//     name: "Dr. Strange",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "2025-02-06",
+//   },
+//   {
+//     id: "5",
+//     name: "John Doe",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "2025-02-06",
+//   },
+//   {
+//     id: "6",
+//     name: "Peter Parker",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "2025-03-06",
+//   },
+//   {
+//     id: "7",
+//     name: "John Doe",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "2025-03-06",
+//   },
+//   {
+//     id: "8",
+//     name: "Peter Parker",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "2025-03-06",
+//   },
+//   {
+//     id: "9",
+//     name: "New Appointment with Sandy",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "2025-03-06",
+//   },
+//   {
+//     id: "10",
+//     name: "Dr. Strange",
+//     message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//     image: require("@/assets/images/avatar.png"),
+//     date: "2025-03-06",
+//   },
+// ];
 
 export const patientsData: PatientProps[] = [
   {

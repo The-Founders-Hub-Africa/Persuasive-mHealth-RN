@@ -5,6 +5,7 @@ import theme from "@/src/styles/theme";
 import { MessageProps } from "@/src/types";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 
+
 const MessageList = ({ messagesData }: { messagesData: MessageProps[] }) => {
   return (
     <View style={{ width: "100%" }}>
@@ -48,10 +49,12 @@ const MessageCard = ({ message }: { message: MessageProps }) => {
                 marginBottom: 4,
               },
             ]}>
-            {message.name}
+            {message.full_name}
           </Text>
           <Text style={typography.textBase_Regular}>
-            {message.message.slice(0, 35)}...
+            {message.record_type == 'text'?message.content.slice(0, 35):message.record_type}
+            {message.record_type == 'text'?'....':''}
+            ...
           </Text>
         </View>
       </View>

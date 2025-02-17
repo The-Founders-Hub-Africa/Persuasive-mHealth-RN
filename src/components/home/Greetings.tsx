@@ -36,7 +36,7 @@ const Greetings = () => {
           }>
           Hello, {user.full_name}
         </Text>
-        <Text style={typography.textSmall_Light}>How are yu doing today.</Text>
+        <Text style={typography.textSmall_Light}>How are y0u doing today ?</Text>
       </View>
 
       <View

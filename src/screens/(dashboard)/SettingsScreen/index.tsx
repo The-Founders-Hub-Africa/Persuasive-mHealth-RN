@@ -8,10 +8,21 @@ import {
 import React from "react";
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { logoutUser } from "@/src/integrations/features/user/usersSlice";
+import { useLogoutMutation } from "@/src/integrations/features/apis/apiSlice";
 
 const SettingsScreen = () => {
+
+  const [logout, { isLoading }] = useLogoutMutation();
+  const user = useAppSelector(state => state.user)
+  const dispatch = useAppDispatch()
+  
   const handleLogout = async () => {
-    console.log("Logout");
+    let res = await logout(user.usertoken)
+    dispatch(logoutUser())
+    // please add the navigation below
+    
   };
 
   return (

@@ -18,34 +18,36 @@ const Tabs = ({
 
   return (
     <View style={styles.container}>
-      {/* Scrollable Tab Headers */}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.tabWrapper}>
-        {tabs.map((tab, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => setActiveTab(index)}
-            style={[
-              typography.textSmall_Medium,
-              styles.tabButton,
-              activeTab === index && styles.activeTabButton,
-            ]}>
-            <Text
+        contentContainerStyle={styles.wrapper}>
+        {/* Scrollable Tab Headers */}
+        <View style={styles.tabWrapper}>
+          {tabs.map((tab, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => setActiveTab(index)}
               style={[
                 typography.textSmall_Medium,
-                styles.tabText,
-                activeTab === index && styles.activeTabText,
+                styles.tabButton,
+                activeTab === index && styles.activeTabButton,
               ]}>
-              {tab.title}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+              <Text
+                style={[
+                  typography.textSmall_Medium,
+                  styles.tabText,
+                  activeTab === index && styles.activeTabText,
+                ]}>
+                {tab.title}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
 
-      {/* Tab Content */}
-      <View style={styles.contentContainer}>{tabs[activeTab].component}</View>
+        {/* Tab Content */}
+        <View style={styles.contentContainer}>{tabs[activeTab].component}</View>
+      </ScrollView>
     </View>
   );
 };
@@ -56,10 +58,14 @@ export default Tabs;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+  },
+  wrapper: {
+    flexDirection: "column",
+    width: "100%",
   },
   tabWrapper: {
     flexDirection: "row",
-    width: "100%",
   },
   tabButton: {
     paddingVertical: 8,
@@ -67,6 +73,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: theme.colors["zinc-300"],
     maxWidth: "50%",
+    height: 50,
   },
   activeTabButton: {
     borderBottomColor: theme.colors["purple-700"],

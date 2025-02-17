@@ -153,8 +153,8 @@ const AppointmentCard = ({
       ) : (
         <View>
           <TouchableOpacity
-            onPress={() => setMenuVisible(!menuVisible)}
-            style={globalStyles.actionsBtn}>
+            style={globalStyles.actionsBtn}
+            onPress={() => setMenuVisible(!menuVisible)}>
             <Feather name="more-vertical" size={24} color="#555" />
           </TouchableOpacity>
 
@@ -175,7 +175,6 @@ const AppointmentCard = ({
       {/* Reschedule */}
       {isPassed && (
         <TouchableOpacity
-          onPress={() => setMenuVisible(!menuVisible)}
           style={[
             formStyles.submitButton,
             {

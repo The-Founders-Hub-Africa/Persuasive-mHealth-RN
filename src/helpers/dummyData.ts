@@ -305,4 +305,20 @@ export const appointmentsData: AppointmentProps[] = [
     date: "2025-02-06",
     time: "10:00 AM",
   },
+  {
+    id: "11",
+    name: "Sandy Williams",
+    status: "offline",
+    image: require("@/assets/images/avatar.png"),
+    date: "2025-02-06",
+    time: "10:00 AM",
+  },
+  {
+    id: "12",
+    name: "Dr. Strange",
+    status: "online",
+    image: require("@/assets/images/avatar.png"),
+    date: "2025-02-06",
+    time: "10:00 AM",
+  },
 ];

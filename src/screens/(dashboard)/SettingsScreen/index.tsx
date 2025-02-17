@@ -11,18 +11,19 @@ import theme from "@/src/styles/theme";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { logoutUser } from "@/src/integrations/features/user/usersSlice";
 import { useLogoutMutation } from "@/src/integrations/features/apis/apiSlice";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 const SettingsScreen = () => {
+  const navigation = useNavigation<NavigationProp<any>>();
 
   const [logout, { isLoading }] = useLogoutMutation();
-  const user = useAppSelector(state => state.user)
-  const dispatch = useAppDispatch()
-  
+  const user = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
+
   const handleLogout = async () => {
-    let res = await logout(user.usertoken)
-    dispatch(logoutUser())
-    // please add the navigation below
-    
+    let res = await logout(user.usertoken);
+    dispatch(logoutUser());
+    navigation.navigate("Login");
   };
 
   return (

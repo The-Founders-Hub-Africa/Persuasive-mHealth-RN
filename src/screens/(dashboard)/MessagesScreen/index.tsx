@@ -42,7 +42,9 @@ const MessagesScreen = () => {
     let data = [init]
     if (patientAndMessages) {
       const { patients, messages } = patientAndMessages
-      for (let index = 0; index < messages.length; index++) {
+
+      if (messages) {
+        for (let index = 0; index < messages.length; index++) {
         
         let patientData = init
 
@@ -51,9 +53,11 @@ const MessagesScreen = () => {
       }
         data = data.slice(1)
       setFinalData(data)
+        
+      }
     }
   
-    console.log(finalData)
+    // console.log(finalData)
   }, [patientAndMessages])
 
 

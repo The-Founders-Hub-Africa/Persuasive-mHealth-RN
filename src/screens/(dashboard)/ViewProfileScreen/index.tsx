@@ -96,19 +96,19 @@ const ViewProfileScreen = () => {
           <View style={{ flex: 1.5 }}>
             <Text style={[typography.textBase_Regular]}>Gender</Text>
             <Text style={[typography.textBase_Regular, styles.input]}>
-              {user.gender}Female
+              {user.gender}
             </Text>
           </View>
           <View style={{ flex: 1.5 }}>
             <Text style={[typography.textBase_Regular]}>Date of birth</Text>
             <Text style={[typography.textBase_Regular, styles.input]}>
-              {user.date_of_birth}01/01/2000
+              {user.date_of_birth}
             </Text>
           </View>
           <View style={{ flex: 2 }}>
             <Text style={[typography.textBase_Regular]}>Phone number</Text>
             <Text style={[typography.textBase_Regular, styles.input]}>
-              {user.phone_number}+63 912 345 6789
+              {user.phone_number}
             </Text>
           </View>
         </View>

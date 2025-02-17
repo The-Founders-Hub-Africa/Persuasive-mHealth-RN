@@ -45,7 +45,7 @@ const AppointmentsScreen = () => {
 
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         <Tabs tabs={tabs} />
       </View>
     </ScrollView>

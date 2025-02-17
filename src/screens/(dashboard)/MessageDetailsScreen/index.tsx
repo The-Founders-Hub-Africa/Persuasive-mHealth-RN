@@ -24,7 +24,7 @@ const MessageDetailsScreen = () => {
 
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         <View style={{ gap: 8, width: "100%" }}>
           <Text style={[styles.messageText]}>
             Following today's consultation, I've noted your symptoms and

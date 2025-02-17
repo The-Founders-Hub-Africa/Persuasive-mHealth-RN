@@ -94,7 +94,7 @@ const NewAppointmentsScreen = () => {
 
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         {/* Patient Name */}
         <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Patient Name</Text>

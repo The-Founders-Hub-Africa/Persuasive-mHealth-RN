@@ -5,7 +5,7 @@ import globalStyles from "@/src/styles/global";
 const SettingsScreen = () => {
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         <Text>Settings Screen</Text>
       </View>
     </ScrollView>

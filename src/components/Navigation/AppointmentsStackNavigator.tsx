@@ -14,7 +14,7 @@ const AppointmentsStackNavigator = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   const handleAppointment = () => {
-    navigation.navigate("Appointments", { screen: "Add Appointment" });
+    navigation.navigate("Appointments", { screen: "New Appointment" });
   };
 
   return (

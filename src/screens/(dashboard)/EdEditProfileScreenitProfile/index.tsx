@@ -47,7 +47,7 @@ type FormData = {
 export default function EditProfileScreen() {
   const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
-  const [imageDetails, setimageDetails] = useState({type:"",filename:""});
+  const [imageDetails, setimageDetails] = useState({ type: "", filename: "" });
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -67,10 +67,11 @@ export default function EditProfileScreen() {
       specialization: user.specialization,
       work_experience: user.work_experience,
       gender: user.gender,
-      date_of_birth: user.date_of_birth ? convertDate(user.date_of_birth) :
-        new Date().toISOString().split("T")[0], // Default to today
+      date_of_birth: user.date_of_birth
+        ? convertDate(user.date_of_birth)
+        : new Date().toISOString().split("T")[0], // Default to today
       // image: user.image?user.image:null,
-      image:null
+      image: null,
     },
   });
 
@@ -88,46 +89,50 @@ export default function EditProfileScreen() {
 
   const handleContinue = async (data: FormData) => {
     console.log("Form Data:", data);
-    
+
     let data_ = {
       token: user.usertoken,
       data: {
         formdata: data,
-        img: imageDetails
-       }
-    }
+        img: imageDetails,
+      },
+    };
     // console.log(data_)
-    let res = await UserProfile(data_)
+    let res = await UserProfile(data_);
     if (res.success) {
-         dispatch(loginUser({
-                ...res.data.user,
-                'usertoken': res.data.token,
-                logedin: true, save: true
-         })) 
+      dispatch(
+        loginUser({
+          ...res.data.user,
+          usertoken: res.data.token,
+          logedin: true,
+          save: true,
+        })
+      );
       navigation.navigate("Home");
-      
     } else {
-      let err = { status_code: 500, data:{message:'Error occurred'},page: 'editprofile' }
-      dispatch(addAlert(err))
+      let err = {
+        status_code: 500,
+        data: { message: "Error occurred" },
+        page: "editprofile",
+      };
+      dispatch(addAlert(err));
       // console.log('Error occurred')
-      
     }
 
     // let res = await editUser(data_)
     //           if (res.data){
     //               // console.log(res.data)
     //             // setuserlogged(true)
-                
+
     //           } else if (res.error) {
     //             console.log('error')
     //           }
-
 
     // navigation.navigate("Home");
   };
 
   // const handleImageUpload = async () => {
-     
+
   //   launchImageLibrary(
   //     {
   //       mediaType: "photo",
@@ -156,29 +161,34 @@ export default function EditProfileScreen() {
 
   const handleImageUpload = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images', 'videos'],
+      mediaTypes: ["images", "videos"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.canceled) {
-      let returndata = result.assets[0]
+      let returndata = result.assets[0];
       if (returndata.mimeType && returndata.fileName) {
         const uri = returndata.uri || null;
-        setimageDetails({ type: returndata.mimeType, filename: returndata.fileName })
+        setimageDetails({
+          type: returndata.mimeType,
+          filename: returndata.fileName,
+        });
         // setValue("image", uri);
       }
     } else {
-      console.log("Image Picker Error: ---"); 
+      console.log("Image Picker Error: ---");
     }
-    
   };
 
   return (
     <ScrollView>
       <View
-        style={[globalStyles.container, { gap: 24, flex: 1, width: "100%" }]}>
+        style={[
+          globalStyles.dashboardContainer,
+          { gap: 24, flex: 1, width: "100%" },
+        ]}>
         <View>
           <Text
             style={[
@@ -232,7 +242,7 @@ export default function EditProfileScreen() {
         </View>
 
         {/* Personal Information */}
-        <View>
+        <View style={{ width: "100%" }}>
           <Text
             style={[
               typography.textXL_Medium,
@@ -375,7 +385,7 @@ export default function EditProfileScreen() {
         </View>
 
         {/* Other Information */}
-        <View>
+        <View style={{ width: "100%" }}>
           <Text
             style={[
               typography.textXL_Medium,

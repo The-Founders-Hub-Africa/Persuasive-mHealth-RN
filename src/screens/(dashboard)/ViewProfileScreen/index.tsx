@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import React from "react";
 import theme from "@/src/styles/theme";
@@ -28,7 +29,7 @@ const ViewProfileScreen = () => {
 
   return (
     <ScrollView>
-      <View style={[globalStyles.container, { gap: 24 }]}>
+      <View style={[globalStyles.dashboardContainer, { gap: 24 }]}>
         {/* Top card */}
         <View style={styles.container}>
           {/* Top */}
@@ -40,7 +41,9 @@ const ViewProfileScreen = () => {
 
             <View>
               <Text style={typography.textLG_Medium}>{user.full_name}</Text>
-              <Text style={typography.textBase_Regular}>{ user.specialization}</Text>
+              <Text style={typography.textBase_Regular}>
+                {user.specialization}
+              </Text>
             </View>
           </View>
 
@@ -56,7 +59,9 @@ const ViewProfileScreen = () => {
               </View>
 
               <View>
-                <Text style={typography.textLG_Medium}>{user.patient_count}</Text>
+                <Text style={typography.textLG_Medium}>
+                  {user.patient_count}
+                </Text>
                 <Text style={typography.textBase_Regular}>Patients</Text>
               </View>
             </View>
@@ -71,7 +76,9 @@ const ViewProfileScreen = () => {
               </View>
 
               <View>
-                <Text style={typography.textLG_Medium}>{user.work_experience} year(s)</Text>
+                <Text style={typography.textLG_Medium}>
+                  {user.work_experience} year(s)
+                </Text>
                 <Text style={typography.textBase_Regular}>Work Experience</Text>
               </View>
             </View>
@@ -84,23 +91,24 @@ const ViewProfileScreen = () => {
             flexDirection: "row",
             gap: 8,
             justifyContent: "space-between",
+            width: "100%",
           }}>
-          <View>
+          <View style={{ flex: 1.5 }}>
             <Text style={[typography.textBase_Regular]}>Gender</Text>
             <Text style={[typography.textBase_Regular, styles.input]}>
-              {user.gender}
+              {user.gender}Female
             </Text>
           </View>
-          <View>
+          <View style={{ flex: 1.5 }}>
             <Text style={[typography.textBase_Regular]}>Date of birth</Text>
             <Text style={[typography.textBase_Regular, styles.input]}>
-              {user.date_of_birth}
+              {user.date_of_birth}01/01/2000
             </Text>
           </View>
-          <View>
+          <View style={{ flex: 2 }}>
             <Text style={[typography.textBase_Regular]}>Phone number</Text>
             <Text style={[typography.textBase_Regular, styles.input]}>
-              {user.phone_number}
+              {user.phone_number}+63 912 345 6789
             </Text>
           </View>
         </View>
@@ -114,9 +122,11 @@ const ViewProfileScreen = () => {
           }}>
           <View style={{ width: "100%" }}>
             <Text style={[typography.textBase_Regular]}>Biography</Text>
-            <Text style={[typography.textBase_Regular, styles.textarea]}>
+            <TextInput
+              style={[typography.textBase_Regular, styles.textarea]}
+              multiline>
               {user.biography}
-            </Text>
+            </TextInput>
           </View>
         </View>
 
@@ -138,6 +148,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderRadius: theme.rounded.medium,
     gap: 24,
+    width: "100%",
   },
   section: { flexDirection: "row", alignItems: "flex-start", gap: 12 },
   avatar: {
@@ -163,7 +174,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: theme.colors["purple-50"],
     paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: 6,
     borderRadius: theme.rounded.medium,
     marginTop: 8,
   },
@@ -177,5 +188,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     textAlignVertical: "top",
     lineHeight: 22,
+    height: 150,
   },
 });

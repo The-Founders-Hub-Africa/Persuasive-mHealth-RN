@@ -12,7 +12,7 @@ import { patientsData, appointmentsData } from "@/src/helpers";
 const HomeScreen = () => {
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         <Greetings />
         <SearchCard />
 

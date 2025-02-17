@@ -18,7 +18,7 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import modalStyles from "@/src/styles/modalStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import {useOTPMutation} from "@/src/integrations/features/apis/apiSlice";
+import { useOTPMutation } from "@/src/integrations/features/apis/apiSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
 
@@ -58,7 +58,6 @@ export default function OTPVerificationScreen({
 
   const OTP = useOTPMutation()[0];
 
-
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
 
@@ -70,8 +69,12 @@ export default function OTPVerificationScreen({
     return () => clearTimeout(timer);
   }, [resendTimer]);
 
+  // const handleGetOTP = async () => {
+  //   setOtpSent(true);
+  // };
+
   const handleGetOTP = async () => {
-    let data_ = { token: user.usertoken, otp: '',action:'get' };
+    let data_ = { token: user.usertoken, otp: "", action: "get" };
     let res = await OTP(data_);
     if (res.data) {
       dispatch(
@@ -86,7 +89,6 @@ export default function OTPVerificationScreen({
       dispatch(addAlert({ ...res.error, page: "otp" }));
     }
 
-    //
     // Toast.show({
     //   type: "success",
     //   text1: "OTP Sent",
@@ -94,20 +96,24 @@ export default function OTPVerificationScreen({
     // });
   };
 
+  // const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
+  //   setShowModal(true);
+  // };
+
   const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
     const otpCode = Object.values(data).join("").trim();
-    let data_ = { token: user.usertoken, otp: otpCode,action:'verify' };
+    let data_ = { token: user.usertoken, otp: otpCode, action: "verify" };
 
     let res = await OTP(data_);
     if (res.data) {
-       dispatch(loginUser({ ...user,verified_number:true,logedin: true, save: true})) 
+      dispatch(
+        loginUser({ ...user, verified_number: true, logedin: true, save: true })
+      );
       setShowModal(true);
     } else if (res.error) {
       dispatch(addAlert({ ...res.error, page: "otp" }));
     }
-
-    // if (otpCode.length === 4) {
-
+    // if (otpCode.length === 6) {
     // } else {
     //   Toast.show({
     //     type: "error",
@@ -204,12 +210,12 @@ export default function OTPVerificationScreen({
                     <TextInput
                       ref={el => (inputRefs.current[index] = el)}
                       style={{
-                        width: 50,
+                        width: 40,
                         height: 62,
                         backgroundColor: theme.colors["purple-100"],
                         borderRadius: 8,
                         textAlign: "center",
-                        fontSize: 15,
+                        fontSize: 14,
                         color: theme.colors["neutral-500"],
                       }}
                       keyboardType="numeric"
@@ -217,7 +223,7 @@ export default function OTPVerificationScreen({
                       value={value}
                       onChangeText={text => {
                         onChange(text);
-                        if (text && index < 3)
+                        if (text && index < 5)
                           inputRefs.current[index + 1]?.focus();
                       }}
                     />
@@ -283,7 +289,7 @@ export default function OTPVerificationScreen({
                   navigation.navigate("Profile Setup");
                 }}
                 style={modalStyles.modalButton}>
-                <Text style={modalStyles.modalButtonText}>Go to Home</Text>
+                <Text style={modalStyles.modalButtonText}>Continue</Text>
               </TouchableOpacity>
             </View>
           </View>

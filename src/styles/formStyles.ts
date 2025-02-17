@@ -83,14 +83,14 @@ const formStyles = StyleSheet.create({
     borderTopRightRadius: 8,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    height: 48,
+    height: 55,
   },
   genderOptionFemale: {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
-    height: 48,
+    height: 55,
   },
   genderText: {
     flex: 1,
@@ -117,7 +117,7 @@ const formStyles = StyleSheet.create({
     paddingVertical: 2,
     paddingHorizontal: 12,
     width: "100%",
-    height: 48,
+    height: 55,
   },
 
   // for the text under the form submit buttons

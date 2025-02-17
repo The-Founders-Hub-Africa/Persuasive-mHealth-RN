@@ -10,10 +10,14 @@ import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 
 const SettingsScreen = () => {
+  const handleLogout = async () => {
+    console.log("Logout");
+  };
+
   return (
     <ScrollView>
       <View style={globalStyles.dashboardContainer}>
-        <TouchableOpacity style={styles.submitButton}>
+        <TouchableOpacity onPress={handleLogout} style={styles.submitButton}>
           <Text style={styles.submitText}>Logout</Text>
         </TouchableOpacity>
       </View>

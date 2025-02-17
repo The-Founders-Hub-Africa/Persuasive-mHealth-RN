@@ -21,7 +21,6 @@ import { useRegisterMPUserMutation } from "@/src/integrations/features/apis/apiS
 import Alert_System from "@/src/integrations/features/alert/Alert";
 import Toast from "react-native-toast-message";
 
-
 type FormData = {
   email: string;
   phone: string;
@@ -48,50 +47,51 @@ export default function SignupScreen({
   });
 
   const [registerUser, { isLoading }] = useRegisterMPUserMutation();
-  
-    const dispatch = useAppDispatch();
+
+  const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
 
   useEffect(() => {
-        if (user.logedin) {
-          if (user.verified_number) {
-            navigation.navigate("Dashboard");
-          } else {
-             navigation.navigate("OTP Verification");
-          }
-        
-          }
-        }, [user])
+    if (user.logedin) {
+      if (user.verified_number) {
+        navigation.navigate("Dashboard");
+      } else {
+        navigation.navigate("OTP Verification");
+      }
+    }
+  }, [user]);
 
   const onSubmit = async (formdata: FormData) => {
-
     if (formdata.agreed) {
       const data = {
         email: formdata.email,
         phone_number: formdata.phone,
         password: formdata.password,
-        specialization: 'medical practitioner',
-        full_name: 'Not Set',
+        specialization: "medical practitioner",
+        full_name: "Not Set",
+      };
+
+      let res = await registerUser(data);
+      if (res.data) {
+        dispatch(
+          loginUser({
+            ...res.data.user,
+            usertoken: res.data.token,
+            logedin: true,
+            save: true,
+          })
+        );
+        // setuserlogged(true)
+        navigation.navigate("OTP Verification");
+      } else if (res.error) {
+        dispatch(addAlert({ ...res.error, page: "signup" }));
       }
-      
-        let res = await registerUser(data)
-          if (res.data){
-            dispatch(loginUser({
-              ...res.data.user,
-              'usertoken': res.data.token,
-              logedin: true, save: true
-            })) 
-            // setuserlogged(true)
-            navigation.navigate("OTP Verification");
-          } else if (res.error) {
-            dispatch(addAlert({ ...res.error, page: 'signup' }))
-          }
     }
   };
 
   return (
     <ScrollView>
-       <Alert_System/>
+      <Alert_System />
       <View style={globalStyles.container}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
@@ -118,7 +118,7 @@ export default function SignupScreen({
           ]}>
           Fill your information below
         </Text>
-       <Toast />
+        <Toast />
         {/* Email Input */}
         <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Email</Text>
@@ -217,7 +217,8 @@ export default function SignupScreen({
                   message: "Password must not exceed 20 characters",
                 },
                 pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                  value:
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
                   message:
                     "Password must contain at least one letter and one number",
                 },

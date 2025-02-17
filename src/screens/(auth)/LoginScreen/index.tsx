@@ -186,7 +186,7 @@ export default function LoginScreen({
                   message: "Password must not exceed 20 characters",
                 },
                 pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                  value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
                   message:
                     "Password must contain at least one letter and one number",
                 },

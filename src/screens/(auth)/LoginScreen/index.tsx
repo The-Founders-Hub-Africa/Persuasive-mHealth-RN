@@ -47,17 +47,16 @@ export default function LoginScreen({
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
-  
-    useEffect(() => {
-      if (user.logedin) {
-        if (user.verified_number) {
-          navigation.navigate("Dashboard");
-        } else {
-           navigation.navigate("OTP Verification");
-        }
-      
-        }
-      }, [user])
+
+  useEffect(() => {
+    if (user.logedin) {
+      if (user.verified_number) {
+        navigation.navigate("Dashboard");
+      } else {
+        navigation.navigate("OTP Verification");
+      }
+    }
+  }, [user]);
   // const onSubmit = (data: FormData) => {
   //   if (data.phone_number && data.password) {
   //     navigation.navigate("Dashboard");
@@ -68,39 +67,42 @@ export default function LoginScreen({
 
   const [login, { isLoading }] = useLoginMutation();
 
- 
+  // const onSubmit = async (formdata: FormData) => {
+  //   navigation.navigate("Dashboard");
+  // };
+
   const onSubmit = async (formdata: FormData) => {
-    
     if (!formdata.phone_number && !formdata.password) {
       // remember to dispatch alert
       Alert.alert("Please fill all fields");
-      return 
-    }
-  
-    const data = {
-        phone_number: formdata.phone_number,
-        password: formdata.password
+      return;
     }
 
-    let res = await login(data)
-    if (res.data){
-      dispatch(loginUser({
-        ...res.data.user,
-        'usertoken': res.data.token,
-        logedin: true, save: true
-      })) 
+    const data = {
+      phone_number: formdata.phone_number,
+      password: formdata.password,
+    };
+
+    let res = await login(data);
+    if (res.data) {
+      dispatch(
+        loginUser({
+          ...res.data.user,
+          usertoken: res.data.token,
+          logedin: true,
+          save: true,
+        })
+      );
       // setuserlogged(true)
       navigation.navigate("Dashboard");
     } else if (res.error) {
-      dispatch(addAlert({ ...res.error, page: 'login' }))
+      dispatch(addAlert({ ...res.error, page: "login" }));
     }
-    
-    }
- 
+  };
 
   return (
     <ScrollView>
-      <Alert_System/>
+      <Alert_System />
       <View style={[globalStyles.container]}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
@@ -186,7 +188,8 @@ export default function LoginScreen({
                   message: "Password must not exceed 20 characters",
                 },
                 pattern: {
-                  value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
+                  value:
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
                   message:
                     "Password must contain at least one letter and one number",
                 },

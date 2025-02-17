@@ -67,8 +67,8 @@ export default function ProfileSetupScreen({
   } = useForm<FormData>({
     defaultValues: {
       full_name: user.full_name,
-      email: user.email,
-      phone_number: user.phone_number,
+      email: user.email || "john@doe.com",
+      phone_number: user.phone_number || "09012345678",
       biography: "",
       specialization: user.specialization,
       work_experience: 1,
@@ -98,9 +98,8 @@ export default function ProfileSetupScreen({
     requestPermission();
   }, []);
 
-  // const handleContinue = (data: FormData) => {
-  //   console.log("Form Data:", data);
-  //   navigation.navigate("Home");
+  // const handleContinue = async (data: FormData) => {
+  //   navigation.navigate("Dashboard", { screen: "Home" });
   // };
 
   const handleContinue = async (data: FormData) => {
@@ -127,9 +126,7 @@ export default function ProfileSetupScreen({
       );
       // navigation.navigate("Home");
       // lets see if this works
-      navigation.navigate("Home", {
-        screen: "Home",
-      });
+      navigation.navigate("Dashboard", { screen: "Home" });
     } else {
       let err = {
         status_code: 500,
@@ -140,16 +137,15 @@ export default function ProfileSetupScreen({
       // console.log('Error occurred')
     }
 
-    // let res = await editUser(data_)
-    //           if (res.data){
-    //               // console.log(res.data)
-    //             // setuserlogged(true)
+    // let res = await editUser(data_);
+    // if (res.data) {
+    //   // console.log(res.data)
+    //   // setuserlogged(true)
+    // } else if (res.error) {
+    //   console.log("error");
+    // }
 
-    //           } else if (res.error) {
-    //             console.log('error')
-    //           }
-
-    // navigation.navigate("Home");
+    // navigation.navigate("Dashboard", { screen: "Home" });
   };
 
   const handleImageUpload = async () => {

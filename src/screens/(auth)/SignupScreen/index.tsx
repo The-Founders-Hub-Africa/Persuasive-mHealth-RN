@@ -61,6 +61,10 @@ export default function SignupScreen({
     }
   }, [user]);
 
+  // const onSubmit = async (formdata: FormData) => {
+  //   navigation.navigate("OTP Verification");
+  // };
+
   const onSubmit = async (formdata: FormData) => {
     if (formdata.agreed) {
       const data = {

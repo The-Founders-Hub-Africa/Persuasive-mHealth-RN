@@ -69,6 +69,10 @@ export default function OTPVerificationScreen({
     return () => clearTimeout(timer);
   }, [resendTimer]);
 
+  // const handleGetOTP = async () => {
+  //   setOtpSent(true);
+  // };
+
   const handleGetOTP = async () => {
     let data_ = { token: user.usertoken, otp: "", action: "get" };
     let res = await OTP(data_);
@@ -85,13 +89,16 @@ export default function OTPVerificationScreen({
       dispatch(addAlert({ ...res.error, page: "otp" }));
     }
 
-    //
     // Toast.show({
     //   type: "success",
     //   text1: "OTP Sent",
     //   text2: "Check your messages.",
     // });
   };
+
+  // const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
+  //   setShowModal(true);
+  // };
 
   const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
     const otpCode = Object.values(data).join("").trim();
@@ -106,9 +113,7 @@ export default function OTPVerificationScreen({
     } else if (res.error) {
       dispatch(addAlert({ ...res.error, page: "otp" }));
     }
-
-    // if (otpCode.length === 4) {
-
+    // if (otpCode.length === 6) {
     // } else {
     //   Toast.show({
     //     type: "error",
@@ -205,11 +210,12 @@ export default function OTPVerificationScreen({
                     <TextInput
                       ref={el => (inputRefs.current[index] = el)}
                       style={{
-                        padding: 4,
+                        width: 40,
+                        height: 62,
                         backgroundColor: theme.colors["purple-100"],
                         borderRadius: 8,
                         textAlign: "center",
-                        fontSize: 12,
+                        fontSize: 14,
                         color: theme.colors["neutral-500"],
                       }}
                       keyboardType="numeric"
@@ -217,7 +223,7 @@ export default function OTPVerificationScreen({
                       value={value}
                       onChangeText={text => {
                         onChange(text);
-                        if (text && index < 3)
+                        if (text && index < 5)
                           inputRefs.current[index + 1]?.focus();
                       }}
                     />
@@ -283,7 +289,7 @@ export default function OTPVerificationScreen({
                   navigation.navigate("Profile Setup");
                 }}
                 style={modalStyles.modalButton}>
-                <Text style={modalStyles.modalButtonText}>Go to Home</Text>
+                <Text style={modalStyles.modalButtonText}>Continue</Text>
               </TouchableOpacity>
             </View>
           </View>

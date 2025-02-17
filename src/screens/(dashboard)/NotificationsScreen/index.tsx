@@ -6,7 +6,7 @@ import NotificationList from "@/src/components/common/NotificationList";
 
 const NotificationsScreen = () => {
   return (
-    <View style={globalStyles.container}>
+    <View style={globalStyles.dashboardContainer}>
       <NotificationList notificationsData={notificationsData} />
     </View>
   );

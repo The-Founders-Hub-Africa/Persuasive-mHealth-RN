@@ -185,7 +185,10 @@ export default function EditProfileScreen() {
   return (
     <ScrollView>
       <View
-        style={[globalStyles.container, { gap: 24, flex: 1, width: "100%" }]}>
+        style={[
+          globalStyles.dashboardContainer,
+          { gap: 24, flex: 1, width: "100%" },
+        ]}>
         <View>
           <Text
             style={[

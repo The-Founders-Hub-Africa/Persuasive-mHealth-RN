@@ -5,7 +5,7 @@ import globalStyles from "@/src/styles/global";
 const AppointmentDetailsScreen = () => {
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         <Text>Appointment Details Screen</Text>
       </View>
     </ScrollView>

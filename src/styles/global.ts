@@ -11,6 +11,16 @@ const globalStyles = StyleSheet.create({
     minHeight: "100%",
     backgroundColor: theme.colors.white,
   },
+  dashboardContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingHorizontal: 28,
+    paddingTop: 20,
+    paddingBottom: 150,
+    minHeight: "100%",
+    backgroundColor: theme.colors.white,
+  },
 
   // for the search input
   searchInputCntr: {

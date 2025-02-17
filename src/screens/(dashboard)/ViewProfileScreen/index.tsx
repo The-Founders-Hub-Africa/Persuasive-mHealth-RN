@@ -29,7 +29,7 @@ const ViewProfileScreen = () => {
 
   return (
     <ScrollView>
-      <View style={[globalStyles.container, { gap: 24 }]}>
+      <View style={[globalStyles.dashboardContainer, { gap: 24 }]}>
         {/* Top card */}
         <View style={styles.container}>
           {/* Top */}

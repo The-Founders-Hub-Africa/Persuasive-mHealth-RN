@@ -6,7 +6,7 @@ import SearchInput from "@/src/components/home/SearchInput";
 const SearchScreen = () => {
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         <SearchInput />
       </View>
     </ScrollView>

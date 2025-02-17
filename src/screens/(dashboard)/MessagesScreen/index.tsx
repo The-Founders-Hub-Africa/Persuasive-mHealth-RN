@@ -10,7 +10,7 @@ const MessagesScreen = () => {
 
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         {/* Search input */}
         {canSearch && <SearchInput />}
 

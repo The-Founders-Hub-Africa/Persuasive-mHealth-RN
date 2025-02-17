@@ -5,7 +5,7 @@ import globalStyles from "@/src/styles/global";
 const PatientsScreen = () => {
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         <Text>Patients Screen</Text>
       </View>
     </ScrollView>

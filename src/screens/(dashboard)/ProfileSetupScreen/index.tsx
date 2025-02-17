@@ -190,7 +190,7 @@ export default function ProfileSetupScreen({
 
   return (
     <ScrollView>
-      <View style={globalStyles.container}>
+      <View style={globalStyles.dashboardContainer}>
         <Text
           style={[
             typography.text2XL_SemiBold,

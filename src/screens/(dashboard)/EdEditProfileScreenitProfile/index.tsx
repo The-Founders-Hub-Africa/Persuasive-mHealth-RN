@@ -28,7 +28,7 @@ import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import { UserProfile } from "@/src/integrations/axios_store";
+import { convertDate, UserProfile } from "@/src/integrations/axios_store";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 
@@ -65,9 +65,10 @@ export default function EditProfileScreen() {
       phone_number: user.phone_number,
       biography: user.biography,
       specialization: user.specialization,
-      work_experience: 0,
+      work_experience: user.work_experience,
       gender: user.gender,
-      date_of_birth: user.date_of_birth?user.date_of_birth: new Date().toISOString().split("T")[0], // Default to today
+      date_of_birth: user.date_of_birth ? convertDate(user.date_of_birth) :
+        new Date().toISOString().split("T")[0], // Default to today
       // image: user.image?user.image:null,
       image:null
     },
@@ -87,24 +88,14 @@ export default function EditProfileScreen() {
 
   const handleContinue = async (data: FormData) => {
     console.log("Form Data:", data);
-
-    let formdata = new FormData()
     
-    for (const [key, value] of Object.entries(data)) {
-      if (key == 'image' && value) {
-      
-        const imageFiled = {
-          name: imageDetails.filename,
-          uri: value,
-          type: imageDetails.type
-        }
-        formdata.append(key, imageFiled)
-      } else {
-        formdata.append(key,value)
-      }
+    let data_ = {
+      token: user.usertoken,
+      data: {
+        formdata: data,
+        img: imageDetails
+       }
     }
-    
-    let data_ = { token: user.usertoken, data: data }
     // console.log(data_)
     let res = await UserProfile(data_)
     if (res.success) {

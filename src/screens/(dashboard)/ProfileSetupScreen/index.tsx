@@ -103,24 +103,15 @@ export default function ProfileSetupScreen({
 
     const handleContinue = async (data: FormData) => {
       console.log("Form Data:", data);
-  
-      let formdata = new FormData()
-      
-      for (const [key, value] of Object.entries(data)) {
-        if (key == 'image' && value) {
-        
-          const imageFiled = {
-            name: imageDetails.filename,
-            uri: value,
-            type: imageDetails.type
-          }
-          formdata.append(key, imageFiled)
-        } else {
-          formdata.append(key,value)
-        }
+
+      let data_ = {
+        token: user.usertoken,
+        data: {
+          formdata: data,
+          img: imageDetails
+         }
       }
       
-      let data_ = { token: user.usertoken, data: data }
       // console.log(data_)
       let res = await UserProfile(data_)
       if (res.success) {

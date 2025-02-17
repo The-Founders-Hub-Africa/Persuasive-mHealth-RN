@@ -179,20 +179,6 @@ export default function LoginScreen({
               control={control}
               rules={{
                 required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-                maxLength: {
-                  value: 20,
-                  message: "Password must not exceed 20 characters",
-                },
-                pattern: {
-                  value:
-                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
-                  message:
-                    "Password must contain at least one letter and one number",
-                },
               }}
               render={({ field: { onChange, value } }) => (
                 <TextInput

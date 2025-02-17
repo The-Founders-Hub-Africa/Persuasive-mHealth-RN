@@ -18,7 +18,7 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import modalStyles from "@/src/styles/modalStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import {useOTPMutation} from "@/src/integrations/features/apis/apiSlice";
+import { useOTPMutation } from "@/src/integrations/features/apis/apiSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
 
@@ -58,7 +58,6 @@ export default function OTPVerificationScreen({
 
   const OTP = useOTPMutation()[0];
 
-
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
 
@@ -71,7 +70,7 @@ export default function OTPVerificationScreen({
   }, [resendTimer]);
 
   const handleGetOTP = async () => {
-    let data_ = { token: user.usertoken, otp: '',action:'get' };
+    let data_ = { token: user.usertoken, otp: "", action: "get" };
     let res = await OTP(data_);
     if (res.data) {
       dispatch(
@@ -96,11 +95,13 @@ export default function OTPVerificationScreen({
 
   const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
     const otpCode = Object.values(data).join("").trim();
-    let data_ = { token: user.usertoken, otp: otpCode,action:'verify' };
+    let data_ = { token: user.usertoken, otp: otpCode, action: "verify" };
 
     let res = await OTP(data_);
     if (res.data) {
-       dispatch(loginUser({ ...user,verified_number:true,logedin: true, save: true})) 
+      dispatch(
+        loginUser({ ...user, verified_number: true, logedin: true, save: true })
+      );
       setShowModal(true);
     } else if (res.error) {
       dispatch(addAlert({ ...res.error, page: "otp" }));
@@ -204,12 +205,11 @@ export default function OTPVerificationScreen({
                     <TextInput
                       ref={el => (inputRefs.current[index] = el)}
                       style={{
-                        width: 50,
-                        height: 62,
+                        padding: 4,
                         backgroundColor: theme.colors["purple-100"],
                         borderRadius: 8,
                         textAlign: "center",
-                        fontSize: 15,
+                        fontSize: 12,
                         color: theme.colors["neutral-500"],
                       }}
                       keyboardType="numeric"

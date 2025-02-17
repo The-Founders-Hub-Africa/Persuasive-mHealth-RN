@@ -40,8 +40,8 @@ type FormData = {
   gender: string;
   date_of_birth: string;
   image: string | null;
-  biography: string,
-  work_experience: number
+  biography: string;
+  work_experience: number;
 };
 
 export default function ProfileSetupScreen({
@@ -54,7 +54,7 @@ export default function ProfileSetupScreen({
   const { email, phone_number } = route.params || {};
   const [calendarVisible, setCalendarVisible] = useState(false);
 
-  const [imageDetails, setimageDetails] = useState({type:"",filename:""});
+  const [imageDetails, setimageDetails] = useState({ type: "", filename: "" });
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
 
@@ -69,13 +69,15 @@ export default function ProfileSetupScreen({
       full_name: user.full_name,
       email: user.email,
       phone_number: user.phone_number,
-      biography: '',
+      biography: "",
       specialization: user.specialization,
       work_experience: 1,
       gender: user.gender,
-      date_of_birth: user.date_of_birth?user.date_of_birth: new Date().toISOString().split("T")[0], // Default to today
+      date_of_birth: user.date_of_birth
+        ? user.date_of_birth
+        : new Date().toISOString().split("T")[0], // Default to today
       // image: user.image?user.image:null,
-      image:null
+      image: null,
     },
   });
 
@@ -101,65 +103,76 @@ export default function ProfileSetupScreen({
   //   navigation.navigate("Home");
   // };
 
-    const handleContinue = async (data: FormData) => {
-      console.log("Form Data:", data);
+  const handleContinue = async (data: FormData) => {
+    console.log("Form Data:", data);
 
-      let data_ = {
-        token: user.usertoken,
-        data: {
-          formdata: data,
-          img: imageDetails
-         }
-      }
-      
-      // console.log(data_)
-      let res = await UserProfile(data_)
-      if (res.success) {
-           dispatch(loginUser({
-                  ...res.data.user,
-                  'usertoken': res.data.token,
-                  logedin: true, save: true
-           })) 
-        navigation.navigate("Home");
-        
-      } else {
-        let err = { status_code: 500, data:{message:'Error occurred'},page: 'editprofile' }
-        dispatch(addAlert(err))
-        // console.log('Error occurred')
-        
-      }
-  
-      // let res = await editUser(data_)
-      //           if (res.data){
-      //               // console.log(res.data)
-      //             // setuserlogged(true)
-                  
-      //           } else if (res.error) {
-      //             console.log('error')
-      //           }
-  
-  
-      // navigation.navigate("Home");
+    let data_ = {
+      token: user.usertoken,
+      data: {
+        formdata: data,
+        img: imageDetails,
+      },
     };
+
+    // console.log(data_)
+    let res = await UserProfile(data_);
+    if (res.success) {
+      dispatch(
+        loginUser({
+          ...res.data.user,
+          usertoken: res.data.token,
+          logedin: true,
+          save: true,
+        })
+      );
+      // navigation.navigate("Home");
+      // lets see if this works
+      navigation.navigate("Home", {
+        screen: "Home",
+      });
+    } else {
+      let err = {
+        status_code: 500,
+        data: { message: "Error occurred" },
+        page: "editprofile",
+      };
+      dispatch(addAlert(err));
+      // console.log('Error occurred')
+    }
+
+    // let res = await editUser(data_)
+    //           if (res.data){
+    //               // console.log(res.data)
+    //             // setuserlogged(true)
+
+    //           } else if (res.error) {
+    //             console.log('error')
+    //           }
+
+    // navigation.navigate("Home");
+  };
 
   const handleImageUpload = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ['images', 'videos'],
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
+      mediaTypes: ["images", "videos"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      let returndata = result.assets[0];
+      if (returndata.mimeType && returndata.fileName) {
+        const uri = returndata.uri || null;
+        setimageDetails({
+          type: returndata.mimeType,
+          filename: returndata.fileName,
         });
-    
-        if (!result.canceled) {
-          let returndata = result.assets[0]
-          if (returndata.mimeType && returndata.fileName) {
-            const uri = returndata.uri || null;
-            setimageDetails({ type: returndata.mimeType, filename: returndata.fileName })
-            // setValue("image", uri);
-          }
-        } else {
-          console.log("Image Picker Error: ---"); 
-        }
+        // setValue("image", uri);
+      }
+    } else {
+      console.log("Image Picker Error: ---");
+    }
     // launchImageLibrary(
     //   {
     //     mediaType: "photo",
@@ -177,7 +190,6 @@ export default function ProfileSetupScreen({
     //     }
     //   }
     // );
-    
   };
 
   return (

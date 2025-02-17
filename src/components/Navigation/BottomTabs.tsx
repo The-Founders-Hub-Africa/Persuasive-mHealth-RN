@@ -1,11 +1,13 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet } from "react-native";
 import HomeStackNavigator from "./HomeStackNavigator";
 import AppointmentsStackNavigator from "./AppointmentsStackNavigator";
 import PatientsStackNavigator from "./PatientsStackNavigator";
 import MessagesStackNavigator from "./MessagesStackNavigator";
 import SettingsStackNavigator from "./SettingsStackNavigator";
+import theme from "@/src/styles/theme";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +33,7 @@ const BottomTabs = () => {
           return (
             <Ionicons
               name={iconName as keyof typeof Ionicons.glyphMap}
-              size={size}
+              size={24}
               color={color}
             />
           );
@@ -39,6 +41,8 @@ const BottomTabs = () => {
         tabBarActiveTintColor: "#6200EE",
         tabBarInactiveTintColor: "gray",
         headerShown: false,
+        tabBarStyle: styles.tabBar,
+        tabBarItemStyle: styles.tabBarItem,
       })}>
       <Tab.Screen name="Home" component={HomeStackNavigator} />
       <Tab.Screen name="Patients" component={PatientsStackNavigator} />
@@ -48,5 +52,26 @@ const BottomTabs = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  tabBar: {
+    position: "absolute",
+    margin: 28,
+    bottom: 28,
+    left: 28,
+    right: 28,
+    height: 80,
+    borderRadius: 16,
+    backgroundColor: theme.colors.white,
+    shadowColor: "#0000001A",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  tabBarItem: {
+    paddingVertical: 10,
+  },
+});
 
 export default BottomTabs;

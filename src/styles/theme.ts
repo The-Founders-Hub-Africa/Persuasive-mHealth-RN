@@ -29,6 +29,7 @@ const theme = {
     "pink-600": "#DB2777",
     "orange-500": "#F97316",
     "zinc-300": "#D4D4D8",
+    "slate-300": "#CBD5E1",
     white: "#ffffff",
     "disabled-text": "#bebebe",
     "disabled-bg": "#eee",

@@ -65,7 +65,8 @@ const globalStyles = StyleSheet.create({
 
   // for the three dots dropdown
   actionsBtn: {
-    zIndex: 100,
+    zIndex: 5,
+    elevation: 5,
   },
   actionsDropdown: {
     position: "absolute",
@@ -77,8 +78,8 @@ const globalStyles = StyleSheet.create({
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 5,
+    zIndex: 5,
     elevation: 5,
-    zIndex: 200,
     width: 150,
   },
 });

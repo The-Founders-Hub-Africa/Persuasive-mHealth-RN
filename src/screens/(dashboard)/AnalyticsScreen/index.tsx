@@ -1,10 +1,9 @@
-import { ScrollView, StyleSheet, View, Pressable, Text } from "react-native";
-import React, { useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import React from "react";
 import globalStyles from "@/src/styles/global";
-import theme from "@/src/styles/theme";
-import typography from "@/src/styles/typography";
-import PatientActivity from "@/src/components/home/PatientActivity";
-import Demographics from "@/src/components/Analytics/Demographics";
+import PatientActivity from "@/src/components/analytics/PatientActivity";
+import Demographics from "@/src/components/analytics/Demographics";
+import AppointmentAnalysis from "@/src/components/analytics/AppointmentAnalysis";
 
 const AnalyticsScreen = () => {
   return (
@@ -12,6 +11,7 @@ const AnalyticsScreen = () => {
       <View style={style.container}>
         <Demographics />
         <PatientActivity />
+        <AppointmentAnalysis />
       </View>
     </ScrollView>
   );
@@ -24,24 +24,5 @@ const style = StyleSheet.create({
     ...globalStyles.dashboardContainer,
     marginBottom: 16,
     gap: 24,
-  },
-  options: {
-    marginTop: 16,
-    marginBottom: 24,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    rowGap: 8,
-    columnGap: 16,
-    width: "100%",
-    flexWrap: "wrap",
-  },
-  option: {
-    backgroundColor: theme.colors["neutral-100"],
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 12,
-  },
-  activeOption: {
-    backgroundColor: theme.colors["purple-200"],
   },
 });

@@ -9,18 +9,13 @@ const Demographics = () => {
       <Text style={style.title}>Patient Demographics</Text>
 
       <View style={style.container}>
-        <View
-          style={[
-            style.demographics,
-            {
-              paddingRight: 0,
-            },
-          ]}>
+        <View style={style.demographics}>
           <Text
             style={[
               typography.textBase_Regular,
               {
                 width: "auto",
+                paddingLeft: 8,
               },
             ]}>
             Patients
@@ -129,13 +124,13 @@ const style = StyleSheet.create({
     paddingRight: 8,
   },
   left: {
-    ...typography.textBase_Regular,
+    ...typography.textSmall_Regular,
     width: "auto",
     borderLeftWidth: 8,
     paddingLeft: 8,
   },
   right: {
-    ...typography.textBase_Medium,
+    ...typography.textSmall_Regular,
     width: "auto",
   },
 });

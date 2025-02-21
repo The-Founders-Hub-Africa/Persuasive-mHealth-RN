@@ -11,9 +11,8 @@ import {
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addPatientAndMessage } from "@/src/integrations/features/patient/patientAndMessageSlice";
 
-const MessagesScreen = () => {
+const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
   const [search, setSearch] = useState("");
-  const [canSearch, setCanSearch] = useState(false);
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -76,11 +75,17 @@ const MessagesScreen = () => {
       <View style={globalStyles.dashboardContainer}>
         {/* Search input */}
         {canSearch && (
-          <SearchInput
-            value={search}
-            setValue={setSearch}
-            placeholder="Search"
-          />
+          <View
+            style={{
+              marginBottom: 24,
+              width: "100%",
+            }}>
+            <SearchInput
+              value={search}
+              setValue={setSearch}
+              placeholder="Search"
+            />
+          </View>
         )}
 
         {/* Messages */}

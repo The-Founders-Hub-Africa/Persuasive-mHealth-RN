@@ -11,6 +11,8 @@ import globalStyles from "@/src/styles/global";
 const Stack = createNativeStackNavigator();
 
 const MessagesStackNavigator = () => {
+  const [canSearch, setCanSearch] = useState(false);
+
   const [menuVisible, setMenuVisible] = useState(false);
 
   const navigation = useNavigation<NavigationProp<any>>();
@@ -25,10 +27,10 @@ const MessagesStackNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShadowVisible: false }}>
       <Stack.Screen
         name="Messages"
-        component={MessagesScreen}
         options={{
           headerRight: () => (
-            <TouchableOpacity onPress={handleSearch}>
+            <TouchableOpacity onPress={() => setCanSearch(prev => !prev)}>
+              {/* ⬆️ Toggle search input visibility */}
               <Feather
                 name="search"
                 size={24}
@@ -36,8 +38,10 @@ const MessagesStackNavigator = () => {
               />
             </TouchableOpacity>
           ),
-        }}
-      />
+        }}>
+        {props => <MessagesScreen {...props} canSearch={canSearch} />}
+      </Stack.Screen>
+
       <Stack.Screen
         name="Message Details"
         component={MessageDetailsScreen}
@@ -68,7 +72,9 @@ const MessagesStackNavigator = () => {
                         size={16}
                         color={theme.colors["neutral-700"]}
                       />
-                      <Text style={{ color: theme.colors["neutral-700"] }}>
+                      <Text style={{
+                        color: theme.colors["neutral-700"],
+                       }}>
                         Upload vai WhatsApp
                       </Text>
                     </View>

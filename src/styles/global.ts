@@ -80,7 +80,7 @@ const globalStyles = StyleSheet.create({
     shadowRadius: 5,
     zIndex: 5,
     elevation: 5,
-    width: 150,
+    minWidth: 150,
   },
 });
 

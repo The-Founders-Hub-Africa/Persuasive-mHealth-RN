@@ -4,20 +4,32 @@ import globalStyles from "@/src/styles/global";
 import SearchInput from "@/src/components/home/SearchInput";
 // import { messagesData } from "@/src/helpers";
 import MessageList from "@/src/components/common/MessageList";
-import { usePatientGetQuery, usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
+import {
+  usePatientGetQuery,
+  usePatientMutation,
+} from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addPatientAndMessage } from "@/src/integrations/features/patient/patientAndMessageSlice";
 
 const MessagesScreen = () => {
+  const [search, setSearch] = useState("");
   const [canSearch, setCanSearch] = useState(false);
+
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
-  const patientAndMessages = useAppSelector(state =>state.patientandmessage)
-   const [patientandmessage, { isLoading }] = usePatientMutation()
+  const patientAndMessages = useAppSelector(state => state.patientandmessage);
+  const [patientandmessage, { isLoading }] = usePatientMutation();
   // const [skip, setSkip] = useState(true)
-  const init = {content: '', context: '', date_recorded: '',
-    record_type:"",timestamp:"",full_name: "", id: 0}
-  const [finalData, setFinalData] = useState([init])
+  const init = {
+    content: "",
+    context: "",
+    date_recorded: "",
+    record_type: "",
+    timestamp: "",
+    full_name: "",
+    id: 0,
+  };
+  const [finalData, setFinalData] = useState([init]);
   // const { data:patients,error,isError }  = usePatientGetQuery({action:'get_all_last',token:user.usertoken},{skip})
   // useEffect(() => {
   //   if (patients) {
@@ -25,47 +37,51 @@ const MessagesScreen = () => {
   //     console.log(error)
   //     // setFinalData(article.data)
   //   }
-  
+
   // }, [patients,error])
 
   useEffect(() => {
-      let data = {
-        data: { action: 'get_all_last', data:{} },
-        token: user.usertoken
-      }
-      console.log(data.token)
-      patientandmessage(data).then(data => dispatch(addPatientAndMessage({ ...data.data,save:true })))
-  
-  }, [user])
+    let data = {
+      data: { action: "get_all_last", data: {} },
+      token: user.usertoken,
+    };
+    console.log(data.token);
+    patientandmessage(data).then(data =>
+      dispatch(addPatientAndMessage({ ...data.data, save: true }))
+    );
+  }, [user]);
 
   useEffect(() => {
-    let data = [init]
+    let data = [init];
     if (patientAndMessages) {
-      const { patients, messages } = patientAndMessages
+      const { patients, messages } = patientAndMessages;
 
       if (messages) {
         for (let index = 0; index < messages.length; index++) {
-        
-        let patientData = init
+          let patientData = init;
 
-        patientData = { ...patientData, ...messages[0], ...patients[0] }
-          data.push(patientData)
-      }
-        data = data.slice(1)
-      setFinalData(data)
-        
+          patientData = { ...patientData, ...messages[0], ...patients[0] };
+          data.push(patientData);
+        }
+        data = data.slice(1);
+        setFinalData(data);
       }
     }
-  
-    // console.log(finalData)
-  }, [patientAndMessages])
 
+    // console.log(finalData)
+  }, [patientAndMessages]);
 
   return (
     <ScrollView>
       <View style={globalStyles.dashboardContainer}>
         {/* Search input */}
-        {canSearch && <SearchInput />}
+        {canSearch && (
+          <SearchInput
+            value={search}
+            setValue={setSearch}
+            placeholder="Search"
+          />
+        )}
 
         {/* Messages */}
         <Text>

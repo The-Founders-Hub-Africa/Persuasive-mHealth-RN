@@ -17,7 +17,6 @@ const AppointmentsList = ({
   return (
     <View
       style={{
-        marginTop: 16,
         gap: 4,
         width: "100%",
       }}>

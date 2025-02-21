@@ -17,12 +17,7 @@ const SearchScreen = () => {
   return (
     <ScrollView>
       <View style={style.container}>
-        <SearchInput
-          value={search}
-          setValue={setSearch}
-          placeholder="Search"
-          // style={{ marginBottom: 16 }}
-        />
+        <SearchInput value={search} setValue={setSearch} placeholder="Search" />
 
         <View style={style.options}>
           {options.map(option => (

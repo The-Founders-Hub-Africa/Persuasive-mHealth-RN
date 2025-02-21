@@ -8,6 +8,22 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { PatientProps } from "@/src/types";
 import typography from "@/src/styles/typography";
 
+const PatientList = ({ patientsData }: { patientsData: PatientProps[] }) => {
+  return (
+    <View
+      style={{
+        gap: 4,
+        width: "100%",
+      }}>
+      {patientsData.map(patient => (
+        <PatientCard key={patient.id} patient={patient} />
+      ))}
+    </View>
+  );
+};
+
+export default PatientList;
+
 const PatientCard = ({ patient }: { patient: PatientProps }) => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
@@ -15,7 +31,7 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Patients", )
+        navigation.navigate("Patients", { screen: "Patient Details" })
       }
       style={{
         backgroundColor: theme.colors["purple-50"],
@@ -28,45 +44,54 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
         gap: 16,
         position: "relative",
       }}>
-      {/* Patient Profile Image */}
-      <Image
-        source={patient.image}
+      {/* Left */}
+      <View
         style={{
-          width: 62,
-          height: 62,
-          borderRadius: theme.rounded.medium,
-          backgroundColor: theme.colors["purple-100"],
-        }}
-      />
-
-      {/* Center: Patient Details */}
-      <View style={{ gap: 8 }}>
-        <Text style={typography.textBase_Medium}>{patient.name}</Text>
-        <Text style={typography.textXS_Regular}>
-          Last visit: {patient.date}
-        </Text>
-        <View
+          flexDirection: "row",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          gap: 16,
+        }}>
+        {/* Patient Profile Image */}
+        <Image
+          source={patient.image}
           style={{
-            flexDirection: "row",
-            alignItems: "flex-end",
-            gap: 4,
-            marginTop: 4,
-          }}>
-          <AntDesign
-            name="contacts"
-            size={15}
-            color={theme.colors["purple-400"]}
-          />
-          <Text
-            style={[
-              typography.textXS_Regular,
-              {
-                color: theme.colors["purple-400"],
-                width: "auto",
-              },
-            ]}>
-            {patient.number}
+            width: 62,
+            height: 62,
+            borderRadius: theme.rounded.medium,
+            backgroundColor: theme.colors["purple-100"],
+          }}
+        />
+
+        {/* Center: Patient Details */}
+        <View style={{ gap: 8 }}>
+          <Text style={typography.textBase_Medium}>{patient.name}</Text>
+          <Text style={typography.textXS_Regular}>
+            Last visit: {patient.date}
           </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "flex-end",
+              gap: 4,
+              marginTop: 4,
+            }}>
+            <AntDesign
+              name="contacts"
+              size={15}
+              color={theme.colors["purple-400"]}
+            />
+            <Text
+              style={[
+                typography.textXS_Regular,
+                {
+                  color: theme.colors["purple-400"],
+                  width: "auto",
+                },
+              ]}>
+              {patient.number}
+            </Text>
+          </View>
         </View>
       </View>
 
@@ -93,5 +118,3 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
     </TouchableOpacity>
   );
 };
-
-export default PatientCard;

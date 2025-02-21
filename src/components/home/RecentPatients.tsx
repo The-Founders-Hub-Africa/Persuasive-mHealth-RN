@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import React from "react";
-import PatientCard from "../common/PatientCard";
+import PatientList from "../common/PatientList";
 import SectionHeader from "../common/SectionHeader";
 import { PatientProps } from "@/src/types";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
@@ -19,15 +19,7 @@ const RecentPatients = ({ patientsData }: { patientsData: PatientProps[] }) => {
         onPress={() => navigation.navigate("Patients")}
       />
 
-      <View
-        style={{
-          gap: 4,
-          width: "100%",
-        }}>
-        {patientsData.slice(0, 3).map(patient => (
-          <PatientCard key={patient.id} patient={patient} />
-        ))}
-      </View>
+      <PatientList patientsData={patientsData.slice(0, 3)} />
     </View>
   );
 };

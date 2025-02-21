@@ -5,7 +5,15 @@ import globalStyles from "@/src/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import typography from "@/src/styles/typography";
 
-const SearchInput = () => {
+const SearchInput = ({
+  value,
+  setValue,
+  placeholder,
+}: {
+  value: string;
+  setValue: (value: string) => void;
+  placeholder: string;
+}) => {
   return (
     <View
       style={{
@@ -29,7 +37,9 @@ const SearchInput = () => {
         </View>
         <TextInput
           style={[typography.textSmall_Light, globalStyles.searchInput]}
-          placeholder="Search..."
+          placeholder={placeholder}
+          value={value}
+          onChangeText={setValue}
           placeholderTextColor={theme.colors["neutral-500"]}
         />
         <View

@@ -65,13 +65,12 @@ const globalStyles = StyleSheet.create({
 
   // for the three dots dropdown
   actionsBtn: {
-    marginInlineStart: "auto",
     zIndex: 100,
   },
   actionsDropdown: {
     position: "absolute",
-    right: 5,
-    top: 30,
+    right: 25,
+    top: -2,
     backgroundColor: "white",
     padding: 8,
     borderRadius: 8,

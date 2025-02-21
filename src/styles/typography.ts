@@ -51,6 +51,13 @@ const typography = StyleSheet.create({
     color: theme.colors["neutral-700"],
     width: "100%",
   },
+  textSmall_Regular: {
+    fontSize: 14,
+    fontWeight: 400,
+    lineHeight: 20,
+    color: theme.colors["neutral-700"],
+    width: "100%",
+  },
   textSmall_Light: {
     fontSize: 14,
     fontWeight: 300,

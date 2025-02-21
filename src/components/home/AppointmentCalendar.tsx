@@ -59,7 +59,7 @@ const AppointmentCalendar = () => {
           }}>
           <Entypo
             name="dot-single"
-            size={24}
+            size={36}
             color={theme.colors["purple-700"]}
           />
           <Text>Appointments</Text>
@@ -72,7 +72,7 @@ const AppointmentCalendar = () => {
           }}>
           <Entypo
             name="dot-single"
-            size={24}
+            size={36}
             color={theme.colors["yellow-600"]}
           />
           <Text>Surgeries</Text>

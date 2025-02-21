@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
-  Platform,
   Image,
   StyleSheet,
 } from "react-native";
@@ -18,14 +17,16 @@ import theme, { calendarTheme } from "@/src/styles/theme";
 import { Calendar } from "react-native-calendars";
 import modalStyles from "@/src/styles/modalStyles";
 import { Picker } from "@react-native-picker/picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { TimerPickerModal } from "react-native-timer-picker";
 import { launchImageLibrary } from "react-native-image-picker";
 import typography from "@/src/styles/typography";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 type FormData = {
   name: string;
+  condition: string;
   symptoms: string;
+  notes: string;
   document: string | null;
   date: string;
   time: string;
@@ -34,8 +35,19 @@ type FormData = {
 
 const NewAppointmentsScreen = () => {
   const [calendarVisible, setCalendarVisible] = useState(false);
-  const [timePickerVisible, setTimePickerVisible] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+
+  const formatTime = ({
+    hours,
+    minutes,
+  }: {
+    hours: number;
+    minutes: number;
+  }) => {
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}`;
+  };
 
   const {
     control,
@@ -46,27 +58,15 @@ const NewAppointmentsScreen = () => {
   } = useForm<FormData>({
     defaultValues: {
       name: "",
+      condition: "",
       symptoms: "",
+      notes: "",
       document: null,
-      date: new Date().toISOString().split("T")[0], // Default to today's date
+      date: "",
       time: "",
       mode: "",
     },
   });
-
-  const handleTimeChange = (event: any, selectedDate?: Date) => {
-    if (Platform.OS === "android") {
-      setTimePickerVisible(false); // Close the picker on Android
-    }
-    if (selectedDate) {
-      const formattedTime = selectedDate.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-      setSelectedTime(selectedDate);
-      setValue("time", formattedTime);
-    }
-  };
 
   const handleContinue = async (data: FormData) => {
     console.log("Form Data:", data);
@@ -101,7 +101,7 @@ const NewAppointmentsScreen = () => {
           <Controller
             control={control}
             name="name"
-            rules={{ required: "Patient is required" }}
+            rules={{ required: "Patient name is required" }}
             render={({ field: { onChange, value } }) => (
               <View style={formStyles.inputCntr}>
                 <Feather
@@ -124,6 +124,32 @@ const NewAppointmentsScreen = () => {
           )}
         </View>
 
+        {/* Medical Condition */}
+        <View style={formStyles.inputGroup}>
+          <Text style={formStyles.label}>Medical Condition</Text>
+          <Controller
+            control={control}
+            name="condition"
+            rules={{ required: "Medical condition is required" }}
+            render={({ field: { onChange, value } }) => (
+              <View style={formStyles.inputCntr}>
+                <TextInput
+                  style={formStyles.inputText}
+                  placeholder="Diabetes, Hypertension, etc."
+                  placeholderTextColor={theme.colors["disabled-text"]}
+                  value={value}
+                  onChangeText={onChange}
+                />
+              </View>
+            )}
+          />
+          {errors.condition && (
+            <Text style={globalStyles.errorText}>
+              {errors.condition.message}
+            </Text>
+          )}
+        </View>
+
         {/* Symptoms */}
         <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Symptoms</Text>
@@ -131,6 +157,31 @@ const NewAppointmentsScreen = () => {
             control={control}
             name="symptoms"
             rules={{ required: "Symptoms are required" }}
+            render={({ field: { onChange, value } }) => (
+              <View style={formStyles.inputCntr}>
+                <TextInput
+                  style={formStyles.inputText}
+                  placeholder="Fever, Cough, Headache"
+                  placeholderTextColor={theme.colors["disabled-text"]}
+                  value={value}
+                  onChangeText={onChange}
+                />
+              </View>
+            )}
+          />
+          {errors.symptoms && (
+            <Text style={globalStyles.errorText}>
+              {errors.symptoms.message}
+            </Text>
+          )}
+        </View>
+
+        {/* Notes */}
+        <View style={formStyles.inputGroup}>
+          <Text style={formStyles.label}>Notes</Text>
+          <Controller
+            control={control}
+            name="notes"
             render={({ field: { onChange, value } }) => (
               <View style={formStyles.inputCntr}>
                 <TextInput
@@ -148,10 +199,8 @@ const NewAppointmentsScreen = () => {
               </View>
             )}
           />
-          {errors.symptoms && (
-            <Text style={globalStyles.errorText}>
-              {errors.symptoms.message}
-            </Text>
+          {errors.notes && (
+            <Text style={globalStyles.errorText}>{errors.notes.message}</Text>
           )}
         </View>
 
@@ -211,7 +260,7 @@ const NewAppointmentsScreen = () => {
 
         {/* Date Picker */}
         <View style={formStyles.inputGroup}>
-          <Text style={formStyles.label}>Date</Text>
+          <Text style={formStyles.label}>Select Date</Text>
           <TouchableOpacity onPress={() => setCalendarVisible(true)}>
             <View style={formStyles.inputDateCntr}>
               <Ionicons
@@ -222,12 +271,19 @@ const NewAppointmentsScreen = () => {
               <Controller
                 control={control}
                 name="date"
+                rules={{ required: "Date is required" }}
                 render={({ field: { value } }) => (
-                  <Text style={formStyles.inputText}>{value}</Text>
+                  <Text style={formStyles.inputText}>
+                    {value || "Select Date"}
+                  </Text>
                 )}
               />
             </View>
           </TouchableOpacity>
+
+          {errors.date && (
+            <Text style={globalStyles.errorText}>{errors.date.message}</Text>
+          )}
         </View>
 
         {/* Calendar Modal */}
@@ -264,9 +320,9 @@ const NewAppointmentsScreen = () => {
         </Modal>
 
         {/* Time Picker */}
-        {/* <View style={formStyles.inputGroup}>
-          <Text style={formStyles.label}>Time</Text>
-          <TouchableOpacity onPress={() => setTimePickerVisible(true)}>
+        <View style={formStyles.inputGroup}>
+          <Text style={formStyles.label}>Select Time</Text>
+          <TouchableOpacity onPress={() => setShowPicker(true)}>
             <View style={formStyles.inputDateCntr}>
               <Ionicons
                 name="time-outline"
@@ -276,6 +332,7 @@ const NewAppointmentsScreen = () => {
               <Controller
                 control={control}
                 name="time"
+                rules={{ required: "Time is required" }}
                 render={({ field: { value } }) => (
                   <Text style={formStyles.inputText}>
                     {value || "Select Time"}
@@ -284,34 +341,31 @@ const NewAppointmentsScreen = () => {
               />
             </View>
           </TouchableOpacity>
-        </View> */}
 
-        {/* Time Picker for iOS */}
-        {/* {Platform.OS === "ios" && (
-          <Modal visible={timePickerVisible} transparent animationType="slide">
-            <View style={modalStyles.modalCntr}>
-              <DateTimePicker
-                mode="time"
-                value={selectedTime}
-                onChange={handleTimeChange}
-                display="spinner"
-              />
-              <TouchableOpacity onPress={() => setTimePickerVisible(false)}>
-                <Text style={formStyles.submitText}>Done</Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
-        )} */}
+          {errors.time && (
+            <Text style={globalStyles.errorText}>{errors.time.message}</Text>
+          )}
+        </View>
 
-        {/* Time Picker for Android */}
-        {/* {timePickerVisible && Platform.OS === "android" && (
-          <DateTimePicker
-            mode="time"
-            value={selectedTime}
-            onChange={handleTimeChange}
-            display="clock"
-          />
-        )} */}
+        <TimerPickerModal
+          visible={showPicker}
+          setIsVisible={setShowPicker}
+          onConfirm={pickedDuration => {
+            setValue("time", formatTime(pickedDuration));
+            setShowPicker(false);
+          }}
+          modalTitle="Select Time"
+          onCancel={() => setShowPicker(false)}
+          closeOnOverlayPress
+          use12HourPicker
+          styles={{
+            confirmButton: {
+              backgroundColor: theme.colors["purple-700"],
+              color: theme.colors.white,
+              borderWidth: 0,
+            },
+          }}
+        />
 
         {/* Mode Selection */}
         <View style={formStyles.inputGroup}>

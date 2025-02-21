@@ -13,3 +13,6 @@
    ```
 
 git push origin :new-structure new-structure
+
+Date Picker: <https://gifted-charts.web.app/piechart/#section-auto-focus>
+Time Picker: <https://github.com/troberts-28/react-native-timer-picker>

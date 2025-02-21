@@ -11,6 +11,7 @@ import ProfileSetupScreen from "./src/screens/(dashboard)/ProfileSetupScreen";
 import BottomTabs from "./src/components/Navigation/BottomTabs";
 import { Provider } from "react-redux";
 import { store } from "./src/integrations/store";
+import AnalyticsScreen from "./src/screens/(dashboard)/AnalyticsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +75,13 @@ export default function App() {
             options={{
               headerShadowVisible: false,
               headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="Analytics"
+            component={AnalyticsScreen}
+            options={{
+              headerShadowVisible: false,
             }}
           />
           <Stack.Screen

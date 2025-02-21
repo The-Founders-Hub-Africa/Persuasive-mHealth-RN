@@ -16,6 +16,7 @@ import { Alert, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import globalStyles from "./src/styles/global";
 import { View, Text } from "react-native";
+import theme from "./src/styles/theme";
 
 const Stack = createNativeStackNavigator();
 
@@ -107,8 +108,14 @@ export default function App() {
                             alignItems: "center",
                             flexDirection: "row",
                           }}>
-                          <Feather name="upload" size={16} color="black" />
-                          <Text>Share</Text>
+                          <Feather
+                            name="upload"
+                            size={16}
+                            color={theme.colors["neutral-700"]}
+                          />
+                          <Text style={{ color: theme.colors["neutral-700"] }}>
+                            Share
+                          </Text>
                         </View>
                       </TouchableOpacity>
                       <TouchableOpacity onPress={() => Alert.alert("Download")}>
@@ -119,8 +126,14 @@ export default function App() {
                             alignItems: "center",
                             flexDirection: "row",
                           }}>
-                          <Feather name="download" size={16} color="black" />
-                          <Text>Download</Text>
+                          <Feather
+                            name="download"
+                            size={16}
+                            color={theme.colors["neutral-700"]}
+                          />
+                          <Text style={{ color: theme.colors["neutral-700"] }}>
+                            Download
+                          </Text>
                         </View>
                       </TouchableOpacity>
                     </View>

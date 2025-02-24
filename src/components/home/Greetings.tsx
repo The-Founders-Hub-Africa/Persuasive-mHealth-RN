@@ -5,6 +5,7 @@ import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { useAppDispatch,useAppSelector } from "@/src/integrations/hooks";
+import { baseUrl } from "@/src/integrations/features/apis/apiSlice";
 
 const Greetings = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -57,7 +58,7 @@ const Greetings = () => {
             navigation.navigate("Settings", { screen: "View Profile" })
           }>
           <Image
-            source={require("@/assets/images/avatar.png")}
+            source={{ uri: `${baseUrl}${user.image}`  }}
             style={{
               width: 46,
               height: 46,

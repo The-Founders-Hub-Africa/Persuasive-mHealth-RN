@@ -31,6 +31,7 @@ import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { convertDate, UserProfile } from "@/src/integrations/axios_store";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { baseUrl } from "@/src/integrations/features/apis/apiSlice";
 
 type FormData = {
   full_name: string;
@@ -70,8 +71,8 @@ export default function EditProfileScreen() {
       date_of_birth: user.date_of_birth
         ? convertDate(user.date_of_birth)
         : new Date().toISOString().split("T")[0], // Default to today
-      // image: user.image?user.image:null,
-      image: null,
+      image: user.image ? `${baseUrl}${user.image}` :null,
+      // image: null,
     },
   });
 
@@ -175,7 +176,7 @@ export default function EditProfileScreen() {
           type: returndata.mimeType,
           filename: returndata.fileName,
         });
-        // setValue("image", uri);
+        setValue("image", uri);
       }
     } else {
       console.log("Image Picker Error: ---");

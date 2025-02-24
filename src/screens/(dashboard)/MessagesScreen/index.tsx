@@ -4,9 +4,11 @@ import globalStyles from "@/src/styles/global";
 import SearchInput from "@/src/components/home/SearchInput";
 // import { messagesData } from "@/src/helpers";
 import MessageList from "@/src/components/common/MessageList";
-import { usePatientGetQuery, usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
+import {  usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addPatientAndMessage } from "@/src/integrations/features/patient/patientAndMessageSlice";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import Alert_System from "@/src/integrations/features/alert/Alert";
 
 const MessagesScreen = () => {
   const [canSearch, setCanSearch] = useState(false);
@@ -34,10 +36,19 @@ const MessagesScreen = () => {
         token: user.usertoken
       }
       console.log(data.token)
-      patientandmessage(data).then(data => dispatch(addPatientAndMessage({ ...data.data,save:true })))
+    patientandmessage(data).then(data => {
+      if (data.error) {
+        dispatch(addAlert({ ...data.error, page: "message_list" }))
+    }
+      
+      if (data.data) {
+        dispatch(addPatientAndMessage({ ...data.data,save:true }))
+      }
+    })
   
   }, [user])
 
+  
   useEffect(() => {
     let data = [init]
     if (patientAndMessages) {
@@ -63,6 +74,7 @@ const MessagesScreen = () => {
 
   return (
     <ScrollView>
+        <Alert_System />
       <View style={globalStyles.dashboardContainer}>
         {/* Search input */}
         {canSearch && <SearchInput />}

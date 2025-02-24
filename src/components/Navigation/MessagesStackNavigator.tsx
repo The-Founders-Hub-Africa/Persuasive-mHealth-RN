@@ -6,6 +6,7 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 import theme from "@/src/styles/theme";
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
+import { get_name } from "@/src/integrations/axios_store";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,9 +39,16 @@ const MessagesStackNavigator = () => {
       <Stack.Screen
         name="Message Details"
         component={MessageDetailsScreen}
-        options={{
-          title: "John Doe",
-        }}
+        
+        options={({ route }) => {
+          let name = get_name(route.params)
+        
+        return{
+          
+          title: `${name}`,
+        }
+        }
+        }
       />
     </Stack.Navigator>
   );

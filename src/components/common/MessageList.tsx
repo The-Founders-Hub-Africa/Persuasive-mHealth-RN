@@ -22,41 +22,41 @@ const MessageCard = ({ message }: { message: MessageProps }) => {
   const navigation = useNavigation<NavigationProp<any>>();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("Message Details")}
+      onPress={() => navigation.navigate("Message Details", { id: message.id,name:message.full_name })}
       style={{
-        marginBottom: 24,
+      marginBottom: 24,
       }}>
       <View
+      style={{
+        flexDirection: "row",
+        gap: 16,
+      }}>
+      <Image
+        source={require("@/assets/images/avatar.png")}
         style={{
-          flexDirection: "row",
-          gap: 16,
-        }}>
-        <Image
-          source={require("@/assets/images/avatar.png")}
-          style={{
-            width: 46,
-            height: 46,
-            borderRadius: theme.rounded.medium,
-            backgroundColor: theme.colors["purple-100"],
-          }}
-        />
+        width: 46,
+        height: 46,
+        borderRadius: theme.rounded.medium,
+        backgroundColor: theme.colors["purple-100"],
+        }}
+      />
 
-        <View>
-          <Text
-            style={[
-              typography.textBase_Medium,
-              {
-                marginBottom: 4,
-              },
-            ]}>
-            {message.full_name}
-          </Text>
-          <Text style={typography.textBase_Regular}>
-            {message.record_type == 'text'?message.content.slice(0, 35):message.record_type}
-            {message.record_type == 'text'?'....':''}
-            ...
-          </Text>
-        </View>
+      <View>
+        <Text
+        style={[
+          typography.textBase_Medium,
+          {
+          marginBottom: 4,
+          },
+        ]}>
+        {message.full_name}
+        </Text>
+        <Text style={typography.textBase_Regular}>
+        {message.record_type == 'text' ? message.content.slice(0, 35) : message.record_type}
+        {message.record_type == 'text' ? '....' : ''}
+        ...
+        </Text>
+      </View>
       </View>
     </TouchableOpacity>
   );

@@ -164,7 +164,7 @@ export default function ProfileSetupScreen({
           type: returndata.mimeType,
           filename: returndata.fileName,
         });
-        // setValue("image", uri);
+        setValue("image", uri);
       }
     } else {
       console.log("Image Picker Error: ---");

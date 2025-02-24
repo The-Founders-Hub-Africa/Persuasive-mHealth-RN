@@ -11,13 +11,13 @@ export const get_message_and_code = (data) => {
         return result  
     }
 
-    if (data.status_code == 200) {
+    if (data.status == 200) {
         result.message = [data.message]
         result.status_code = data.status_code
         return result  
     }
 
-    if (data.status_code != 200) {
+    if (data.status != 200) {
         let mgs = []
         for (const [key, value] of Object.entries(data.data)) {
             if (key == 'detail' || key == 'message') {

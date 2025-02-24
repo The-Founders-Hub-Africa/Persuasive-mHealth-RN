@@ -5,12 +5,14 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import initializeStore from './initializeStore';
 import alertSlice  from './features/alert/alertSlice';
 import patientAndMessageSlice from './features/patient/patientAndMessageSlice';
+import whatsappMessageSlice from './features/whatsappMessages/whatsappMessageSlice';
 
 export const store = configureStore({
   reducer: {
     user: userslice,
     alert: alertSlice,
-    patientandmessage:patientAndMessageSlice,
+    patientandmessage: patientAndMessageSlice,
+    whatsappMessage: whatsappMessageSlice,
     [mediAppApi.reducerPath] : mediAppApi.reducer
   },
   middleware : getDefaultMiddleware =>

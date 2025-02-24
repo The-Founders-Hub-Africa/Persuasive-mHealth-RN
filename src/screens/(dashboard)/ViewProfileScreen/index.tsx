@@ -16,6 +16,7 @@ import formStyles from "@/src/styles/formStyles";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import globalStyles from "@/src/styles/global";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { baseUrl } from "@/src/integrations/features/apis/apiSlice";
 
 const ViewProfileScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -35,7 +36,7 @@ const ViewProfileScreen = () => {
           {/* Top */}
           <View style={styles.section}>
             <Image
-              source={require("@/assets/images/avatar.png")}
+              source={{ uri: `${baseUrl}${user.image}`  }}
               style={styles.avatar}
             />
 

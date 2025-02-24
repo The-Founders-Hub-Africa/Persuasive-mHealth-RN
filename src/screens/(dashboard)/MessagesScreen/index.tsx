@@ -10,16 +10,24 @@ import { addPatientAndMessage } from "@/src/integrations/features/patient/patien
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import Alert_System from "@/src/integrations/features/alert/Alert";
 
-const MessagesScreen = () => {
-  const [canSearch, setCanSearch] = useState(false);
+const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
+  const [search, setSearch] = useState("");
+
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
-  const patientAndMessages = useAppSelector(state =>state.patientandmessage)
-   const [patientandmessage, { isLoading }] = usePatientMutation()
+  const patientAndMessages = useAppSelector(state => state.patientandmessage);
+  const [patientandmessage, { isLoading }] = usePatientMutation();
   // const [skip, setSkip] = useState(true)
-  const init = {content: '', context: '', date_recorded: '',
-    record_type:"",timestamp:"",full_name: "", id: 0}
-  const [finalData, setFinalData] = useState([init])
+  const init = {
+    content: "",
+    context: "",
+    date_recorded: "",
+    record_type: "",
+    timestamp: "",
+    full_name: "",
+    id: 0,
+  };
+  const [finalData, setFinalData] = useState([init]);
   // const { data:patients,error,isError }  = usePatientGetQuery({action:'get_all_last',token:user.usertoken},{skip})
   // useEffect(() => {
   //   if (patients) {
@@ -27,7 +35,7 @@ const MessagesScreen = () => {
   //     console.log(error)
   //     // setFinalData(article.data)
   //   }
-  
+
   // }, [patients,error])
 
   useEffect(() => {
@@ -50,34 +58,43 @@ const MessagesScreen = () => {
 
   
   useEffect(() => {
-    let data = [init]
+    let data = [init];
     if (patientAndMessages) {
-      const { patients, messages } = patientAndMessages
+      const { patients, messages } = patientAndMessages;
 
       if (messages) {
         for (let index = 0; index < messages.length; index++) {
-        
-        let patientData = init
+          let patientData = init;
 
-        patientData = { ...patientData, ...messages[0], ...patients[0] }
-          data.push(patientData)
-      }
-        data = data.slice(1)
-      setFinalData(data)
-        
+          patientData = { ...patientData, ...messages[0], ...patients[0] };
+          data.push(patientData);
+        }
+        data = data.slice(1);
+        setFinalData(data);
       }
     }
-  
-    // console.log(finalData)
-  }, [patientAndMessages])
 
+    // console.log(finalData)
+  }, [patientAndMessages]);
 
   return (
     <ScrollView>
         <Alert_System />
       <View style={globalStyles.dashboardContainer}>
         {/* Search input */}
-        {canSearch && <SearchInput />}
+        {canSearch && (
+          <View
+            style={{
+              marginBottom: 24,
+              width: "100%",
+            }}>
+            <SearchInput
+              value={search}
+              setValue={setSearch}
+              placeholder="Search"
+            />
+          </View>
+        )}
 
         {/* Messages */}
         <Text>

@@ -1,5 +1,5 @@
 import { View, ScrollView } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import globalStyles from "@/src/styles/global";
 import Tabs from "@/src/components/common/Tabs";
 import SearchInput from "@/src/components/home/SearchInput";
@@ -7,6 +7,7 @@ import AppointmentsList from "@/src/components/common/AppointmentsList";
 import { appointmentsData } from "@/src/helpers";
 
 const AppointmentsScreen = () => {
+  const [search, setSearch] = useState("");
   // Filter appointments based on date
   const today = new Date();
 
@@ -27,8 +28,17 @@ const AppointmentsScreen = () => {
       title: "Ongoing",
       component: (
         <View>
-          <SearchInput />
-          <AppointmentsList appointmentsData={ongoingAppointments} />
+          <SearchInput
+            value={search}
+            setValue={setSearch}
+            placeholder="Search"
+          />
+          <View
+            style={{
+              marginTop: 16,
+            }}>
+            <AppointmentsList appointmentsData={ongoingAppointments} />
+          </View>
         </View>
       ),
     },
@@ -36,8 +46,17 @@ const AppointmentsScreen = () => {
       title: "History",
       component: (
         <View>
-          <SearchInput />
-          <AppointmentsList appointmentsData={historyAppointments} />
+          <SearchInput
+            value={search}
+            setValue={setSearch}
+            placeholder="Search"
+          />
+          <View
+            style={{
+              marginTop: 16,
+            }}>
+            <AppointmentsList appointmentsData={historyAppointments} />
+          </View>
         </View>
       ),
     },

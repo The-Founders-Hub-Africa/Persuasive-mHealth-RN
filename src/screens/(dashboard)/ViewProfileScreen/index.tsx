@@ -131,7 +131,9 @@ const ViewProfileScreen = () => {
           </View>
         </View>
 
-        <TouchableOpacity style={formStyles.submitButton}>
+        <TouchableOpacity
+          style={formStyles.submitButton}
+          onPress={() => navigation.navigate("Analytics")}>
           <Text style={formStyles.submitText}>View analytics</Text>
         </TouchableOpacity>
       </View>

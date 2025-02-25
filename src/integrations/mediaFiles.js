@@ -43,10 +43,10 @@ export const getMediaFiles = async (data, video_state, set_video,
                 const blob = new Blob([response.data], { type: response.data.type, lastModified: Date.now() });
                 const base64Data = await blobToBase64(blob);
 
-                setters[message.record_type][0]({
-                    ...setters[message.record_type][1],
+                setters[message.record_type][0](prevState => ({
+                    ...prevState,
                     [message.id]: base64Data
-                })
+                }))
 
 
             }

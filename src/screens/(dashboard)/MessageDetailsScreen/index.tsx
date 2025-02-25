@@ -22,7 +22,7 @@ import { useWhatsappRecordsMutation } from "@/src/integrations/features/apis/api
 import { get_id} from "@/src/integrations/axios_store";
 import { addwhatsappMessage } from "@/src/integrations/features/whatsappMessages/whatsappMessageSlice";
 // import SoundPlayer from 'react-native-sound-player';
-import { AudioPlayer, useAudioPlayer } from 'expo-audio';
+import { AudioPlayer, AudioStatus, useAudioPlayer } from 'expo-audio';
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import Alert_System from "@/src/integrations/features/alert/Alert";
 // import { useVideoPlayer, VideoView } from 'expo-video';
@@ -37,12 +37,12 @@ const MessageDetailsScreen = () => {
  
   // remember to uninstall expo-av,expo-video-player,expo-video,
   // expo-audio,react-native-sound-player,
-
+  
   const [audio, setAudio] = useState<{ [key: number]: string }>({});
   const [image, setImage] = useState<{ [key: number]: string }>({});
   const [video, setVideo] = useState<{ [key: number]: string }>({});
 
-  const [audioPlayer, setaudioPlayer] = useState({ uri: '', id:0,play:false });
+  const [audioPlayer, setaudioPlayer] = useState({ uri: '', id:0,play:false,playing:false });
   // const [audioPlayer, setaudioPlayer] = useState<{ [key: number]: AudioPlayer }>({});
   // const [videoPlayer, setvideoPlayer] = useState<{ [key: number]: VideoPlayer }>({});
 
@@ -69,21 +69,33 @@ const MessageDetailsScreen = () => {
   // useEffect(() => {
   //    useAudioPlayer('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
   // }, [audio, video, audioPlayer, videoPlayer]);
-   
+  let player = useAudioPlayer(audioPlayer.uri?audioPlayer.uri:null);
   
-  let player = useAudioPlayer(audioPlayer.uri);
+
+  player.addListener('playbackStatusUpdate', (status) => {
+      console.log('fired')
+      if (status.didJustFinish) {
+        setaudioPlayer({ ...audioPlayer, playing: false });
+      }
+    });
+
+  
+  
+  // useEffect(() => {
+  //   const subscription = 
+  // }, [player]);
 
   const handleAudio = (id: number) => { 
-    if (audioPlayer.id != id) {
-      setaudioPlayer({ uri: audio[id], id: id,play:true });
+    if (audioPlayer.id != id && !audioPlayer.playing) {
+      setaudioPlayer({ uri: audio[id], id: id,play:true,playing:true });
     }
     if (audio[id] == audioPlayer.uri) {
       if (player.paused) {
         player.play()
-        setaudioPlayer({ uri: audio[id], id: id,play:false });
+        setaudioPlayer({ uri: audio[id], id: id,play:false,playing:true });
       } else {
         player.pause()
-        setaudioPlayer({ uri: audio[id], id: id,play:false });
+        setaudioPlayer({ uri: audio[id], id: id,play:false,playing:false });
       }
       // player.paused ? player.play() : player.pause()
     }
@@ -223,8 +235,10 @@ const MessageDetailsScreen = () => {
                       
                       {message.timestamp}
                     </Text>
+                    
                     <TouchableOpacity key={index} onPress={()=> handleAudio(message.id)}> 
-                      <Text>{audio[message.id] ? 'Play Audio' : 'Loading Audio'}</Text>
+                      <Text>{audio[message.id] && audioPlayer.id == message.id && audioPlayer.playing ? 'Pause'
+                        :audio[message.id] ? 'Play Audio' : 'Loading Audio'}</Text>
                     </TouchableOpacity>
                     </View>
                 

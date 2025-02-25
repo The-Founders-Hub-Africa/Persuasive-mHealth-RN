@@ -44,8 +44,6 @@ const createForm = (data) => {
     
     let needed = data.data
 
-    console.log(data.data)
-    
     let formdata = new FormData()
         
         for (const [key, value] of Object.entries(needed.formdata)) {

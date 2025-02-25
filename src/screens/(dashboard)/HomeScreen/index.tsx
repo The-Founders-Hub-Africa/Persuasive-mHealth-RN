@@ -3,7 +3,7 @@ import React from "react";
 import globalStyles from "@/src/styles/global";
 import Greetings from "@/src/components/home/Greetings";
 import SearchCard from "@/src/components/home/SearchCard";
-import PatientActivity from "@/src/components/analytics/PatientActivity";
+import PatientActivity from "@/src/components/Analytics/PatientActivity";
 import AppointmentCalendar from "@/src/components/home/AppointmentCalendar";
 import RecentAppointments from "@/src/components/home/RecentAppointments";
 import RecentPatients from "@/src/components/home/RecentPatients";

@@ -13,9 +13,10 @@ const initialData = {
 
 export const get_initial_user_data = async () => {
   let data = await readFromAsyncStorage("user")
+  let userData = initialData
   if (!data) {
     writeToAsyncStorage("user", initialData)
-    userData = initialData
+    // userData = initialData
   } else {
     userData = data 
   }

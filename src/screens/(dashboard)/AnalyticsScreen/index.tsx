@@ -1,9 +1,10 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import React from "react";
 import globalStyles from "@/src/styles/global";
-import PatientActivity from "@/src/components/analytics/PatientActivity";
-import Demographics from "@/src/components/analytics/Demographics";
-import AppointmentAnalysis from "@/src/components/analytics/AppointmentAnalysis";
+import PatientActivity from "@/src/components/Analytics/PatientActivity";
+import Demographics from "@/src/components/Analytics/Demographics";
+// import AppointmentAnalysis from "@/src/components/analytics/AppointmentAnalysis";
+import AppointmentAnalysis from "@/src/components/Analytics/AppointmentAnalysis";
 
 const AnalyticsScreen = () => {
   return (

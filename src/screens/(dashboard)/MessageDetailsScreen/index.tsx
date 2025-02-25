@@ -22,7 +22,7 @@ import { useWhatsappRecordsMutation } from "@/src/integrations/features/apis/api
 import { get_id} from "@/src/integrations/axios_store";
 import { addwhatsappMessage } from "@/src/integrations/features/whatsappMessages/whatsappMessageSlice";
 // import SoundPlayer from 'react-native-sound-player';
-// import { AudioPlayer, useAudioPlayer } from 'expo-audio';
+import { AudioPlayer, useAudioPlayer } from 'expo-audio';
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import Alert_System from "@/src/integrations/features/alert/Alert";
 // import { useVideoPlayer, VideoView } from 'expo-video';
@@ -41,6 +41,8 @@ const MessageDetailsScreen = () => {
   const [audio, setAudio] = useState<{ [key: number]: string }>({});
   const [image, setImage] = useState<{ [key: number]: string }>({});
   const [video, setVideo] = useState<{ [key: number]: string }>({});
+
+  const [audioPlayer, setaudioPlayer] = useState({ uri: '', id:0,play:false });
   // const [audioPlayer, setaudioPlayer] = useState<{ [key: number]: AudioPlayer }>({});
   // const [videoPlayer, setvideoPlayer] = useState<{ [key: number]: VideoPlayer }>({});
 
@@ -58,13 +60,36 @@ const MessageDetailsScreen = () => {
   },
 });
 
+  useEffect(() => {
+     if (audioPlayer.play) {
+       player.play()
+     }
+  }, [audio, video, audioPlayer]);
   
   // useEffect(() => {
   //    useAudioPlayer('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
   // }, [audio, video, audioPlayer, videoPlayer]);
    
   
-  // let player = useAudioPlayer();
+  let player = useAudioPlayer(audioPlayer.uri);
+
+  const handleAudio = (id: number) => { 
+    if (audioPlayer.id != id) {
+      setaudioPlayer({ uri: audio[id], id: id,play:true });
+    }
+    if (audio[id] == audioPlayer.uri) {
+      if (player.paused) {
+        player.play()
+        setaudioPlayer({ uri: audio[id], id: id,play:false });
+      } else {
+        player.pause()
+        setaudioPlayer({ uri: audio[id], id: id,play:false });
+      }
+      // player.paused ? player.play() : player.pause()
+    }
+    
+    
+  }
 
   // const vplayer = useVideoPlayer('', player => {
   //   player.loop = true;
@@ -171,6 +196,9 @@ const MessageDetailsScreen = () => {
                     >
                        {message.timestamp}
                     </Text>
+                    <Text>
+                        {video[message.id] ? '' : 'Loading Video'}
+                    </Text>
                     <View style={styles_.container}>
                     <Video
                       source={{uri: video[message.id]?video[message.id]:''}}
@@ -195,13 +223,9 @@ const MessageDetailsScreen = () => {
                       
                       {message.timestamp}
                     </Text>
-
-                    {/* <TouchableOpacity key={index} onPress={() => {
-                    player.paused ? player.play(): player.pause()
-
-                     } }>
-                    <Text>Play Audio</Text>
-                    </TouchableOpacity> */}
+                    <TouchableOpacity key={index} onPress={()=> handleAudio(message.id)}> 
+                      <Text>{audio[message.id] ? 'Play Audio' : 'Loading Audio'}</Text>
+                    </TouchableOpacity>
                     </View>
                 
                 );

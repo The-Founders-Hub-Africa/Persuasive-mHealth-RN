@@ -130,8 +130,8 @@ export const axiosGetMediaFile = async (file_id,token) => {
     }).catch(err => {
         return {
             success: false,
-            data: err.response.data,
-            status: err.response.status
+            data: err.data,
+            status: err.status
         }
     });
 }

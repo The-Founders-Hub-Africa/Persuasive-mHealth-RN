@@ -67,8 +67,8 @@ export default function ProfileSetupScreen({
   } = useForm<FormData>({
     defaultValues: {
       full_name: user.full_name,
-      email: user.email || "john@doe.com",
-      phone_number: user.phone_number || "09012345678",
+      email: user.email ,
+      phone_number: user.phone_number,
       biography: "",
       specialization: user.specialization,
       work_experience: 1,

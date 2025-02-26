@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import globalStyles from "@/src/styles/global";
 import { patientsData } from "@/src/helpers";
-import SearchInput from "@/src/components/home/SearchInput";
+import SearchInput from "@/src/components/common/SearchInput";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";

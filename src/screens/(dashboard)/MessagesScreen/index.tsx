@@ -1,10 +1,10 @@
 import { View, ScrollView, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import globalStyles from "@/src/styles/global";
-import SearchInput from "@/src/components/home/SearchInput";
+import SearchInput from "@/src/components/common/SearchInput";
 // import { messagesData } from "@/src/helpers";
 import MessageList from "@/src/components/common/MessageList";
-import {  usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
+import { usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addPatientAndMessage } from "@/src/integrations/features/patient/patientAndMessageSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
@@ -39,24 +39,22 @@ const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
   // }, [patients,error])
 
   useEffect(() => {
-      let data = {
-        data: { action: 'get_all_last', data:{} },
-        token: user.usertoken
-      }
-      console.log(data.token)
+    let data = {
+      data: { action: "get_all_last", data: {} },
+      token: user.usertoken,
+    };
+    console.log(data.token);
     patientandmessage(data).then(data => {
       if (data.error) {
-        dispatch(addAlert({ ...data.error, page: "message_list" }))
-    }
-      
-      if (data.data) {
-        dispatch(addPatientAndMessage({ ...data.data,save:true }))
+        dispatch(addAlert({ ...data.error, page: "message_list" }));
       }
-    })
-  
-  }, [user])
 
-  
+      if (data.data) {
+        dispatch(addPatientAndMessage({ ...data.data, save: true }));
+      }
+    });
+  }, [user]);
+
   useEffect(() => {
     let data = [init];
     if (patientAndMessages) {
@@ -79,7 +77,7 @@ const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
 
   return (
     <ScrollView>
-        <Alert_System />
+      <Alert_System />
       <View style={globalStyles.dashboardContainer}>
         {/* Search input */}
         {canSearch && (

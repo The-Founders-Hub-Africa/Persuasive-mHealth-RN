@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import globalStyles from "@/src/styles/global";
 import Tabs from "@/src/components/common/Tabs";
-import SearchInput from "@/src/components/home/SearchInput";
+import SearchInput from "@/src/components/common/SearchInput";
 import { appointmentsData } from "@/src/helpers";
 import { AppointmentProps } from "@/src/types";
 import formStyles from "@/src/styles/formStyles";

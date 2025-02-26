@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, View, Pressable, Text } from "react-native";
 import React, { useState } from "react";
 import globalStyles from "@/src/styles/global";
-import SearchInput from "@/src/components/home/SearchInput";
+import SearchInput from "@/src/components/common/SearchInput";
 import theme from "@/src/styles/theme";
 import { appointmentsData, messagesData, patientsData } from "@/src/helpers";
 import PatientCard from "@/src/components/common/PatientList";

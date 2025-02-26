@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
@@ -143,9 +143,7 @@ const AppointmentDetailsScreen = () => {
 
         <TouchableOpacity
           style={formStyles.submitButton}
-          onPress={() =>
-            navigation.navigate("Edit Appointment")
-          }>
+          onPress={() => navigation.navigate("Edit Appointment")}>
           <Text style={formStyles.submitText}>Edit appointment</Text>
         </TouchableOpacity>
       </View>

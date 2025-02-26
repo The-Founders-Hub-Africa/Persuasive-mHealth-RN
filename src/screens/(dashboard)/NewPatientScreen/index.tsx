@@ -24,9 +24,7 @@ import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import { UserProfile } from "@/src/integrations/axios_store";
-import { loginUser } from "@/src/integrations/features/user/usersSlice";
-import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import ModalPopup from "@/src/components/common/ModalPopup";
 
 type FormData = {
   full_name: string;
@@ -50,6 +48,8 @@ export default function NewPatientScreen() {
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
+
+  const [showModal, setShowModal] = useState(false);
 
   const {
     control,
@@ -88,34 +88,7 @@ export default function NewPatientScreen() {
 
   const handleContinue = async (data: FormData) => {
     console.log("Form Data:", data);
-
-    let data_ = {
-      token: user.usertoken,
-      data: {
-        formdata: data,
-        img: imageDetails,
-      },
-    };
-    // console.log(data_)
-    let res = await UserProfile(data_);
-    if (res.success) {
-      dispatch(
-        loginUser({
-          ...res.data.user,
-          usertoken: res.data.token,
-          logedin: true,
-          save: true,
-        })
-      );
-      navigation.navigate("Home");
-    } else {
-      let err = {
-        status_code: 500,
-        data: { message: "Error occurred" },
-        page: "editprofile",
-      };
-      dispatch(addAlert(err));
-    }
+    setShowModal(true);
   };
 
   const handleImageUpload = async () => {
@@ -644,6 +617,17 @@ export default function NewPatientScreen() {
           style={formStyles.submitButton}>
           <Text style={formStyles.submitText}>Create patient</Text>
         </TouchableOpacity>
+
+        {/* Success Modal */}
+        <ModalPopup
+          title="Success!"
+          message="Patient created successfully"
+          showModal={showModal}
+          setShowModal={setShowModal}
+          onPress={() => {
+            setShowModal(false);
+          }}
+        />
       </View>
     </ScrollView>
   );

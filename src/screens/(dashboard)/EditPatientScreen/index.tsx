@@ -10,7 +10,6 @@ import {
   Alert,
   StyleSheet,
 } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
@@ -24,9 +23,7 @@ import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import { UserProfile } from "@/src/integrations/axios_store";
-import { loginUser } from "@/src/integrations/features/user/usersSlice";
-import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import ModalPopup from "@/src/components/common/ModalPopup";
 
 type FormData = {
   full_name: string;
@@ -44,9 +41,10 @@ type FormData = {
 };
 
 export default function EditPatientScreen() {
-  const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [imageDetails, setimageDetails] = useState({ type: "", filename: "" });
+
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -88,34 +86,7 @@ export default function EditPatientScreen() {
 
   const handleContinue = async (data: FormData) => {
     console.log("Form Data:", data);
-
-    let data_ = {
-      token: user.usertoken,
-      data: {
-        formdata: data,
-        img: imageDetails,
-      },
-    };
-    // console.log(data_)
-    let res = await UserProfile(data_);
-    if (res.success) {
-      dispatch(
-        loginUser({
-          ...res.data.user,
-          usertoken: res.data.token,
-          logedin: true,
-          save: true,
-        })
-      );
-      navigation.navigate("Home");
-    } else {
-      let err = {
-        status_code: 500,
-        data: { message: "Error occurred" },
-        page: "editprofile",
-      };
-      dispatch(addAlert(err));
-    }
+    setShowModal(true);
   };
 
   const handleImageUpload = async () => {
@@ -640,6 +611,17 @@ export default function EditPatientScreen() {
           style={formStyles.submitButton}>
           <Text style={formStyles.submitText}>Create patient</Text>
         </TouchableOpacity>
+
+        {/* Success Modal */}
+        <ModalPopup
+          title="Success!"
+          message="Appointment updated successfully."
+          showModal={showModal}
+          setShowModal={setShowModal}
+          onPress={() => {
+            setShowModal(false);
+          }}
+        />
       </View>
     </ScrollView>
   );

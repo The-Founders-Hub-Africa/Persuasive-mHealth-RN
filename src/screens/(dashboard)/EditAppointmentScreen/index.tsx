@@ -405,7 +405,7 @@ const EditAppointmentScreen = () => {
         {/* Success Modal */}
         <ModalPopup
           title="Success!"
-          message="Your apointment was successfully created."
+          message="Your apointment was successfully updated."
           showModal={showModal}
           setShowModal={setShowModal}
           onPress={() => {

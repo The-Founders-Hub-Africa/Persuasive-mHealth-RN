@@ -42,7 +42,9 @@ const AppointmentCard = ({
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Appointments", { screen: "Appointment Details" })
+        navigation.navigate("Appointments", {
+          screen: "Appointment Details",
+        })
       }
       style={{
         backgroundColor: theme.colors["purple-50"],

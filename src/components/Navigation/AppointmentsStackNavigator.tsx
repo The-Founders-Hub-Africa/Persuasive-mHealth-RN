@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 const AppointmentsStackNavigator = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
-  const handleAppointment = () => {
+  const handleNewAppointment = () => {
     navigation.navigate("Appointments", { screen: "New Appointment" });
   };
 
@@ -24,7 +24,7 @@ const AppointmentsStackNavigator = () => {
         component={AppointmentsScreen}
         options={{
           headerRight: () => (
-            <TouchableOpacity onPress={handleAppointment}>
+            <TouchableOpacity onPress={handleNewAppointment}>
               <Feather
                 name="plus"
                 size={24}

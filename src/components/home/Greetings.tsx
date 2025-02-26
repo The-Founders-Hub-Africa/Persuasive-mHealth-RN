@@ -4,12 +4,11 @@ import { Ionicons } from "@expo/vector-icons";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { useAppDispatch,useAppSelector } from "@/src/integrations/hooks";
+import { useAppSelector } from "@/src/integrations/hooks";
 import { baseUrl } from "@/src/integrations/features/apis/apiSlice";
 
 const Greetings = () => {
   const navigation = useNavigation<NavigationProp<any>>();
-   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
 
   return (
@@ -37,7 +36,7 @@ const Greetings = () => {
           }>
           Hello, {user.full_name}
         </Text>
-        <Text style={typography.textSmall_Light}>How are you doing today ?</Text>
+        <Text style={typography.textSmall_Light}>How are you doing today?</Text>
       </View>
 
       <View
@@ -55,10 +54,12 @@ const Greetings = () => {
         </Pressable>
         <Pressable
           onPress={() =>
-            navigation.navigate("Settings", { screen: "View Profile" })
+            navigation.navigate("Settings", {
+              screen: "View Profile",
+            })
           }>
           <Image
-            source={{ uri: `${baseUrl}${user.image}`  }}
+            source={{ uri: `${baseUrl}${user.image}` }}
             style={{
               width: 46,
               height: 46,

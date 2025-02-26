@@ -142,11 +142,7 @@ const PatientDetailsScreen = () => {
 
         <TouchableOpacity
           style={formStyles.submitButton}
-          onPress={() =>
-            navigation.navigate("Patients", {
-              screen: "Edit Patient",
-            })
-          }>
+          onPress={() => navigation.navigate("Edit Patient")}>
           <Text style={formStyles.submitText}>Edit patient</Text>
         </TouchableOpacity>
       </View>

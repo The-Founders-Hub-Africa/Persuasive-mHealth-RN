@@ -144,9 +144,7 @@ const AppointmentDetailsScreen = () => {
         <TouchableOpacity
           style={formStyles.submitButton}
           onPress={() =>
-            navigation.navigate("Appointments", {
-              screen: "Edit Appointment",
-            })
+            navigation.navigate("Edit Appointment")
           }>
           <Text style={formStyles.submitText}>Edit appointment</Text>
         </TouchableOpacity>

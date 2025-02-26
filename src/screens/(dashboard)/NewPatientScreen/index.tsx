@@ -405,8 +405,12 @@ export default function NewPatientScreen() {
                 <View style={formStyles.inputDropdownCntr}>
                   <Picker selectedValue={value} onValueChange={onChange}>
                     <Picker.Item label="AA" value="AA" />
-                    <Picker.Item label="BB" value="BB" />
-                    <Picker.Item label="CC" value="CC" />
+                    <Picker.Item label="AS" value="AS" />
+                    <Picker.Item label="AC" value="AC" />
+                    <Picker.Item label="SC" value="SC" />
+                    <Picker.Item label="SS" value="SS" />
+                    <Picker.Item label="SD" value="SD" />
+                    <Picker.Item label="SE" value="SE" />
                   </Picker>
                 </View>
               )}

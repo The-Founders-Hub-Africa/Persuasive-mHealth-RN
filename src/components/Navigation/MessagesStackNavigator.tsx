@@ -16,14 +16,6 @@ const MessagesStackNavigator = () => {
 
   const [menuVisible, setMenuVisible] = useState(false);
 
-  const navigation = useNavigation<NavigationProp<any>>();
-
-  const handleSearch = () => {
-    navigation.navigate("Messages", {
-      canSearch: true,
-    });
-  };
-
   return (
     <Stack.Navigator screenOptions={{ headerShadowVisible: false }}>
       <Stack.Screen
@@ -46,82 +38,80 @@ const MessagesStackNavigator = () => {
       <Stack.Screen
         name="Message Details"
         component={MessageDetailsScreen}
-        
         options={({ route }) => {
-          let name = get_name(route.params)
-        
-        return{
-          
-          title: `${name}`,
-          headerRight: () => (
-            <View style={{ zIndex: 3, elevation: 3 }}>
-              <TouchableOpacity
-                style={globalStyles.actionsBtn}
-                onPress={() => setMenuVisible(!menuVisible)}>
-                <Feather name="more-vertical" size={24} color="#555" />
-              </TouchableOpacity>
+          let name = get_name(route.params);
 
-              {/* Dropdown Menu */}
-              {menuVisible && (
-                <View style={globalStyles.actionsDropdown}>
-                  <TouchableOpacity
-                    onPress={() => Alert.alert("Upload vai WhatsApp")}>
-                    <View
-                      style={{
-                        padding: 8,
-                        gap: 4,
-                        alignItems: "center",
-                        flexDirection: "row",
-                      }}>
-                      <Feather
-                        name="upload"
-                        size={16}
-                        color={theme.colors["neutral-700"]}
-                      />
-                      <Text style={{
-                        color: theme.colors["neutral-700"],
-                       }}>
-                        Upload vai WhatsApp
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => Alert.alert("Downloads")}>
-                    <View
-                      style={{
-                        padding: 8,
-                        gap: 4,
-                        alignItems: "center",
-                        flexDirection: "row",
-                      }}>
-                      <Feather
-                        name="download"
-                        size={16}
-                        color={theme.colors["neutral-700"]}
-                      />
-                      <Text style={{ color: theme.colors["neutral-700"] }}>
-                        Downloads
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => Alert.alert("Delete")}>
-                    <View
-                      style={{
-                        padding: 8,
-                        gap: 4,
-                        alignItems: "center",
-                        flexDirection: "row",
-                      }}>
-                      <Feather name="delete" size={16} color={"red"} />
-                      <Text style={{ color: "red" }}>Delete</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
-          ),
-        }
-        }
-        }
+          return {
+            title: `${name}`,
+            headerRight: () => (
+              <View style={{ zIndex: 3, elevation: 3 }}>
+                <TouchableOpacity
+                  style={globalStyles.actionsBtn}
+                  onPress={() => setMenuVisible(!menuVisible)}>
+                  <Feather name="more-vertical" size={24} color="#555" />
+                </TouchableOpacity>
+
+                {/* Dropdown Menu */}
+                {menuVisible && (
+                  <View style={globalStyles.actionsDropdown}>
+                    <TouchableOpacity
+                      onPress={() => Alert.alert("Upload vai WhatsApp")}>
+                      <View
+                        style={{
+                          padding: 8,
+                          gap: 4,
+                          alignItems: "center",
+                          flexDirection: "row",
+                        }}>
+                        <Feather
+                          name="upload"
+                          size={16}
+                          color={theme.colors["neutral-700"]}
+                        />
+                        <Text
+                          style={{
+                            color: theme.colors["neutral-700"],
+                          }}>
+                          Upload vai WhatsApp
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => Alert.alert("Downloads")}>
+                      <View
+                        style={{
+                          padding: 8,
+                          gap: 4,
+                          alignItems: "center",
+                          flexDirection: "row",
+                        }}>
+                        <Feather
+                          name="download"
+                          size={16}
+                          color={theme.colors["neutral-700"]}
+                        />
+                        <Text style={{ color: theme.colors["neutral-700"] }}>
+                          Downloads
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => Alert.alert("Delete")}>
+                      <View
+                        style={{
+                          padding: 8,
+                          gap: 4,
+                          alignItems: "center",
+                          flexDirection: "row",
+                        }}>
+                        <Feather name="delete" size={16} color={"red"} />
+                        <Text style={{ color: "red" }}>Delete</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
+            ),
+          };
+        }}
       />
     </Stack.Navigator>
   );

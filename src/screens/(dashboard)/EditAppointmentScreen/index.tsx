@@ -34,7 +34,7 @@ type FormData = {
   mode: string;
 };
 
-const NewAppointmentsScreen = () => {
+const EditAppointmentScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
@@ -399,13 +399,13 @@ const NewAppointmentsScreen = () => {
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
           style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Book Appointment</Text>
+          <Text style={formStyles.submitText}>Update Appointment</Text>
         </TouchableOpacity>
 
         {/* Success Modal */}
         <ModalPopup
           title="Success!"
-          message="Your apointment was successfully created."
+          message="Your apointment was successfully updated."
           showModal={showModal}
           setShowModal={setShowModal}
           onPress={() => {
@@ -417,7 +417,7 @@ const NewAppointmentsScreen = () => {
   );
 };
 
-export default NewAppointmentsScreen;
+export default EditAppointmentScreen;
 
 const styles = StyleSheet.create({
   profileImageCntr: {

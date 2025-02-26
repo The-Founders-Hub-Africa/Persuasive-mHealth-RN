@@ -7,6 +7,7 @@ import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import NewPatientScreen from "@/src/screens/(dashboard)/NewPatientScreen";
+import EditPatientScreen from "@/src/screens/(dashboard)/EditPatientScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ const PatientsStackNavigator = () => {
       />
       <Stack.Screen name="Patient Details" component={PatientDetailsScreen} />
       <Stack.Screen name="New Patient" component={NewPatientScreen} />
+      <Stack.Screen name="Edit Patient" component={EditPatientScreen} />
     </Stack.Navigator>
   );
 };

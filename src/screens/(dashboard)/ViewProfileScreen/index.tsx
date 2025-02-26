@@ -36,7 +36,7 @@ const ViewProfileScreen = () => {
           {/* Top */}
           <View style={styles.section}>
             <Image
-              source={{ uri: `${baseUrl}${user.image}`  }}
+              source={{ uri: `${baseUrl}${user.image}` }}
               style={styles.avatar}
             />
 
@@ -125,7 +125,8 @@ const ViewProfileScreen = () => {
             <Text style={[typography.textBase_Regular]}>Biography</Text>
             <TextInput
               style={[typography.textBase_Regular, styles.textarea]}
-              multiline>
+              multiline
+              readOnly>
               {user.biography}
             </TextInput>
           </View>

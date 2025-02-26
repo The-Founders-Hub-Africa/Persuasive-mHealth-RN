@@ -21,6 +21,7 @@ import { TimerPickerModal } from "react-native-timer-picker";
 import { launchImageLibrary } from "react-native-image-picker";
 import typography from "@/src/styles/typography";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import ModalPopup from "@/src/components/common/ModalPopup";
 
 type FormData = {
   name: string;
@@ -34,6 +35,7 @@ type FormData = {
 };
 
 const NewAppointmentsScreen = () => {
+  const [showModal, setShowModal] = useState(false);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
 
@@ -70,6 +72,7 @@ const NewAppointmentsScreen = () => {
 
   const handleContinue = async (data: FormData) => {
     console.log("Form Data:", data);
+    setShowModal(true);
   };
 
   const handleImageUpload = async () => {
@@ -398,6 +401,17 @@ const NewAppointmentsScreen = () => {
           style={formStyles.submitButton}>
           <Text style={formStyles.submitText}>Book Appointment</Text>
         </TouchableOpacity>
+
+        {/* Success Modal */}
+        <ModalPopup
+          title="Success!"
+          message="Your apointment was successfully created."
+          showModal={showModal}
+          setShowModal={setShowModal}
+          onPress={() => {
+            setShowModal(false);
+          }}
+        />
       </View>
     </ScrollView>
   );

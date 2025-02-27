@@ -6,6 +6,8 @@ import SearchInput from "@/src/components/home/SearchInput";
 import AppointmentsList from "@/src/components/common/AppointmentsList";
 import { appointmentsData } from "@/src/helpers";
 
+
+
 const AppointmentsScreen = () => {
   const [search, setSearch] = useState("");
   // Filter appointments based on date

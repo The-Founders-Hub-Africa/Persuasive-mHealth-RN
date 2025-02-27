@@ -20,7 +20,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
-import { launchImageLibrary } from "react-native-image-picker";
+// import { launchImageLibrary } from "react-native-image-picker";
 import { Calendar } from "react-native-calendars";
 import modalStyles from "@/src/styles/modalStyles";
 import theme, { calendarTheme } from "@/src/styles/theme";
@@ -89,7 +89,6 @@ export default function EditProfileScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
-    console.log("Form Data:", data);
 
     let data_ = {
       token: user.usertoken,
@@ -162,7 +161,7 @@ export default function EditProfileScreen() {
 
   const handleImageUpload = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images", "videos"],
+      mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,

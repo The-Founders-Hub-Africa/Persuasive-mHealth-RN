@@ -6,6 +6,7 @@ import initializeStore from './initializeStore';
 import alertSlice  from './features/alert/alertSlice';
 import patientAndMessageSlice from './features/patient/patientAndMessageSlice';
 import whatsappMessageSlice from './features/whatsappMessages/whatsappMessageSlice';
+import  patientsSlice  from './features/patient/patientsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     alert: alertSlice,
     patientandmessage: patientAndMessageSlice,
     whatsappMessage: whatsappMessageSlice,
+    patients: patientsSlice,
     [mediAppApi.reducerPath] : mediAppApi.reducer
   },
   middleware : getDefaultMiddleware =>

@@ -13,6 +13,7 @@ import Alert_System from "@/src/integrations/features/alert/Alert";
 const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
   const [search, setSearch] = useState("");
 
+  
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
   const patientAndMessages = useAppSelector(state => state.patientandmessage);

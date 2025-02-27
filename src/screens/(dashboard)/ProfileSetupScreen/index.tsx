@@ -103,7 +103,6 @@ export default function ProfileSetupScreen({
   // };
 
   const handleContinue = async (data: FormData) => {
-    console.log("Form Data:", data);
 
     let data_ = {
       token: user.usertoken,
@@ -150,7 +149,7 @@ export default function ProfileSetupScreen({
 
   const handleImageUpload = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images", "videos"],
+      mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,

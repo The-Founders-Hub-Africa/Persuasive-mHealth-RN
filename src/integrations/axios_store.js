@@ -15,7 +15,8 @@ export const convertDate = (dateStr) => {
     return `${year}-${months[month]}-${day.padStart(2, '0')}`;
 };
 
-url = `${baseUrl}/edituser`
+let user_url = `${baseUrl}/edituser`
+let appointments_url = `${baseUrl}/event`
 
 const base64ToBlob = (base64, type) => {
         const binary = atob(base64.split(',')[1]);
@@ -27,27 +28,13 @@ const base64ToBlob = (base64, type) => {
         return new Blob([new Uint8Array(array)], { type });
     };
 
-const createForm = (data) => {
-//  const imageFiled = {
-//               name: imageDetails.filename,
-//               uri: value,
-//               type: imageDetails.type
-//             }
-//      let data_ = {
-//       token: user.usertoken,
-//       data: {
-//         formdata: data,
-//         img: imageDetails
-//        }
-//     }
-    //     console.log('createForm',data.formdata)
-    
+const createForm = (data,blob_name) => {    
     let needed = data.data
 
     let formdata = new FormData()
         
         for (const [key, value] of Object.entries(needed.formdata)) {
-            if (key == 'image' && value) {
+            if (key == blob_name && value) {
                 let first_four = value.slice(0, 4);
                 if (first_four !== 'http') { 
                     let blob = base64ToBlob(value, needed.img.type)
@@ -59,16 +46,37 @@ const createForm = (data) => {
             formdata.append(key,value)
           }
     }
-    
-    console.log(formdata)
     return formdata
 }
 
 
 export const UserProfile = async (data) => {
 
-    let formdata = createForm(data)
-    return axios.post(url, formdata, { headers:{
+    let formdata = createForm(data,'image')
+    return axios.post(user_url, formdata, { headers:{
+        'Content-Type': 'multipart/form-data',
+        "Authorization": `Token ${data.token}`,
+        }
+    }).then(res => {
+        return {
+            data: res.data,
+            success:true
+        }
+    }).catch(err => {
+        return {
+            type: 'Error',
+            success:false,
+            data: err.response.data,
+            status: err.response.status
+        }
+
+    })
+}
+
+export const Appointments = async (data) => {
+
+    let formdata = createForm(data, 'document')
+    return axios.post(appointments_url,formdata, { headers:{
         'Content-Type': 'multipart/form-data',
         "Authorization": `Token ${data.token}`,
         }
@@ -89,28 +97,6 @@ export const UserProfile = async (data) => {
 }
 
 
-// export const get = async (data) => {
-
-//     let formdata = createForm(data)
-//     return axios.post(url, formdata, { headers:{
-//         'Content-Type': 'multipart/form-data',
-//         "Authorization": `Token ${data.token}`,
-//         }
-//     }).then(res => {
-//         return {
-//             data: res.data,
-//             success:true
-//         }
-//     }).catch(err => {
-//         return {
-//             type: 'Error',
-//             success:false,
-//             data: err.response.data,
-//             status: err.response.status
-//         }
-
-//     })
-// }
 
 export const axiosGetMediaFile = async (file_id,token) => {
     const imageUrl = `${baseUrl}/platforms/get_media/${file_id}`;

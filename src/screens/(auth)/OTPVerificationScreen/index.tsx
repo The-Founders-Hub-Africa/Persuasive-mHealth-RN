@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Modal,
   Image,
   ScrollView,
 } from "react-native";
@@ -16,11 +15,11 @@ import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
-import modalStyles from "@/src/styles/modalStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { useOTPMutation } from "@/src/integrations/features/apis/apiSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
+import ModalPopup from "@/src/components/common/ModalPopup";
 
 type FormData = {
   otp0: string;
@@ -266,34 +265,16 @@ export default function OTPVerificationScreen({
         <Toast />
 
         {/* Success Modal */}
-        <Modal
-          visible={showModal}
-          transparent
-          animationType="slide"
-          onRequestClose={() => setShowModal(false)}>
-          <View style={modalStyles.modalCntr}>
-            <View style={modalStyles.modalContent}>
-              <Image
-                source={require("@/assets/images/success-icon.png")}
-                style={modalStyles.modalImage}
-              />
-              <View style={modalStyles.modalDescription}>
-                <Text style={modalStyles.modalTitle}>Success!</Text>
-                <Text style={modalStyles.modalText}>
-                  Your account was successfully verified, continue to login.
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => {
-                  setShowModal(false);
-                  navigation.navigate("Profile Setup");
-                }}
-                style={modalStyles.modalButton}>
-                <Text style={modalStyles.modalButtonText}>Continue</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
+        <ModalPopup
+          title="Success!"
+          message="Your account was successfully verified, continue to login."
+          showModal={showModal}
+          setShowModal={setShowModal}
+          onPress={() => {
+            setShowModal(false);
+            navigation.navigate("Profile Setup");
+          }}
+        />
       </View>
     </ScrollView>
   );

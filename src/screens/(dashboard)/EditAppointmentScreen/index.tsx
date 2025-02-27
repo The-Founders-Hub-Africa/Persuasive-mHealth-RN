@@ -8,7 +8,7 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import globalStyles from "@/src/styles/global";
 import formStyles from "@/src/styles/formStyles";
 import { Controller, useForm } from "react-hook-form";
@@ -18,23 +18,13 @@ import { Calendar } from "react-native-calendars";
 import modalStyles from "@/src/styles/modalStyles";
 import { Picker } from "@react-native-picker/picker";
 import { TimerPickerModal } from "react-native-timer-picker";
-// import { launchImageLibrary } from "react-native-image-picker";
+import { launchImageLibrary } from "react-native-image-picker";
 import typography from "@/src/styles/typography";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import ModalPopup from "@/src/components/common/ModalPopup";
-import Alert_System from "@/src/integrations/features/alert/Alert";
-import {  usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
-import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import { addAlert } from "@/src/integrations/features/alert/alertSlice";
-import { addPatients } from '@/src/integrations/features/patient/patientsSlice'
-import { Appointments,convertDate } from "@/src/integrations/axios_store";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
-import * as ImagePicker from "expo-image-picker";
-import { addSingleAppointment } from "@/src/integrations/features/appointments/appointmentsSlice";
-
 
 type FormData = {
-  patient: number;
+  name: string;
   condition: string;
   symptoms: string;
   notes: string;
@@ -42,38 +32,12 @@ type FormData = {
   date: string;
   time: string;
   mode: string;
-  medical_practitioner: number;
 };
 
-const NewAppointmentsScreen = () => {
+const EditAppointmentScreen = () => {
   const [showModal, setShowModal] = useState(false);
-  const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-  const [fileDetails, setfileDetails] = useState({ type: "", filename: "" });
-
-   const dispatch = useAppDispatch();
-   const user = useAppSelector(state => state.user);
-   const patients = useAppSelector(state => state.patients.data);
-   const [patientsApi, { isLoading }] = usePatientMutation();
-
-  useEffect(() => {
-          let data = {
-            data: { action: 'get_all', data:{} },
-            token: user.usertoken
-          }
-          console.log(data.token)
-        patientsApi(data).then(data => {
-          if (data.error) {
-            dispatch(addAlert({ ...data.error, page: "new appointment page" }))
-        }
-          
-          if (data.data) {
-            dispatch(addPatients({ data: data.data,save:true }))
-          }
-        })
-      
-      }, [user])
 
   const formatTime = ({
     hours,
@@ -95,7 +59,7 @@ const NewAppointmentsScreen = () => {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      patient: 0,
+      name: "",
       condition: "",
       symptoms: "",
       notes: "",
@@ -103,94 +67,63 @@ const NewAppointmentsScreen = () => {
       date: "",
       time: "",
       mode: "",
-      medical_practitioner:user.id
     },
   });
 
   const handleContinue = async (data: FormData) => {
-    
-        let data_ = {
-          token: user.usertoken,
-          data: {
-            formdata: data,
-            img: fileDetails,
-          },
-        };
-        // console.log(data_)
-        let res = await Appointments(data_);
-    if (res.success) {
-      // reset form data here
-      
-      // 
-          dispatch(
-            addSingleAppointment(res.data.event)
-          );
-          navigation.navigate("Appointments");
-        } else {
-          let err = {
-            status_code: 500,
-            data: { message: "Error occurred" },
-            page: "newappointment_page",
-          };
-          dispatch(addAlert(err));
-          // console.log('Error occurred')
-        }
+    console.log("Form Data:", data);
     setShowModal(true);
   };
 
   const handleImageUpload = async () => {
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-         mediaTypes: ["images", "videos"],
-         allowsEditing: true,
-         aspect: [4, 3],
-         quality: 1,
-       });
-   
-       if (!result.canceled) {
-         let returndata = result.assets[0];
-         if (returndata.mimeType && returndata.fileName) {
-           const uri = returndata.uri || null;
-           setfileDetails({
-             type: returndata.mimeType,
-             filename: returndata.fileName,
-           });
-           setValue("document", uri);
-         }
-       } else {
-         console.log("Image Picker Error: ---");
-       }
+    launchImageLibrary(
+      {
+        mediaType: "photo",
+        includeBase64: false,
+        quality: 1,
+      },
+      response => {
+        if (response.didCancel) {
+          console.log("User cancelled image picker");
+        } else if (response.errorMessage) {
+          console.log("Image Picker Error: ", response.errorMessage);
+        } else if (response.assets && response.assets.length > 0) {
+          const uri = response.assets[0].uri || null;
+          setValue("document", uri); // Update the form state with document URI
+        }
+      }
+    );
   };
 
   return (
     <ScrollView>
-      <Alert_System/>
       <View style={globalStyles.dashboardContainer}>
         {/* Patient Name */}
-         <View style={formStyles.inputGroup}>
-          <Text style={formStyles.label}>Select Patient</Text>
+        <View style={formStyles.inputGroup}>
+          <Text style={formStyles.label}>Patient Name</Text>
           <Controller
             control={control}
-            name="patient"
+            name="name"
             rules={{ required: "Patient name is required" }}
             render={({ field: { onChange, value } }) => (
-              <View style={formStyles.inputDropdownCntr}>
-                <Picker
-                  selectedValue={value}
-                  onValueChange={onChange}
-                  style={formStyles.inputText}>
-                  <Picker.Item label="Select Patient" value="" />
-                  {patients.map((patient,index)=><Picker.Item key={index} label={patient.full_name} value={patient.id} />)}
-
-                  
-                  {/* <Picker.Item label="Offline" value="offline" />
-                  <Picker.Item label="Online" value="online" /> */}
-                </Picker>
+              <View style={formStyles.inputCntr}>
+                <Feather
+                  name="user"
+                  size={20}
+                  color={theme.colors["neutral-700"]}
+                />
+                <TextInput
+                  style={formStyles.inputText}
+                  placeholder="John Doe"
+                  placeholderTextColor={theme.colors["disabled-text"]}
+                  value={value}
+                  onChangeText={onChange}
+                />
               </View>
             )}
           />
-          {errors.mode && (
-            <Text style={globalStyles.errorText}>{errors.mode.message}</Text>
+          {errors.name && (
+            <Text style={globalStyles.errorText}>{errors.name.message}</Text>
           )}
         </View>
 
@@ -466,13 +399,13 @@ const NewAppointmentsScreen = () => {
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
           style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Book Appointment</Text>
+          <Text style={formStyles.submitText}>Update Appointment</Text>
         </TouchableOpacity>
 
         {/* Success Modal */}
         <ModalPopup
           title="Success!"
-          message="Your apointment was successfully created."
+          message="Your apointment was successfully updated."
           showModal={showModal}
           setShowModal={setShowModal}
           onPress={() => {
@@ -484,7 +417,7 @@ const NewAppointmentsScreen = () => {
   );
 };
 
-export default NewAppointmentsScreen;
+export default EditAppointmentScreen;
 
 const styles = StyleSheet.create({
   profileImageCntr: {

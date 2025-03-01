@@ -19,6 +19,7 @@ const RecentPatients = ({ patientsData }: { patientsData: PatientProps[] }) => {
         onPress={() => navigation.navigate("Patients")}
       />
 
+      
       <PatientList patientsData={patientsData.slice(0, 3)} />
     </View>
   );

@@ -7,28 +7,30 @@ import PatientActivity from "@/src/components/Analytics/PatientActivity";
 import AppointmentCalendar from "@/src/components/home/AppointmentCalendar";
 import RecentAppointments from "@/src/components/home/RecentAppointments";
 import RecentPatients from "@/src/components/home/RecentPatients";
-import { patientsData, appointmentsData } from "@/src/helpers";
+// import { patientsData, appointmentsData } from "@/src/helpers";
 import Alert_System from "@/src/integrations/features/alert/Alert";
-import {  usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
+import {  useAppointmentsMutation, usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addPatients } from '@/src/integrations/features/patient/patientsSlice'
+import { addAppointments } from "@/src/integrations/features/appointment/appointmentsSlice";
 
 
 
 const HomeScreen = () => {
 
-   const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
    const user = useAppSelector(state => state.user);
-   const patients = useAppSelector(state => state.patients.data);
-   const [patientsApi, { isLoading }] = usePatientMutation();
+  const patients = useAppSelector(state => state.patients.data);
+  const appointment = useAppSelector(state => state.appointments.data);
+  const [patientsApi, { isLoading }] = usePatientMutation();
+  const [appointmentApi, { isLoading:isloading }] = useAppointmentsMutation();
 
     useEffect(() => {
         let data = {
           data: { action: 'get_all', data:{} },
           token: user.usertoken
         }
-        console.log(data.token)
       patientsApi(data).then(data => {
         if (data.error) {
           dispatch(addAlert({ ...data.error, page: "home_screen" }))
@@ -40,6 +42,25 @@ const HomeScreen = () => {
       })
     
     }, [user])
+  
+
+   useEffect(() => {
+            let data = {
+              data: { action: 'get_all', data:{} },
+              token: user.usertoken
+            }
+            console.log(data.token)
+          appointmentApi(data).then(data => {
+            if (data.error) {
+              dispatch(addAlert({ ...data.error, page: "appointment page" }))
+          }
+            
+            if (data.data) {
+              dispatch(addAppointments({ data: data.data,save:true }))
+            }
+          })
+        
+   }, [user])
   
   return (
     <ScrollView>
@@ -55,8 +76,8 @@ const HomeScreen = () => {
           }}>
           <PatientActivity />
           <AppointmentCalendar />
-          <RecentAppointments appointmentsData={appointmentsData} />
-          <RecentPatients patientsData={patientsData} />
+          <RecentAppointments appointmentsData={appointment} />
+          <RecentPatients patientsData={patients} />
         </View>
       </View>
     </ScrollView>

@@ -3,14 +3,15 @@ import React from "react";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
+import {PatientProps} from '@/src/types'
 
-const PatientProfileCard = () => {
+const PatientProfileCard = ({patient, }:{ patient: PatientProps }) => {
   return (
     <View style={styles.container}>
       {/* Top */}
       <View style={styles.section}>
         <Image
-          source={require("@/assets/images/avatar.png")}
+          source={patient.image}
           style={styles.avatar}
         />
 
@@ -23,7 +24,7 @@ const PatientProfileCard = () => {
             flexShrink: 1, // Prevents overflow
             maxWidth: "100%",
           }}>
-          <Text style={typography.textLG_Medium}>Jane Doe</Text>
+          <Text style={typography.textLG_Medium}>{patient.full_name}</Text>
 
           <Text
             style={[
@@ -40,7 +41,8 @@ const PatientProfileCard = () => {
               size={16}
               color={theme.colors["neutral-700"]}
             />
-            123 Greenway Avenue, Suite 456, Springfield, IL 62704, USA
+
+            {patient.address}
           </Text>
 
           <Text
@@ -56,7 +58,7 @@ const PatientProfileCard = () => {
                 width: "auto",
               },
             ]}>
-            Hypertension
+            {patient.whatsapp_number}
           </Text>
         </View>
       </View>

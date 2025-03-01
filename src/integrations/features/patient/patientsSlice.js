@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { readFromAsyncStorage, writeToAsyncStorage } from '../../async_store';
+
      
 // medical_practitioner
 const initialData = {
@@ -9,7 +10,8 @@ const initialData = {
     identifier: "",
     whatsapp_number: "",
     medical_practitioner: 0,
-    image: '',
+    image: undefined,
+    address:'',
     date: '',
   }]}
 
@@ -39,17 +41,21 @@ export const patientsSlice = createSlice({
       save ? writeToAsyncStorage("patients", action.payload):null
         
     },
+
     clearPatients :state=>{
       state = initialData
       writeToAsyncStorage("patients", initialData)
-    }
-   
+    },
+    
   },
+
  
 });
 
-export const getpatient = (patients,id)=>patients.filter(patient=>patient.id===id)
+// export const getPatientById = (patients, id) => states.find(patient => patient.id === id);
+// export const getpatient = (patients,id)=>patients.filter(patient=>patient.id===id)
 // export const getuserToken = (state)=>state.token
+// export const getPatientById = (state)=console.log(state)
 export const { addPatients,clearPatients} = patientsSlice.actions;
 
 export default patientsSlice.reducer;

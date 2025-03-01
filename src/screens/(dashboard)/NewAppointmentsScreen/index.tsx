@@ -30,7 +30,7 @@ import { addPatients } from '@/src/integrations/features/patient/patientsSlice'
 import { Appointments,convertDate } from "@/src/integrations/axios_store";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import { addSingleAppointment } from "@/src/integrations/features/appointments/appointmentsSlice";
+import { addSingleAppointment } from "@/src/integrations/features/appointment/appointmentsSlice";
 
 
 type FormData = {
@@ -62,7 +62,6 @@ const NewAppointmentsScreen = () => {
             data: { action: 'get_all', data:{} },
             token: user.usertoken
           }
-          console.log(data.token)
         patientsApi(data).then(data => {
           if (data.error) {
             dispatch(addAlert({ ...data.error, page: "new appointment page" }))
@@ -124,7 +123,8 @@ const NewAppointmentsScreen = () => {
       // 
           dispatch(
             addSingleAppointment(res.data.event)
-          );
+      );
+      setShowModal(true);
           navigation.navigate("Appointments");
         } else {
           let err = {
@@ -135,7 +135,7 @@ const NewAppointmentsScreen = () => {
           dispatch(addAlert(err));
           // console.log('Error occurred')
         }
-    setShowModal(true);
+    
   };
 
   const handleImageUpload = async () => {

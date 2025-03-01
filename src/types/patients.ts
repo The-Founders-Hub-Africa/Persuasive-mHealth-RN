@@ -7,5 +7,6 @@ export interface PatientProps {
   identifier:string,
   image: ImageSourcePropType | undefined;
   date: string;
+  address: string;
   medical_practitioner:number
 }

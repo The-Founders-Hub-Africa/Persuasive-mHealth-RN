@@ -1,18 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { readFromAsyncStorage, writeToAsyncStorage } from '../../async_store';
-     
+import {convertDate} from  '../../axios_store'
 // medical_practitioner
 const initialData = {
   data: [{
+        id: 0,
         patient: 0,
         condition: '',
         symptoms: '',
         notes: '',
-        document: '',
+        document: undefined,
         date: '',
         time: '',
         mode: '',
+        status:'pending',
         medical_practitioner: 0,
+        patient_name: '',
 }]}
 
 
@@ -42,7 +45,16 @@ export const appointmentsSlice = createSlice({
         
       },
     addSingleAppointment: (state, action) => {
-        state.data = [...state.data, action.payload]
+      // console.log(action.payload)
+      let filtered = state.data.filter(data => data.id != action.payload.id)
+      filtered = [...filtered, action.payload]
+      filtered.sort((a, b) => {
+        const dateA = new Date(`${convertDate(a.date)}T${a.time}`);
+        const dateB = new Date(`${convertDate(b.date)}T${b.time}`);
+        return   dateB - dateA ;
+      });
+      
+        state.data = filtered
         writeToAsyncStorage("appointments", {data:state.data})
     },
     clearAppointments :state=>{

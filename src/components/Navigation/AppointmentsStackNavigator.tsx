@@ -10,6 +10,7 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 import globalStyles from "@/src/styles/global";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import EditAppointmentScreen from "@/src/screens/(dashboard)/EditAppointmentScreen";
+import { get_name } from "@/src/integrations/axios_store";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,11 +44,12 @@ const AppointmentsStackNavigator = () => {
       <Stack.Screen
         name="Appointment Details"
         component={AppointmentDetailsScreen}
-        options={() => {
-          let name = "Appointment";
+        options={({ route }) => {
 
+          let name = get_name(route.params);
+           
           return {
-            title: `${name}`,
+            title: `Appointment with ${name}`,
             headerRight: () => (
               <View style={{ zIndex: 3, elevation: 3 }}>
                 <TouchableOpacity
@@ -119,7 +121,16 @@ const AppointmentsStackNavigator = () => {
         }}
       />
       <Stack.Screen name="New Appointment" component={NewAppointmentScreen} />
-      <Stack.Screen name="Edit Appointment" component={EditAppointmentScreen} />
+      <Stack.Screen name="Edit Appointment" component={EditAppointmentScreen}
+        options={({ route }) => {
+
+          let name = get_name(route.params);
+           
+          return {
+            title: `Edit Appointment with ${name}`,
+          }
+        }} 
+    />
     </Stack.Navigator>
   );
 };

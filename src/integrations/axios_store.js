@@ -42,8 +42,9 @@ const createForm = (data,blob_name) => {
                 }
                 
             // formdata.append(key, value,needed.img.filename)
-          } else if (key !='image'){
-            formdata.append(key,value)
+            } else if (key != blob_name) {
+                if(key != 'name'){ formdata.append(key,value)}
+           
           }
     }
     return formdata

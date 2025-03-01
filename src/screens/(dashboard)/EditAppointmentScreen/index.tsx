@@ -22,6 +22,14 @@ import { launchImageLibrary } from "react-native-image-picker";
 import typography from "@/src/styles/typography";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import ModalPopup from "@/src/components/common/ModalPopup";
+import { Appointments, get_id,convertDate } from "@/src/integrations/axios_store";
+import { useRoute } from "@react-navigation/native";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import * as ImagePicker from "expo-image-picker";
+import { addSingleAppointment } from "@/src/integrations/features/appointment/appointmentsSlice";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+
 
 type FormData = {
   name: string;
@@ -35,9 +43,21 @@ type FormData = {
 };
 
 const EditAppointmentScreen = () => {
+
+  const navigation = useNavigation<NavigationProp<any>>();
   const [showModal, setShowModal] = useState(false);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
+  const [fileDetails, setfileDetails] = useState({ type: "", filename: "" });
+
+
+  const route = useRoute();
+  let param = route.params
+  let id = get_id(param)
+  
+  const [appointment] = useAppSelector(state => state.appointments.data.filter(data => data.id === id))
+  const user = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch()
 
   const formatTime = ({
     hours,
@@ -59,42 +79,75 @@ const EditAppointmentScreen = () => {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      name: "",
-      condition: "",
-      symptoms: "",
-      notes: "",
-      document: null,
-      date: "",
-      time: "",
-      mode: "",
+      name: appointment.patient_name,
+      condition: appointment.condition,
+      symptoms: appointment.symptoms,
+      notes: appointment.notes,
+      document: appointment.document,
+      date: convertDate(appointment.date),
+      time: appointment.time,
+      mode: appointment.mode,
     },
   });
 
   const handleContinue = async (data: FormData) => {
-    console.log("Form Data:", data);
-    setShowModal(true);
+    let newData = {
+      ...data, patient: appointment.patient,
+      medical_practitioner: user.id, id:appointment.id
+    }
+     let data_ = {
+              token: user.usertoken,
+              data: {
+                formdata: newData,
+                img: fileDetails,
+              },
+            };
+            // console.log(data_)
+            let res = await Appointments(data_);
+        if (res.success) {
+          // reset form data here
+          
+          // 
+              dispatch(
+                addSingleAppointment(res.data.event)
+          );
+          setShowModal(true);
+              navigation.navigate("Appointments");
+            } else {
+              let err = {
+                status_code: 500,
+                data: { message: "Error occurred" },
+                page: "edit_appointment_page",
+              };
+              dispatch(addAlert(err));
+              // console.log('Error occurred')
+            }
   };
 
-  const handleImageUpload = async () => {
-    launchImageLibrary(
-      {
-        mediaType: "photo",
-        includeBase64: false,
-        quality: 1,
-      },
-      response => {
-        if (response.didCancel) {
-          console.log("User cancelled image picker");
-        } else if (response.errorMessage) {
-          console.log("Image Picker Error: ", response.errorMessage);
-        } else if (response.assets && response.assets.length > 0) {
-          const uri = response.assets[0].uri || null;
-          setValue("document", uri); // Update the form state with document URI
-        }
-      }
-    );
+   const handleImageUpload = async () => {
+  
+      let result = await ImagePicker.launchImageLibraryAsync({
+           mediaTypes: ["images", "videos"],
+           allowsEditing: true,
+           aspect: [4, 3],
+           quality: 1,
+         });
+     
+         if (!result.canceled) {
+           let returndata = result.assets[0];
+           if (returndata.mimeType && returndata.fileName) {
+             const uri = returndata.uri || null;
+             setfileDetails({
+               type: returndata.mimeType,
+               filename: returndata.fileName,
+             });
+             setValue("document", uri);
+           }
+         } else {
+           console.log("Image Picker Error: ---");
+         }
   };
-
+  
   return (
     <ScrollView>
       <View style={globalStyles.dashboardContainer}>

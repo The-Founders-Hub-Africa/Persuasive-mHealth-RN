@@ -17,6 +17,7 @@ export const convertDate = (dateStr) => {
 
 let user_url = `${baseUrl}/edituser`
 let appointments_url = `${baseUrl}/event`
+let patient_url = `${baseUrl}/patient`
 
 const base64ToBlob = (base64, type) => {
         const binary = atob(base64.split(',')[1]);
@@ -78,6 +79,29 @@ export const Appointments = async (data) => {
 
     let formdata = createForm(data, 'document')
     return axios.post(appointments_url,formdata, { headers:{
+        'Content-Type': 'multipart/form-data',
+        "Authorization": `Token ${data.token}`,
+        }
+    }).then(res => {
+        return {
+            data: res.data,
+            success:true
+        }
+    }).catch(err => {
+        return {
+            type: 'Error',
+            success:false,
+            data: err.response.data,
+            status: err.response.status
+        }
+
+    })
+}
+
+export const Patients = async (data) => {
+
+    let formdata = createForm(data, 'document')
+    return axios.post(patient_url,formdata, { headers:{
         'Content-Type': 'multipart/form-data',
         "Authorization": `Token ${data.token}`,
         }

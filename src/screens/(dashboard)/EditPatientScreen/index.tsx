@@ -24,10 +24,15 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import ModalPopup from "@/src/components/common/ModalPopup";
+import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
+import { convertDate, get_id, Patients } from "@/src/integrations/axios_store";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { addSinglePatient } from "@/src/integrations/features/patient/patientsSlice";
 
 type FormData = {
+  id: number;
   full_name: string;
-  phone_number: string;
+  whatsapp_number: string;
   address: string;
   about: string;
   date_of_birth: string;
@@ -37,17 +42,22 @@ type FormData = {
   condition: string;
   symptoms: string;
   document: string;
-  insurance: string;
 };
 
 export default function EditPatientScreen() {
   const [calendarVisible, setCalendarVisible] = useState(false);
-  const [imageDetails, setimageDetails] = useState({ type: "", filename: "" });
+  const [fileDetails, setfileDetails] = useState({ type: "", filename: "" });
 
   const [showModal, setShowModal] = useState(false);
 
+const navigation = useNavigation<NavigationProp<any>>();
+  const route = useRoute();
+  let param = route.params
+  let id = get_id(param)
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
+  const [patient] = useAppSelector(state => state.patients.data.filter(data => data.id === id))
+
 
   const {
     control,
@@ -57,18 +67,17 @@ export default function EditPatientScreen() {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      full_name: "",
-      phone_number: "",
-      address: "",
-      about: "",
-      date_of_birth: "",
-      genotype: "",
-      gender: "",
-      next_of_kin: "",
-      condition: "",
-      symptoms: "",
-      document: "",
-      insurance: "",
+      full_name: patient.full_name,
+      whatsapp_number: patient.whatsapp_number,
+      address: patient.address,
+      about: patient.about,
+      date_of_birth: patient.date_of_birth?convertDate(patient.date_of_birth):'',
+      genotype: patient.genotype,
+      gender: patient.gender,
+      next_of_kin: patient.next_of_kin,
+      condition: patient.condition,
+      symptoms: patient.symptoms,
+      document: patient.document,
     },
   });
 
@@ -85,8 +94,41 @@ export default function EditPatientScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
-    console.log("Form Data:", data);
-    setShowModal(true);
+    
+    let newData = {
+      ...data, medical_practitioner: user.id,
+      identifier:"",
+        id: patient.id
+    }
+    
+         let data_ = {
+                  token: user.usertoken,
+                  data: {
+                    formdata: newData,
+                    img: fileDetails,
+                  },
+                };
+                // console.log(data_)
+                let res = await Patients(data_);
+            if (res.success) {
+              // reset form data here
+              
+              // 
+                  dispatch(
+                    addSinglePatient(res.data.patient)
+              );
+              setShowModal(true);
+                  navigation.navigate("Patients");
+                } else {
+                  let err = {
+                    status_code: 500,
+                    data: { message: "Error occurred" },
+                    page: "edit_patient_page",
+                  };
+                  dispatch(addAlert(err));
+                  // console.log('Error occurred')
+                }
+
   };
 
   const handleImageUpload = async () => {
@@ -101,7 +143,7 @@ export default function EditPatientScreen() {
       let returndata = result.assets[0];
       if (returndata.mimeType && returndata.fileName) {
         const uri = returndata.uri || null;
-        setimageDetails({
+        setfileDetails({
           type: returndata.mimeType,
           filename: returndata.fileName,
         });
@@ -169,7 +211,7 @@ export default function EditPatientScreen() {
             <Text style={formStyles.label}>Phone Number</Text>
             <Controller
               control={control}
-              name="phone_number"
+              name="whatsapp_number"
               rules={{ required: "Phone number is required" }}
               render={({ field: { onChange, value } }) => (
                 <View style={formStyles.inputCntr}>
@@ -189,9 +231,9 @@ export default function EditPatientScreen() {
                 </View>
               )}
             />
-            {errors.phone_number && (
+            {errors.whatsapp_number && (
               <Text style={globalStyles.errorText}>
-                {errors.phone_number.message?.toString()}
+                {errors.whatsapp_number.message?.toString()}
               </Text>
             )}
           </View>
@@ -522,30 +564,6 @@ export default function EditPatientScreen() {
             )}
           </View>
 
-          {/* insurance */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Insurance Policy</Text>
-            <Controller
-              control={control}
-              name="insurance"
-              rules={{ required: "Insurance is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.inputDropdownCntr}>
-                  <Picker selectedValue={value} onValueChange={onChange}>
-                    <Picker.Item
-                      label="Engineers Syndicate"
-                      value="engineers_syndicate"
-                    />
-                  </Picker>
-                </View>
-              )}
-            />
-            {errors.insurance && (
-              <Text style={globalStyles.errorText}>
-                {errors.insurance.message?.toString()}
-              </Text>
-            )}
-          </View>
 
           {/* Medical document */}
           <View style={formStyles.inputGroup}>

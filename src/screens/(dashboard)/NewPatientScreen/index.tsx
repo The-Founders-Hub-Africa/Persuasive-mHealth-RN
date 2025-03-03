@@ -25,10 +25,13 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import ModalPopup from "@/src/components/common/ModalPopup";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { addSinglePatient } from "@/src/integrations/features/patient/patientsSlice";
+import { Patients } from "@/src/integrations/axios_store";
 
 type FormData = {
   full_name: string;
-  phone_number: string;
+  whatsapp_number: string;
   address: string;
   about: string;
   date_of_birth: string;
@@ -38,18 +41,20 @@ type FormData = {
   condition: string;
   symptoms: string;
   document: string;
-  insurance: string;
+  identifier: string;
+  medical_practitioner: number;
 };
 
 export default function NewPatientScreen() {
   const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
-  const [imageDetails, setimageDetails] = useState({ type: "", filename: "" });
+  const [fileDetails, setfileDetails] = useState({ type: "", filename: "" });
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
 
   const [showModal, setShowModal] = useState(false);
+   
 
   const {
     control,
@@ -60,7 +65,7 @@ export default function NewPatientScreen() {
   } = useForm<FormData>({
     defaultValues: {
       full_name: "",
-      phone_number: "",
+      whatsapp_number: "",
       address: "",
       about: "",
       date_of_birth: "",
@@ -70,7 +75,8 @@ export default function NewPatientScreen() {
       condition: "",
       symptoms: "",
       document: "",
-      insurance: "",
+      identifier: "",
+      medical_practitioner: user.id,
     },
   });
 
@@ -87,8 +93,36 @@ export default function NewPatientScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
-    console.log("Form Data:", data);
-    setShowModal(true);
+             let data_ = {
+                      token: user.usertoken,
+                      data: {
+                        formdata: data,
+                        img: fileDetails,
+                      },
+                    };
+                    // console.log(data_)
+                    let res = await Patients(data_);
+                if (res.success) {
+                  // reset form data here
+                  
+                  // 
+                      dispatch(
+                        addSinglePatient(res.data.patient)
+                  );
+                  setShowModal(true);
+                      navigation.navigate("Patients");
+                    } else {
+                      let err = {
+                        status_code: 500,
+                        data: { message: "Error occurred" },
+                        page: "new_patient_page",
+                      };
+                      dispatch(addAlert(err));
+                      // console.log('Error occurred')
+                    }
+
+
+    
   };
 
   const handleImageUpload = async () => {
@@ -103,7 +137,7 @@ export default function NewPatientScreen() {
       let returndata = result.assets[0];
       if (returndata.mimeType && returndata.fileName) {
         const uri = returndata.uri || null;
-        setimageDetails({
+        setfileDetails({
           type: returndata.mimeType,
           filename: returndata.fileName,
         });
@@ -171,7 +205,7 @@ export default function NewPatientScreen() {
             <Text style={formStyles.label}>Phone Number</Text>
             <Controller
               control={control}
-              name="phone_number"
+              name="whatsapp_number"
               rules={{ required: "Phone number is required" }}
               render={({ field: { onChange, value } }) => (
                 <View style={formStyles.inputCntr}>
@@ -191,9 +225,9 @@ export default function NewPatientScreen() {
                 </View>
               )}
             />
-            {errors.phone_number && (
+            {errors.whatsapp_number && (
               <Text style={globalStyles.errorText}>
-                {errors.phone_number.message?.toString()}
+                {errors.whatsapp_number.message?.toString()}
               </Text>
             )}
           </View>
@@ -528,30 +562,6 @@ export default function NewPatientScreen() {
             )}
           </View>
 
-          {/* insurance */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Insurance Policy</Text>
-            <Controller
-              control={control}
-              name="insurance"
-              rules={{ required: "Insurance is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.inputDropdownCntr}>
-                  <Picker selectedValue={value} onValueChange={onChange}>
-                    <Picker.Item
-                      label="Engineers Syndicate"
-                      value="engineers_syndicate"
-                    />
-                  </Picker>
-                </View>
-              )}
-            />
-            {errors.insurance && (
-              <Text style={globalStyles.errorText}>
-                {errors.insurance.message?.toString()}
-              </Text>
-            )}
-          </View>
 
           {/* Medical document */}
           <View style={formStyles.inputGroup}>
@@ -648,3 +658,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 });
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
+}
+

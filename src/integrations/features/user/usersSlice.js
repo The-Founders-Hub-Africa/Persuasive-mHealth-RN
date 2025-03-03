@@ -6,8 +6,9 @@ const initialData = {
   user_type: "", phone_number: '',
   specialization: '', verified_number: false, 
   verified_email: false, usertoken: "",
-  image: "", patient_count: 0, gender: "",
-  biography:"", date_of_birth:'',
+  image: "", patient_count: 0, male_count: 0,
+  female_count:0 , gender: "",
+  biography: "", date_of_birth: '',
   work_experience:0,  logedin: false,
 }
 

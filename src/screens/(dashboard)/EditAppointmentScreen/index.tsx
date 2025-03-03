@@ -84,7 +84,7 @@ const EditAppointmentScreen = () => {
       symptoms: appointment.symptoms,
       notes: appointment.notes,
       document: appointment.document,
-      date: convertDate(appointment.date),
+      date: appointment.date ? convertDate(appointment.date) :'',
       time: appointment.time,
       mode: appointment.mode,
     },
@@ -108,6 +108,7 @@ const EditAppointmentScreen = () => {
           // reset form data here
           
           // 
+
               dispatch(
                 addSingleAppointment(res.data.event)
           );

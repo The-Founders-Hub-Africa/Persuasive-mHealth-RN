@@ -6,7 +6,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import globalStyles from "@/src/styles/global";
 import { patientsData } from "@/src/helpers";
 import SearchInput from "@/src/components/common/SearchInput";
@@ -17,9 +17,36 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { PatientProps } from "@/src/types";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { addPatients } from "@/src/integrations/features/patient/patientsSlice";
+import { usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
 
 const PatientsScreen = () => {
   const [search, setSearch] = useState("");
+  const [patientsApi, { isLoading }] = usePatientMutation();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  const patients = useAppSelector(state => state.patients.data);
+
+    useEffect(() => {
+        let data = {
+          data: { action: 'get_all', data:{} },
+          token: user.usertoken
+        }
+      patientsApi(data).then(data => {
+        if (data.error) {
+          dispatch(addAlert({ ...data.error, page: "home_screen" }))
+      }
+        
+        if (data.data) {
+          dispatch(addPatients({ data: data.data,save:true }))
+        }
+      })
+    
+    }, [user])
+
+
 
   return (
     <ScrollView>
@@ -55,7 +82,7 @@ const PatientsScreen = () => {
                   textAlign: "center",
                 },
               ]}>
-              655+
+              {user.patient_count}
             </Text>
             <Text
               style={[
@@ -88,7 +115,7 @@ const PatientsScreen = () => {
                   textAlign: "center",
                 },
               ]}>
-              300
+              {user.female_count}
             </Text>
             <Text
               style={[
@@ -121,7 +148,7 @@ const PatientsScreen = () => {
                   textAlign: "center",
                 },
               ]}>
-              250
+              {user.male_count}
             </Text>
             <Text
               style={[
@@ -135,7 +162,7 @@ const PatientsScreen = () => {
           </View>
         </View>
 
-        <PatientList patientsData={patientsData} />
+        <PatientList patientsData={patients} />
       </View>
     </ScrollView>
   );
@@ -164,7 +191,7 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("Patient Details");
+        navigation.navigate("Patient Details",{id:patient.id,name:patient.full_name});
       }}
       style={{
         backgroundColor: theme.colors["purple-50"],
@@ -198,7 +225,7 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
 
         {/* Center: Patient Details */}
         <View style={{ gap: 8 }}>
-          <Text style={typography.textBase_Medium}>{patient.name}</Text>
+          <Text style={typography.textBase_Medium}>{patient.full_name}</Text>
           <Text style={typography.textXS_Regular}>
             Last visit: {patient.date}
           </Text>
@@ -222,7 +249,7 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
                   width: "auto",
                 },
               ]}>
-              {patient.number}
+              {patient.whatsapp_number}
             </Text>
           </View>
         </View>

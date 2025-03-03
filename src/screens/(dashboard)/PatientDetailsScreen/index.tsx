@@ -9,15 +9,21 @@ import {
 import React from "react";
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
-import typography from "@/src/styles/typography";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { Feather } from "@expo/vector-icons";
 import PatientProfileCard from "@/src/components/common/PatientProfileCard";
 import formStyles from "@/src/styles/formStyles";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation, NavigationProp, useRoute } from "@react-navigation/native";
+import { PatientProps } from "@/src/types";
+import { useAppSelector } from "@/src/integrations/hooks";
+import { get_id } from "@/src/integrations/axios_store";
 
 const PatientDetailsScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+
+  
+ const route = useRoute();
+ let param = route.params
+ let id = get_id(param)
+ const [patient] = useAppSelector(state => state.patients.data.filter(data => data.id === id))
 
   return (
     <ScrollView>
@@ -28,7 +34,7 @@ const PatientDetailsScreen = () => {
             gap: 24,
           },
         ]}>
-        <PatientProfileCard />
+        <PatientProfileCard patient={patient} />
 
         {/* <View style={styles.stats}>
           <View
@@ -142,7 +148,7 @@ const PatientDetailsScreen = () => {
 
         <TouchableOpacity
           style={formStyles.submitButton}
-          onPress={() => navigation.navigate("Edit Patient")}>
+          onPress={() => navigation.navigate("Edit Patient",{id:patient.id,name:patient.full_name})}>
           <Text style={formStyles.submitText}>Edit patient</Text>
         </TouchableOpacity>
       </View>

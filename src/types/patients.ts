@@ -6,7 +6,15 @@ export interface PatientProps {
   whatsapp_number: string;
   identifier:string,
   image: ImageSourcePropType | undefined;
+  document: ImageSourcePropType | undefined;
   date: string;
+  date_of_birth: string;
   address: string;
-  medical_practitioner:number
+  medical_practitioner: number;
+  next_of_kin: string;
+  about: string;
+  genotype: string;
+  gender: string;
+  condition: string;
+  symptoms: string;
 }

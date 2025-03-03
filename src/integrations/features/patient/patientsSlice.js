@@ -5,14 +5,22 @@ import { readFromAsyncStorage, writeToAsyncStorage } from '../../async_store';
 // medical_practitioner
 const initialData = {
   data: [{
-    id: 0,
-    full_name: "",
-    identifier: "",
-    whatsapp_number: "",
-    medical_practitioner: 0,
-    image: undefined,
-    address:'',
-    date: '',
+      id: 0,
+      full_name: '',
+      whatsapp_number: '',
+      identifier:'',
+      image:  undefined,
+      document: undefined,
+      date: '',
+      date_of_birth: '',
+      address: '',
+      medical_practitioner: 0,
+      about: '',
+      genotype: '',
+      next_of_kin:'',
+      gender: '',
+      condition: '',
+      symptoms: '',
   }]}
 
 
@@ -42,6 +50,14 @@ export const patientsSlice = createSlice({
         
     },
 
+    addSinglePatient: (state, action) => {
+          // console.log(action.payload)
+          let filtered = state.data.filter(data => data.id != action.payload.id)
+          filtered = [...filtered, action.payload]
+            state.data = filtered
+            writeToAsyncStorage("patients", {data:state.data})
+        },
+
     clearPatients :state=>{
       state = initialData
       writeToAsyncStorage("patients", initialData)
@@ -56,6 +72,6 @@ export const patientsSlice = createSlice({
 // export const getpatient = (patients,id)=>patients.filter(patient=>patient.id===id)
 // export const getuserToken = (state)=>state.token
 // export const getPatientById = (state)=console.log(state)
-export const { addPatients,clearPatients} = patientsSlice.actions;
+export const { addPatients,addSinglePatient,clearPatients} = patientsSlice.actions;
 
 export default patientsSlice.reducer;

@@ -9,7 +9,8 @@ const initialData = {
   image: "", patient_count: 0, male_count: 0,
   female_count:0 , gender: "",
   biography: "", date_of_birth: '',
-  work_experience:0,  logedin: false,
+  work_experience: 0, logedin: false,
+  api_number: ''
 }
 
 export const get_initial_user_data = async () => {

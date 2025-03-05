@@ -1,26 +1,17 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {PatientProps} from '@/src/types'
+import { PatientProps } from "@/src/types";
 
-const PatientProfileCard = ({patient, }:{ patient: PatientProps }) => {
+const PatientProfileCard = ({ patient }: { patient: PatientProps }) => {
   return (
     <View style={styles.container}>
       {/* Top */}
       <View style={styles.section}>
-        <Image
-          source={patient.image}
-          style={styles.avatar}
-        />
+        <Image source={patient.image} style={styles.avatar} />
 
         <View
           style={{

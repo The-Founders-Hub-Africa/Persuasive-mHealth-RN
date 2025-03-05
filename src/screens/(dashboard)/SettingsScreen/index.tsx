@@ -173,7 +173,7 @@ const SettingsScreen = () => {
 
           <TouchableOpacity
             style={styles.groupSectionLink}
-            onPress={() => navigation.navigate("Privacy Policy")}>
+            onPress={() => navigation.navigate("Privacy & Policy")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <Ionicons
@@ -194,7 +194,7 @@ const SettingsScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.groupSectionLink}
-            onPress={() => navigation.navigate("Support")}>
+            onPress={() => navigation.navigate("Support & Legal")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <FontAwesome
@@ -215,7 +215,7 @@ const SettingsScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.groupSectionLink}
-            onPress={() => navigation.navigate("T&C")}>
+            onPress={() => navigation.navigate("Terms & Conditions")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <FontAwesome
@@ -265,7 +265,7 @@ const SettingsScreen = () => {
             <View style={styles.groupSectionLeft}>
               <View>
                 <Image
-                  source={require("@/assets/images/whatsapp.svg")}
+                  source={require("@/assets/images/whatsapp.png")}
                   style={{
                     width: 16,
                     height: 16,

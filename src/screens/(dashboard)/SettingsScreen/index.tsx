@@ -123,7 +123,9 @@ const SettingsScreen = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.groupSectionLink}>
+          <TouchableOpacity
+            style={styles.groupSectionLink}
+            onPress={() => navigation.navigate("Security")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <Feather

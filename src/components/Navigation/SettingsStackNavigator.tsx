@@ -9,6 +9,7 @@ import { TouchableOpacity } from "react-native";
 import SettingsScreen from "@/src/screens/(dashboard)/SettingsScreen";
 import SecurityScreen from "@/src/screens/(dashboard)/SecurityScreen";
 import PasswordScreen from "@/src/screens/(dashboard)/PasswordScreen";
+import NotificationSettingsScreen from "@/src/screens/(dashboard)/NotificationSettingsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +59,10 @@ const SettingsStackNavigator = () => {
       />
       <Stack.Screen name="Security" component={SecurityScreen} />
       <Stack.Screen name="Change Password" component={PasswordScreen} />
+      <Stack.Screen
+        name="Notification Settings"
+        component={NotificationSettingsScreen}
+      />
     </Stack.Navigator>
   );
 };

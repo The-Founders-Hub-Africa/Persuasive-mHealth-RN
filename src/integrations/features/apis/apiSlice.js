@@ -84,6 +84,15 @@ export const mediAppApi = createApi({
             }),
         }),
 
+        appointments: builder.mutation({
+            query: data => ({
+                url: `/event`,
+                headers: { "Authorization": `Token ${data.token}` },
+                method: "POST",
+                body: data.data,
+            }),
+        }),
+
         // patientGet: builder.query({
         // query: data =>({
         // url: `/patient?action=${data.action}`,
@@ -108,7 +117,8 @@ export const mediAppApi = createApi({
 
 export const {
     useLoginMutation, useRegisterMPUserMutation,
-    useLogoutMutation, useOTPMutation, 
+    useLogoutMutation, useOTPMutation,
+    useAppointmentsMutation,
     usePatientMutation, useWhatsappRecordsMutation
     
     } = mediAppApi

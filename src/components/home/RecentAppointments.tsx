@@ -11,7 +11,6 @@ const RecentAppointments = ({
   appointmentsData: AppointmentProps[];
 }) => {
   const navigation = useNavigation<NavigationProp<any>>();
-
   return (
     <View
       style={{

@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import globalStyles from "@/src/styles/global";
 import Tabs from "@/src/components/common/Tabs";
 import SearchInput from "@/src/components/common/SearchInput";
-import { appointmentsData } from "@/src/helpers";
+// import { appointmentsData } from "@/src/helpers";
 import { AppointmentProps } from "@/src/types";
 import formStyles from "@/src/styles/formStyles";
 import typography from "@/src/styles/typography";
@@ -18,14 +18,52 @@ import theme from "@/src/styles/theme";
 import { Feather } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useAppointmentsMutation } from "@/src/integrations/features/apis/apiSlice";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { addAppointments } from "@/src/integrations/features/appointment/appointmentsSlice";
+import AppointmentCard from "@/src/components/common/AppointmentCard";
+import { search_name } from "@/src/integrations/axios_store";
+// import { getPatientById } from "@/src/integrations/features/patient/patientsSlice";
+
+
 
 const AppointmentsScreen = () => {
   const [search, setSearch] = useState("");
+  const [hSearch, setHSearch] = useState("");
   // Filter appointments based on date
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  const appointmentsData = useAppSelector(state => state.appointments.data);
+  const patientsData = useAppSelector(state => state.patients.data);
+  const [appointmentApi, { isLoading }] = useAppointmentsMutation();
 
+  // const getPatientById = (patientsData:AppointmentProps, id:number) => patientsData.filter(patient:AppointmentProps => patient.id === id);
+
+   useEffect(() => {
+           let data = {
+             data: { action: 'get_all', data:{} },
+             token: user.usertoken
+           }
+           console.log(data.token)
+         appointmentApi(data).then(data => {
+           if (data.error) {
+             dispatch(addAlert({ ...data.error, page: "appointment page" }))
+         }
+           
+           if (data.data) {
+             dispatch(addAppointments({ data: data.data,save:true }))
+           }
+         })
+       
+       }, [user])
+// console.log(appointmentsData)
   // Filter for ongoing (upcoming) appointments
-  const ongoingAppointments = appointmentsData.filter(appointment => {
+ 
+
+  const ongoingAppointments = appointmentsData.filter((appointment) => {
     const appointmentDate = new Date(appointment.date);
     return appointmentDate >= today;
   });
@@ -36,6 +74,34 @@ const AppointmentsScreen = () => {
     return appointmentDate < today;
   });
 
+  const [state, setState] = useState({'history': historyAppointments,
+    'ongoing': ongoingAppointments
+  });
+  
+  useEffect(() => {
+  if (search) {
+      const filtered = ongoingAppointments.filter(elem => search_name(elem.patient_name,search))
+        setState({...state,ongoing: filtered})
+    } else {
+     
+       setState({...state,ongoing:ongoingAppointments})
+    }
+  }, [search])
+
+
+  useEffect(() => {
+  
+  if (hSearch) {
+    const filtered = historyAppointments.filter(elem => search_name(elem.patient_name, hSearch))
+        setState({...state,history: filtered})
+    } else {
+     
+       setState({...state,history:historyAppointments})
+    }
+  }, [hSearch])
+
+
+  
   const tabs = [
     {
       title: "Ongoing",
@@ -50,7 +116,7 @@ const AppointmentsScreen = () => {
             style={{
               marginTop: 16,
             }}>
-            <AppointmentsList appointmentsData={ongoingAppointments} />
+            <AppointmentsList appointmentsData={state.ongoing} />
           </View>
         </View>
       ),
@@ -60,15 +126,15 @@ const AppointmentsScreen = () => {
       component: (
         <View>
           <SearchInput
-            value={search}
-            setValue={setSearch}
+            value={hSearch}
+            setValue={setHSearch}
             placeholder="Search"
           />
           <View
             style={{
               marginTop: 16,
             }}>
-            <AppointmentsList appointmentsData={historyAppointments} />
+            <AppointmentsList appointmentsData={state.history} />
           </View>
         </View>
       ),
@@ -98,180 +164,8 @@ const AppointmentsList = ({
         width: "100%",
       }}>
       {appointmentsData.map(appointment => (
-        <AppointmentCard key={appointment.id} appointment={appointment} />
+        <AppointmentCard key={appointment.id} appointment={appointment} appointmentPage = {true} />
       ))}
     </View>
-  );
-};
-
-const AppointmentCard = ({
-  appointment,
-}: {
-  appointment: AppointmentProps;
-}) => {
-  const navigation = useNavigation<NavigationProp<any>>();
-  const [menuVisible, setMenuVisible] = useState(false);
-
-  const isPassed = new Date(appointment.date) <= new Date();
-
-  return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("Appointment Details")}
-      style={{
-        backgroundColor: theme.colors["purple-50"],
-        flexDirection: "row",
-        alignItems: "flex-start",
-        justifyContent: "space-between",
-        paddingVertical: 16,
-        paddingHorizontal: 20,
-        borderRadius: theme.rounded.medium,
-        gap: 16,
-        position: "relative",
-      }}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          gap: 16,
-        }}>
-        {/* Appointment Patient Image */}
-        <Image
-          source={appointment.image}
-          style={{
-            width: 62,
-            height: 62,
-            borderRadius: theme.rounded.medium,
-            backgroundColor: theme.colors["purple-100"],
-          }}
-        />
-
-        {/* Center: Appointment Details */}
-        <View style={{ gap: 8 }}>
-          <Text style={typography.textBase_Medium}>{appointment.name}</Text>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "flex-end",
-              gap: 4,
-              marginTop: 4,
-            }}>
-            <Feather
-              name={appointment.status === "online" ? "wifi" : "wifi-off"}
-              size={15}
-              color={theme.colors["purple-400"]}
-            />
-            <Text
-              style={[
-                typography.textXS_Regular,
-                {
-                  color: theme.colors["purple-400"],
-                  width: "auto",
-                },
-              ]}>
-              {appointment.status}
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "flex-end",
-              gap: 8,
-            }}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "flex-end",
-                gap: 4,
-                marginTop: 4,
-              }}>
-              <AntDesign
-                name="calendar"
-                size={15}
-                color={theme.colors["neutral-500"]}
-              />
-              <Text
-                style={[
-                  typography.textXS_Regular,
-                  {
-                    color: theme.colors["neutral-500"],
-                    width: "auto",
-                  },
-                ]}>
-                {appointment.date}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "flex-end",
-                gap: 4,
-                marginTop: 4,
-              }}>
-              <AntDesign
-                name="clockcircleo"
-                size={15}
-                color={theme.colors["neutral-500"]}
-              />
-              <Text
-                style={[
-                  typography.textXS_Regular,
-                  {
-                    color: theme.colors["neutral-500"],
-                    width: "auto",
-                  },
-                ]}>
-                {appointment.time}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-
-      {/* Right */}
-      {isPassed ? (
-        <TouchableOpacity
-          style={[
-            formStyles.submitButton,
-            {
-              width: "auto",
-              position: "absolute",
-              right: 10,
-              top: 10,
-            },
-          ]}>
-          <Text
-            style={[
-              formStyles.submitText,
-              typography.textSmall_Medium,
-              {
-                color: theme.colors.white,
-              },
-            ]}>
-            Reschedule
-          </Text>
-        </TouchableOpacity>
-      ) : (
-        <View>
-          <TouchableOpacity
-            style={globalStyles.actionsBtn}
-            onPress={() => setMenuVisible(!menuVisible)}>
-            <Feather name="more-vertical" size={24} color="#555" />
-          </TouchableOpacity>
-
-          {/* Dropdown Menu */}
-          {menuVisible && (
-            <View style={globalStyles.actionsDropdown}>
-              <TouchableOpacity onPress={() => Alert.alert("Edit")}>
-                <Text style={{ padding: 8 }}>Edit</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => Alert.alert("Cancel")}>
-                <Text style={{ padding: 8, color: "red" }}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      )}
-    </TouchableOpacity>
   );
 };

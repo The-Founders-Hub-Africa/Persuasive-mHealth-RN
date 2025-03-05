@@ -15,10 +15,19 @@ import { Feather } from "@expo/vector-icons";
 import PatientProfileCard from "@/src/components/common/PatientProfileCard";
 import formStyles from "@/src/styles/formStyles";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-
+import { get_id } from "@/src/integrations/axios_store";
+import { useRoute } from "@react-navigation/native";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+// import {PatientProps} from '@/src/types'
 const AppointmentDetailsScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
+  const route = useRoute();
+  let param = route.params
+  let id = get_id(param)
+  const [appointment] = useAppSelector(state => state.appointments.data.filter(data => data.id === id))
+  const [patient] = useAppSelector(state => state.patients.data.filter(data => data.id === appointment.patient))
+  
   return (
     <ScrollView>
       <View
@@ -28,8 +37,7 @@ const AppointmentDetailsScreen = () => {
             gap: 24,
           },
         ]}>
-        <PatientProfileCard />
-
+        <PatientProfileCard patient ={patient} />
         <View style={styles.stats}>
           <View
             style={{
@@ -38,7 +46,7 @@ const AppointmentDetailsScreen = () => {
               alignItems: "center",
             }}>
             <Feather
-              name={"online" === "online" ? "wifi" : "wifi-off"}
+              name={appointment.mode === "online" ? "wifi" : "wifi-off"}
               size={20}
               color={theme.colors["purple-700"]}
             />
@@ -47,7 +55,7 @@ const AppointmentDetailsScreen = () => {
               style={{
                 color: theme.colors["purple-700"],
               }}>
-              Offline
+              {appointment.mode}
             </Text>
           </View>
 
@@ -72,7 +80,7 @@ const AppointmentDetailsScreen = () => {
                 style={{
                   color: theme.colors["neutral-500"],
                 }}>
-                12/03/2015
+                {appointment.date}
               </Text>
             </View>
 
@@ -92,7 +100,7 @@ const AppointmentDetailsScreen = () => {
                 style={{
                   color: theme.colors["neutral-500"],
                 }}>
-                10:00 am
+                {appointment.time}
               </Text>
             </View>
           </View>
@@ -104,7 +112,7 @@ const AppointmentDetailsScreen = () => {
             gap: 8,
           }}>
           <Text style={typography.textBase_Medium}>Medical condition</Text>
-          <Text style={typography.textSmall_Regular}>Hypertension</Text>
+          <Text style={typography.textSmall_Regular}>{appointment.condition }</Text>
         </View>
 
         <View
@@ -114,7 +122,7 @@ const AppointmentDetailsScreen = () => {
           }}>
           <Text style={typography.textBase_Medium}>Symptoms</Text>
           <Text style={typography.textSmall_Regular}>
-            Chest pain, shortness of breath
+            {appointment.symptoms}
           </Text>
         </View>
 
@@ -131,19 +139,14 @@ const AppointmentDetailsScreen = () => {
               style={[typography.textBase_Regular, styles.textarea]}
               multiline
               readOnly>
-              John Doe is experiencing a persistent dry cough, shortness of
-              breath, mild chest discomfort, fatigue, and slight fever over the
-              past two weeks. He has a history of hypertension, managed with
-              Lisinopril, and was treated for pneumonia two years ago.Currently,
-              he is undergoing diagnostic tests to determine the cause of his
-              respiratory issues. He has been prescribed Salbutamol (Inhaler)
+              {appointment.notes}
             </TextInput>
           </View>
         </View>
 
         <TouchableOpacity
           style={formStyles.submitButton}
-          onPress={() => navigation.navigate("Edit Appointment")}>
+          onPress={() => navigation.navigate("Edit Appointment",{id:appointment.id,name:appointment.patient_name})}>
           <Text style={formStyles.submitText}>Edit appointment</Text>
         </TouchableOpacity>
       </View>

@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View, Pressable, Text } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import globalStyles from "@/src/styles/global";
 import SearchInput from "@/src/components/common/SearchInput";
 import theme from "@/src/styles/theme";
@@ -8,11 +8,148 @@ import PatientCard from "@/src/components/common/PatientList";
 import AppointmentsList from "@/src/components/common/AppointmentsList";
 import MessageList from "@/src/components/common/MessageList";
 import PatientList from "@/src/components/common/PatientList";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { search_name } from "@/src/integrations/axios_store";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { addPatients } from "@/src/integrations/features/patient/patientsSlice";
+import { useAppointmentsMutation, usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
+import { addAppointments } from "@/src/integrations/features/appointment/appointmentsSlice";
+import { addPatientAndMessage } from "@/src/integrations/features/patient/patientAndMessageSlice";
+
 
 const SearchScreen = () => {
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  const patientAndMessages = useAppSelector(state => state.patientandmessage);
+  const appointmentsData = useAppSelector(state => state.appointments.data);
+  const patientsData = useAppSelector(state => state.patients.data);
+
+  const [patientsApi, { isLoading }] = usePatientMutation();
+  const [appointmentApi, { isLoading:appointLoading }] = useAppointmentsMutation();
+  const [patientandmessage, { isLoading:PandMLoading }] = usePatientMutation();
+ 
   const [search, setSearch] = useState("");
+  const [done, setDone] = useState(false);
   const options = ["Patients", "Appointments", "Messages"];
   const [selectedOption, setSelectedOption] = useState("Patients");
+
+  const init = {
+    content: "",
+    context: "",
+    date_recorded: "",
+    record_type: "",
+    timestamp: "",
+    full_name: "",
+    id: 0,
+  };
+  const [messagesData, setMessagesData] = useState([init]);
+
+
+   const [state, setState] = useState({'Patients': patientsData,
+                                        'Appointments': appointmentsData,
+     'Messages': messagesData,
+   });
+  
+
+  
+  
+  useEffect(() => {
+      // get patients
+        let data = {
+            data: { action: 'get_all', data:{} },
+            token: user.usertoken
+          }
+        patientsApi(data).then(data => {
+          if (data.error) {
+            dispatch(addAlert({ ...data.error, page: "search_screen" }))
+        }
+          
+          if (data.data) {
+            dispatch(addPatients({ data: data.data,save:true }))
+          }
+        })
+      // get appointments
+      data = {
+                   data: { action: 'get_all', data:{} },
+                   token: user.usertoken
+                 }
+               appointmentApi(data).then(data => {
+                 if (data.error) {
+                   dispatch(addAlert({ ...data.error, page: "search_page" }))
+               }
+                 
+                 if (data.data) {
+                   dispatch(addAppointments({ data: data.data,save:true }))
+                 }
+               })
+    // get message and patient
+     data = {
+          data: { action: "get_all_last", data: {} },
+          token: user.usertoken,
+        };
+        patientandmessage(data).then(data => {
+          if (data.error) {
+            dispatch(addAlert({ ...data.error, page: "search_page" }));
+          }
+    
+          if (data.data) {
+            dispatch(addPatientAndMessage({ ...data.data, save: true }));
+          }
+        });
+             
+      
+      }, [user])
+  
+
+  useEffect(() => {
+      let data = [init];
+      if (patientAndMessages) {
+        const { patients, messages } = patientAndMessages;
+  
+        if (messages) {
+          for (let index = 0; index < messages.length; index++) {
+            let patientData = init;
+  
+            patientData = { ...patientData, ...messages[0], ...patients[0] };
+            data.push(patientData);
+          }
+          data = data.slice(1);
+          setMessagesData(data);
+          setState({ ...state, Messages: data })
+          setDone(true)
+        }
+      }
+    }, [patientAndMessages]);
+
+
+   useEffect(() => {
+    
+    if (search) {
+      if (selectedOption == 'Messages') {
+        const filtered = messagesData.filter(elem => search_name(elem.full_name,search))
+        setState({...state,Messages: filtered})
+      } else if (selectedOption == 'Patients') {
+         const filtered = patientsData.filter(elem=>search_name(elem.full_name,search))
+        setState({...state,Patients:filtered})
+      } else if (selectedOption == 'Appointments') {
+        const filtered = appointmentsData.filter(elem=>search_name(elem.patient_name,search))
+        setState({...state,Appointments:filtered})
+      }
+      
+    } else if (done) {
+      if (selectedOption == 'Messages') {
+        setState({...state,Messages:messagesData})
+      }else if (selectedOption == 'Patients') {
+        setState({...state,Patients:patientsData})
+      }else if (selectedOption == 'Appointments') {
+        setState({...state,Appointments:appointmentsData})
+      }
+      
+    }
+  
+  }, [search])
+ 
 
   return (
     <ScrollView>
@@ -34,13 +171,13 @@ const SearchScreen = () => {
         </View>
 
         {selectedOption === "Patients" && (
-          <PatientList patientsData={patientsData} />
+          <PatientList patientsData={state[selectedOption]} />
         )}
         {selectedOption === "Appointments" && (
-          <AppointmentsList appointmentsData={appointmentsData} />
+          <AppointmentsList appointmentsData={state[selectedOption]} />
         )}
         {selectedOption === "Messages" && (
-          <MessageList messagesData={messagesData} />
+          <MessageList messagesData={state[selectedOption]} />
         )}
       </View>
     </ScrollView>

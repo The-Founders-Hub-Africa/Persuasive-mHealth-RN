@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import NewPatientScreen from "@/src/screens/(dashboard)/NewPatientScreen";
 import EditPatientScreen from "@/src/screens/(dashboard)/EditPatientScreen";
+import { get_name } from "@/src/integrations/axios_store";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,9 +38,29 @@ const PatientsStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen name="Patient Details" component={PatientDetailsScreen} />
+      <Stack.Screen name="Patient Details" 
+        
+        options={({ route }) => {
+        
+                  let name = get_name(route.params);
+                   
+                  return {
+                    title: `${name} details`,
+                  }
+        }} 
+        
+        component={PatientDetailsScreen} />
       <Stack.Screen name="New Patient" component={NewPatientScreen} />
-      <Stack.Screen name="Edit Patient" component={EditPatientScreen} />
+      <Stack.Screen name="Edit Patient"
+        options={({ route }) => {
+        
+                  let name = get_name(route.params);
+                   
+                  return {
+                    title: `${name} (Edit)`,
+                  }
+        }} 
+        component={EditPatientScreen} />
     </Stack.Navigator>
   );
 };

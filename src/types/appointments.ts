@@ -1,10 +1,18 @@
 import { ImageSourcePropType } from "react-native";
 
 export interface AppointmentProps {
-  id: string;
-  name: string;
-  status: string;
+  id: number;
+  patient:number
+  condition: string;
+  symptoms: string;
+  notes: string;
   date: string;
   time: string;
-  image: ImageSourcePropType | undefined;
+  mode: string;
+  status: string;
+  medical_practitioner: number;
+  // document: string;
+  patient_name: string;
+  document: ImageSourcePropType | undefined;
+  
 }

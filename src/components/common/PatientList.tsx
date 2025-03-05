@@ -25,13 +25,17 @@ const PatientList = ({ patientsData }: { patientsData: PatientProps[] }) => {
 export default PatientList;
 
 const PatientCard = ({ patient }: { patient: PatientProps }) => {
+  
   const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
 
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Patients", { screen: "Patient Details" })
+        navigation.navigate("Patients", {
+          screen: "Patient Details",
+          params: { id: patient.id, name: patient.full_name },
+         })
       }
       style={{
         backgroundColor: theme.colors["purple-50"],
@@ -65,7 +69,7 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
 
         {/* Center: Patient Details */}
         <View style={{ gap: 8 }}>
-          <Text style={typography.textBase_Medium}>{patient.name}</Text>
+          <Text style={typography.textBase_Medium}>{patient.full_name}</Text>
           <Text style={typography.textXS_Regular}>
             Last visit: {patient.date}
           </Text>
@@ -89,7 +93,7 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
                   width: "auto",
                 },
               ]}>
-              {patient.number}
+              {patient.whatsapp_number}
             </Text>
           </View>
         </View>
@@ -106,12 +110,17 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
         {/* Dropdown Menu */}
         {menuVisible && (
           <View style={globalStyles.actionsDropdown}>
-            <TouchableOpacity onPress={() => Alert.alert("Edit")}>
+            <TouchableOpacity onPress={() =>
+        navigation.navigate("Patients", {
+          screen: "Edit Patient",
+          params: { id: patient.id, name: patient.full_name },
+         })} >
               <Text style={{ padding: 8 }}>Edit</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => Alert.alert("Cancel")}>
+
+            {/* <TouchableOpacity onPress={() => Alert.alert("Cancel")}>
               <Text style={{ padding: 8, color: "red" }}>Cancel</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         )}
       </View>

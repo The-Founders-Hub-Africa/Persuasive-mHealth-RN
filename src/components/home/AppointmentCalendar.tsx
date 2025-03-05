@@ -1,19 +1,36 @@
 import { Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar } from "react-native-calendars";
 import theme, { calendarTheme } from "@/src/styles/theme";
 import { Entypo, Feather } from "@expo/vector-icons";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import SectionHeader from "../common/SectionHeader";
+import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { convertDate } from "@/src/integrations/axios_store";
 
 const AppointmentCalendar = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  const appointment = useAppSelector(state => state.appointments.data);
+  const pendings = appointment.filter(data => data.status === 'pending')
+  
+  const [selected, setSelected] = useState<{ [key: string]: { selected: boolean; selectedColor: string } }>({});
 
-  const [selected, setSelected] = useState({
-    "2025-02-01": { selected: true, selectedColor: theme.colors["purple-700"] },
-    "2025-02-02": { selected: true, selectedColor: theme.colors["yellow-600"] },
-    "2025-02-03": { selected: true, selectedColor: theme.colors["purple-700"] },
-  });
+  useEffect(() => {
+    let appointments: { [key: string]: any } = {};
+    pendings.forEach(value => {
+      let key = convertDate(value.date)
+      appointments[key] = {
+        selected: true,
+        selectedColor: theme.colors["purple-700"]
+      };
+    });
+    setSelected(appointments);
+
+    }, [appointment])
+
+ 
 
   return (
     <View
@@ -43,11 +60,13 @@ const AppointmentCalendar = () => {
         markedDates={selected}
         enableSwipeMonths
         onDayPress={(day: any) => {
+
+          // remember to set nav
           console.log("selected day", day);
         }}
       />
 
-      <View
+      {/* <View
         style={{
           flexDirection: "row",
           gap: 8,
@@ -63,9 +82,9 @@ const AppointmentCalendar = () => {
             color={theme.colors["purple-700"]}
           />
           <Text>Appointments</Text>
-        </View>
+        </View> */}
 
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -76,8 +95,8 @@ const AppointmentCalendar = () => {
             color={theme.colors["yellow-600"]}
           />
           <Text>Surgeries</Text>
-        </View>
-      </View>
+        </View> 
+    </View> */}
     </View>
   );
 };

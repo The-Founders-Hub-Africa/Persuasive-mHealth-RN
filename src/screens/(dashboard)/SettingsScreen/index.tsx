@@ -17,6 +17,10 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import typography from "@/src/styles/typography";
 import { Ionicons } from "@expo/vector-icons";
 import formStyles from "@/src/styles/formStyles";
+import Entypo from "@expo/vector-icons/Entypo";
+import Feather from "@expo/vector-icons/Feather";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const SettingsScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -77,8 +81,8 @@ const SettingsScreen = () => {
           </TouchableOpacity>
         </View>
 
+        {/* Top */}
         <View style={styles.profileContainer}>
-          {/* Top */}
           <View style={styles.section}>
             <Image
               source={require("@/assets/images/avatar.png")}
@@ -92,6 +96,180 @@ const SettingsScreen = () => {
               </Text>
             </View>
           </View>
+        </View>
+
+        {/* Account */}
+        <View style={styles.groupSection}>
+          <Text style={styles.groupSectionTitle}>Account</Text>
+
+          <TouchableOpacity
+            style={styles.groupSectionLink}
+            onPress={() => navigation.navigate("Edit Profile")}>
+            <View style={styles.groupSectionLeft}>
+              <View>
+                <Ionicons
+                  name="person-outline"
+                  size={16}
+                  color={theme.colors["neutral-500"]}
+                />
+              </View>
+              <Text>Profile</Text>
+            </View>
+            <View style={styles.groupSectionRight}>
+              <Entypo
+                name="chevron-right"
+                size={16}
+                color={theme.colors["neutral-500"]}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.groupSectionLink}>
+            <View style={styles.groupSectionLeft}>
+              <View>
+                <Feather
+                  name="lock"
+                  size={16}
+                  color={theme.colors["neutral-500"]}
+                />
+              </View>
+              <Text>Security</Text>
+            </View>
+            <View style={styles.groupSectionRight}>
+              <Entypo
+                name="chevron-right"
+                size={16}
+                color={theme.colors["neutral-500"]}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.groupSectionLink}>
+            <View style={styles.groupSectionLeft}>
+              <View>
+                <Feather
+                  name="bell"
+                  size={16}
+                  color={theme.colors["neutral-500"]}
+                />
+              </View>
+              <Text>Notifications</Text>
+            </View>
+            <View style={styles.groupSectionRight}>
+              <Entypo
+                name="chevron-right"
+                size={16}
+                color={theme.colors["neutral-500"]}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* Agreement */}
+        <View style={styles.groupSection}>
+          <Text style={styles.groupSectionTitle}>Agreement</Text>
+
+          <TouchableOpacity style={styles.groupSectionLink}>
+            <View style={styles.groupSectionLeft}>
+              <View>
+                <Ionicons
+                  name="shield-checkmark-outline"
+                  size={16}
+                  color={theme.colors["neutral-500"]}
+                />
+              </View>
+              <Text>Privacy & policy</Text>
+            </View>
+            <View style={styles.groupSectionRight}>
+              <Entypo
+                name="chevron-right"
+                size={16}
+                color={theme.colors["neutral-500"]}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.groupSectionLink}>
+            <View style={styles.groupSectionLeft}>
+              <View>
+                <FontAwesome
+                  name="balance-scale"
+                  size={16}
+                  color={theme.colors["neutral-500"]}
+                />
+              </View>
+              <Text>Support & legal</Text>
+            </View>
+            <View style={styles.groupSectionRight}>
+              <Entypo
+                name="chevron-right"
+                size={16}
+                color={theme.colors["neutral-500"]}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.groupSectionLink}>
+            <View style={styles.groupSectionLeft}>
+              <View>
+                <FontAwesome
+                  name="balance-scale"
+                  size={16}
+                  color={theme.colors["neutral-500"]}
+                />
+              </View>
+              <Text>Terms & Condirions</Text>
+            </View>
+            <View style={styles.groupSectionRight}>
+              <Entypo
+                name="chevron-right"
+                size={16}
+                color={theme.colors["neutral-500"]}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* Help center */}
+        <View style={styles.groupSection}>
+          <Text style={styles.groupSectionTitle}>Help center</Text>
+
+          <TouchableOpacity style={styles.groupSectionLink}>
+            <View style={styles.groupSectionLeft}>
+              <View>
+                <MaterialCommunityIcons
+                  name="check-decagram-outline"
+                  size={16}
+                  color={theme.colors["neutral-500"]}
+                />
+              </View>
+              <Text>FAQ</Text>
+            </View>
+            <View style={styles.groupSectionRight}>
+              <Entypo
+                name="chevron-right"
+                size={16}
+                color={theme.colors["neutral-500"]}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.groupSectionLink}>
+            <View style={styles.groupSectionLeft}>
+              <View>
+                <Image
+                  source={require("@/assets/images/whatsapp.svg")}
+                  style={{
+                    width: 16,
+                    height: 16,
+                  }}
+                />
+              </View>
+              <Text>Sync to WhatsApp</Text>
+            </View>
+            <View style={styles.groupSectionRight}>
+              <Entypo
+                name="chevron-right"
+                size={16}
+                color={theme.colors["neutral-500"]}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
 
         <TouchableOpacity onPress={handleLogout} style={styles.submitButton}>
@@ -144,5 +322,33 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
     fontSize: 16,
     fontWeight: 600,
+  },
+
+  groupSection: {
+    width: "100%",
+    gap: 8,
+  },
+  groupSectionTitle: {
+    ...typography.textSmall_Medium,
+    marginBottom: 8,
+  },
+  groupSectionLink: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 16,
+    borderWidth: 1,
+    borderColor: theme.colors["purple-200"],
+    borderRadius: 10,
+    padding: 16,
+  },
+  groupSectionLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 16,
+  },
+  groupSectionRight: {
+    alignSelf: "flex-end",
   },
 });

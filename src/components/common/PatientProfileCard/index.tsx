@@ -1,8 +1,15 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const PatientProfileCard = () => {
   return (
@@ -58,6 +65,35 @@ const PatientProfileCard = () => {
             ]}>
             Hypertension
           </Text>
+
+          <TouchableOpacity
+            style={[
+              typography.textSmall_Medium,
+              {
+                backgroundColor: "white",
+                borderWidth: 1,
+                borderColor: theme.colors["purple-600"],
+                borderRadius: 8,
+                paddingVertical: 4,
+                paddingHorizontal: 8,
+                alignSelf: "flex-start", // Prevents unnecessary stretching
+                width: "auto",
+
+                gap: 4,
+              },
+            ]}>
+            <Text
+              style={{
+                color: theme.colors["purple-600"],
+              }}>
+              <FontAwesome
+                name="whatsapp"
+                size={16}
+                color={theme.colors["purple-600"]}
+              />{" "}
+              Call on WhatsApp
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

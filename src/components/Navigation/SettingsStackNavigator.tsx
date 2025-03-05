@@ -7,6 +7,13 @@ import theme from "@/src/styles/theme";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import SettingsScreen from "@/src/screens/(dashboard)/SettingsScreen";
+import SecurityScreen from "@/src/screens/(dashboard)/SecurityScreen";
+import PasswordScreen from "@/src/screens/(dashboard)/PasswordScreen";
+import NotificationSettingsScreen from "@/src/screens/(dashboard)/NotificationSettingsScreen";
+import FAQScreen from "@/src/screens/(dashboard)/FAQScreen";
+import PrivacyPolicyScreen from "@/src/screens/(dashboard)/PrivacyPolicyScreen";
+import TermsScreen from "@/src/screens/(dashboard)/SupportScreen";
+import SupportScreen from "@/src/screens/(dashboard)/SupportScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +61,16 @@ const SettingsStackNavigator = () => {
           ),
         }}
       />
+      <Stack.Screen name="Security" component={SecurityScreen} />
+      <Stack.Screen name="Change Password" component={PasswordScreen} />
+      <Stack.Screen
+        name="Notification Settings"
+        component={NotificationSettingsScreen}
+      />
+      <Stack.Screen name="FAQ" component={FAQScreen} />
+      <Stack.Screen name="Privacy & Policy" component={PrivacyPolicyScreen} />
+      <Stack.Screen name="Terms & Conditions" component={TermsScreen} />
+      <Stack.Screen name="Support & Legal" component={SupportScreen} />
     </Stack.Navigator>
   );
 };

@@ -123,7 +123,9 @@ const SettingsScreen = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.groupSectionLink}>
+          <TouchableOpacity
+            style={styles.groupSectionLink}
+            onPress={() => navigation.navigate("Security")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <Feather
@@ -142,7 +144,9 @@ const SettingsScreen = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.groupSectionLink}>
+          <TouchableOpacity
+            style={styles.groupSectionLink}
+            onPress={() => navigation.navigate("Notification Settings")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <Feather
@@ -167,7 +171,9 @@ const SettingsScreen = () => {
         <View style={styles.groupSection}>
           <Text style={styles.groupSectionTitle}>Agreement</Text>
 
-          <TouchableOpacity style={styles.groupSectionLink}>
+          <TouchableOpacity
+            style={styles.groupSectionLink}
+            onPress={() => navigation.navigate("Privacy & Policy")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <Ionicons
@@ -186,7 +192,9 @@ const SettingsScreen = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.groupSectionLink}>
+          <TouchableOpacity
+            style={styles.groupSectionLink}
+            onPress={() => navigation.navigate("Support & Legal")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <FontAwesome
@@ -205,7 +213,9 @@ const SettingsScreen = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.groupSectionLink}>
+          <TouchableOpacity
+            style={styles.groupSectionLink}
+            onPress={() => navigation.navigate("Terms & Conditions")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <FontAwesome
@@ -214,7 +224,7 @@ const SettingsScreen = () => {
                   color={theme.colors["neutral-500"]}
                 />
               </View>
-              <Text>Terms & Condirions</Text>
+              <Text>Terms & Conditions</Text>
             </View>
             <View style={styles.groupSectionRight}>
               <Entypo
@@ -230,7 +240,9 @@ const SettingsScreen = () => {
         <View style={styles.groupSection}>
           <Text style={styles.groupSectionTitle}>Help center</Text>
 
-          <TouchableOpacity style={styles.groupSectionLink}>
+          <TouchableOpacity
+            style={styles.groupSectionLink}
+            onPress={() => navigation.navigate("FAQ")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <MaterialCommunityIcons
@@ -253,7 +265,7 @@ const SettingsScreen = () => {
             <View style={styles.groupSectionLeft}>
               <View>
                 <Image
-                  source={require("@/assets/images/whatsapp.svg")}
+                  source={require("@/assets/images/whatsapp.png")}
                   style={{
                     width: 16,
                     height: 16,

@@ -23,12 +23,14 @@ import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addAppointments } from "@/src/integrations/features/appointment/appointmentsSlice";
 import AppointmentCard from "@/src/components/common/AppointmentCard";
+import { search_name } from "@/src/integrations/axios_store";
 // import { getPatientById } from "@/src/integrations/features/patient/patientsSlice";
 
 
 
 const AppointmentsScreen = () => {
   const [search, setSearch] = useState("");
+  const [hSearch, setHSearch] = useState("");
   // Filter appointments based on date
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -71,6 +73,34 @@ const AppointmentsScreen = () => {
     const appointmentDate = new Date(appointment.date);
     return appointmentDate < today;
   });
+
+  const [state, setState] = useState({'history': historyAppointments,
+    'ongoing': ongoingAppointments
+  });
+  
+  useEffect(() => {
+  if (search) {
+      const filtered = ongoingAppointments.filter(elem => search_name(elem.patient_name,search))
+        setState({...state,ongoing: filtered})
+    } else {
+     
+       setState({...state,ongoing:ongoingAppointments})
+    }
+  }, [search])
+
+
+  useEffect(() => {
+  
+  if (hSearch) {
+    const filtered = historyAppointments.filter(elem => search_name(elem.patient_name, hSearch))
+        setState({...state,history: filtered})
+    } else {
+     
+       setState({...state,history:historyAppointments})
+    }
+  }, [hSearch])
+
+
   
   const tabs = [
     {
@@ -86,7 +116,7 @@ const AppointmentsScreen = () => {
             style={{
               marginTop: 16,
             }}>
-            <AppointmentsList appointmentsData={ongoingAppointments} />
+            <AppointmentsList appointmentsData={state.ongoing} />
           </View>
         </View>
       ),
@@ -96,15 +126,15 @@ const AppointmentsScreen = () => {
       component: (
         <View>
           <SearchInput
-            value={search}
-            setValue={setSearch}
+            value={hSearch}
+            setValue={setHSearch}
             placeholder="Search"
           />
           <View
             style={{
               marginTop: 16,
             }}>
-            <AppointmentsList appointmentsData={historyAppointments} />
+            <AppointmentsList appointmentsData={state.history} />
           </View>
         </View>
       ),

@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addPatients } from "@/src/integrations/features/patient/patientsSlice";
 import { usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
+import { search_name } from "@/src/integrations/axios_store";
 
 const PatientsScreen = () => {
   const [search, setSearch] = useState("");
@@ -29,6 +30,18 @@ const PatientsScreen = () => {
   const user = useAppSelector(state => state.user);
   const patients = useAppSelector(state => state.patients.data);
 
+  const [state, setState] = useState(patients);
+
+   useEffect(() => {
+    if (search) {
+        const filtered = patients.filter(elem => search_name(elem.full_name,search))
+          setState(filtered)
+      } else {
+       
+         setState(patients)
+      }
+    }, [search])
+
     useEffect(() => {
         let data = {
           data: { action: 'get_all', data:{} },
@@ -36,7 +49,7 @@ const PatientsScreen = () => {
         }
       patientsApi(data).then(data => {
         if (data.error) {
-          dispatch(addAlert({ ...data.error, page: "home_screen" }))
+          dispatch(addAlert({ ...data.error, page: "patient_screen" }))
       }
         
         if (data.data) {
@@ -162,7 +175,7 @@ const PatientsScreen = () => {
           </View>
         </View>
 
-        <PatientList patientsData={patients} />
+        <PatientList patientsData={state} />
       </View>
     </ScrollView>
   );

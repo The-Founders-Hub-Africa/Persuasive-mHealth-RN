@@ -25,6 +25,7 @@ const PatientList = ({ patientsData }: { patientsData: PatientProps[] }) => {
 export default PatientList;
 
 const PatientCard = ({ patient }: { patient: PatientProps }) => {
+  
   const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -68,7 +69,7 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
 
         {/* Center: Patient Details */}
         <View style={{ gap: 8 }}>
-          <Text style={typography.textBase_Medium}>{patient.whatsapp_number}</Text>
+          <Text style={typography.textBase_Medium}>{patient.full_name}</Text>
           <Text style={typography.textXS_Regular}>
             Last visit: {patient.date}
           </Text>

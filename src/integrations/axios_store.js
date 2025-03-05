@@ -5,6 +5,12 @@ import {baseUrl} from './features/apis/apiSlice'
 export const get_id = (param) => param.id
 export const get_name = (param) => param.name
 
+export const search_name = (fullname, name) => {
+    fullname = fullname.toLocaleLowerCase()
+    name = name.toLocaleLowerCase()
+    return fullname.indexOf(name) > -1
+  }
+
 export const convertDate = (dateStr) => {
     const months = {
         Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',

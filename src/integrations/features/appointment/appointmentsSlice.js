@@ -51,7 +51,7 @@ export const appointmentsSlice = createSlice({
       filtered.sort((a, b) => {
         const dateA = new Date(`${convertDate(a.date)}T${a.time}`);
         const dateB = new Date(`${convertDate(b.date)}T${b.time}`);
-        return   dateB - dateA ;
+        return   dateA - dateB ;
       });
       
         state.data = filtered

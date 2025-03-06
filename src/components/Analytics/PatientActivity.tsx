@@ -1,69 +1,59 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SectionHeader from "../common/SectionHeader";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { BarChart } from "react-native-gifted-charts";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
+import { useAppSelector } from "@/src/integrations/hooks";
 
 const PatientActivity = () => {
   const navigation = useNavigation<NavigationProp<any>>();
-  const barData = [
-    {
+  const appointmentsData = useAppSelector(state => state.appointments.data);
+  
+  const [barData, setBarData] = useState<Array<{
+    value: number; label: string; spacing?: number;
+    labelWidth?: number; labelTextStyle?:
+      { color: string }; frontColor: string
+  }>>([]);
+  let onlineSample = {
       value: 40,
       label: "Jan",
       spacing: 2,
       labelWidth: 30,
       labelTextStyle: { color: "gray" },
       frontColor: theme.colors["purple-700"],
-    },
-    { value: 20, frontColor: theme.colors["neutral-300"] },
-    {
-      value: 50,
-      label: "Feb",
-      spacing: 2,
-      labelWidth: 30,
-      labelTextStyle: { color: "gray" },
-      frontColor: theme.colors["purple-700"],
-    },
-    { value: 40, frontColor: theme.colors["neutral-300"] },
-    {
-      value: 75,
-      label: "Mar",
-      spacing: 2,
-      labelWidth: 30,
-      labelTextStyle: { color: "gray" },
-      frontColor: theme.colors["purple-700"],
-    },
-    { value: 25, frontColor: theme.colors["neutral-300"] },
-    {
-      value: 30,
-      label: "Apr",
-      spacing: 2,
-      labelWidth: 30,
-      labelTextStyle: { color: "gray" },
-      frontColor: theme.colors["purple-700"],
-    },
-    { value: 20, frontColor: theme.colors["neutral-300"] },
-    {
-      value: 60,
-      label: "May",
-      spacing: 2,
-      labelWidth: 30,
-      labelTextStyle: { color: "gray" },
-      frontColor: theme.colors["purple-700"],
-    },
-    { value: 40, frontColor: theme.colors["neutral-300"] },
-    {
-      value: 65,
-      label: "Jun",
-      spacing: 2,
-      labelWidth: 30,
-      labelTextStyle: { color: "gray" },
-      frontColor: theme.colors["purple-700"],
-    },
-    { value: 30, frontColor: theme.colors["neutral-300"] },
-  ];
+  }
+  let offlineSample = { value: 20, frontColor: theme.colors["neutral-300"] }
+  
+  useEffect(() => {
+    let data: { [key: string]: any } = {}
+    let fData = []
+
+    appointmentsData.forEach(appoint => {
+      let type = appoint.mode
+      let month = appoint.date.split('/')[1]
+      if (data[month]) {
+         data[month][type] += 1
+      } else {
+        data[month] = {
+          'online': 0,
+          'offline':0
+        }
+        data[month][type] += 1
+      }
+    })
+  
+    for (const key in data) {
+      fData.push({ ...onlineSample, value: data[key]['online'], label: key })
+      fData.push({...offlineSample,value:data[key]['offline'],label:key})
+  }
+
+  setBarData(fData)
+  
+  }, [appointmentsData])
+  
+  
 
   const renderTitle = () => {
     return (
@@ -122,7 +112,9 @@ const PatientActivity = () => {
   };
 
   return (
-    <View
+    
+      barData.length>0?
+        <View
       style={{
         gap: 16,
         width: "100%",
@@ -142,7 +134,10 @@ const PatientActivity = () => {
         yAxisTextStyle={{ color: "gray" }}
         noOfSections={4}
       />
-    </View>
+    </View >
+        : <></>
+    
+  
   );
 };
 

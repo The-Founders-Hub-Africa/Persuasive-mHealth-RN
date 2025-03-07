@@ -74,8 +74,8 @@ export const UserProfile = async (data) => {
         return {
             type: 'Error',
             success:false,
-            data: err.response.data,
-            status: err.response.status
+            data: err.data,
+            status: err.status
         }
 
     })
@@ -97,8 +97,8 @@ export const Appointments = async (data) => {
         return {
             type: 'Error',
             success:false,
-            data: err.response.data,
-            status: err.response.status
+            data: err.data,
+            status: err.status
         }
 
     })
@@ -120,8 +120,8 @@ export const Patients = async (data) => {
         return {
             type: 'Error',
             success:false,
-            data: err.response.data,
-            status: err.response.status
+            data: err.data,
+            status: err.status
         }
 
     })

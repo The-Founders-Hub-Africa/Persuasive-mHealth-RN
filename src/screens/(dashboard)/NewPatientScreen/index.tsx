@@ -28,6 +28,7 @@ import ModalPopup from "@/src/components/common/ModalPopup";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addSinglePatient } from "@/src/integrations/features/patient/patientsSlice";
 import { Patients } from "@/src/integrations/axios_store";
+import { addPatientCount } from "@/src/integrations/features/user/usersSlice";
 
 type FormData = {
   full_name: string;
@@ -109,6 +110,7 @@ export default function NewPatientScreen() {
                       dispatch(
                         addSinglePatient(res.data.patient)
                   );
+                  dispatch( addPatientCount({gender:res.data.patient.gender}))
                   setShowModal(true);
                       navigation.navigate("Patients");
                     } else {

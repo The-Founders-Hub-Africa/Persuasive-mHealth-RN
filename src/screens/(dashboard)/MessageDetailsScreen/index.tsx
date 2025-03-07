@@ -69,6 +69,7 @@ const MessageDetailsScreen = () => {
   // useEffect(() => {
   //    useAudioPlayer('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
   // }, [audio, video, audioPlayer, videoPlayer]);
+
   let player = useAudioPlayer(audioPlayer.uri?audioPlayer.uri:null);
   
 
@@ -80,10 +81,6 @@ const MessageDetailsScreen = () => {
     });
 
   
-  
-  // useEffect(() => {
-  //   const subscription = 
-  // }, [player]);
 
   const handleAudio = (id: number) => { 
     if (audioPlayer.id != id && !audioPlayer.playing) {
@@ -123,6 +120,9 @@ const MessageDetailsScreen = () => {
   
   const [WhatsappMessage, { isLoading }] = useWhatsappRecordsMutation()
 
+
+
+
   
   useEffect(() => {
     let data = {
@@ -142,7 +142,9 @@ const MessageDetailsScreen = () => {
           }
         })
     
-  }, [user])
+  }, [])
+
+
 
 
   const handleSaveToProfile = () => {

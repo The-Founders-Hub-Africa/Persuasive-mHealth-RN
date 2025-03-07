@@ -39,6 +39,16 @@ export const userSlice = createSlice({
       }
       save ? writeToAsyncStorage("user", action.payload):null
     },
+    addPatientCount: (state,action) => {
+      state.patient_count += 1
+      if (action.payload.gender == 'female') {
+        state.female_count += 1
+      } else {
+        state.male_count += 1
+      }
+      
+       writeToAsyncStorage("user", state)
+    },
     logoutUser: (state)=>{
       for (const key in state) {
         state[key] = initialData[key]
@@ -49,6 +59,6 @@ export const userSlice = createSlice({
  
 });
 
-export const { loginUser,logoutUser} = userSlice.actions;
+export const { loginUser,logoutUser,addPatientCount } = userSlice.actions;
 
 export default userSlice.reducer;

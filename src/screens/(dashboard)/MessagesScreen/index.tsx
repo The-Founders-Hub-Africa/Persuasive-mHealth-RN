@@ -38,8 +38,10 @@ const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
   //   }
 
   // }, [patients,error])
+  
 
   useEffect(() => {
+   
     let data = {
       data: { action: "get_all_last", data: {} },
       token: user.usertoken,
@@ -54,7 +56,8 @@ const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
         dispatch(addPatientAndMessage({ ...data.data, save: true }));
       }
     });
-  }, [user]);
+    
+  },[]);
 
   useEffect(() => {
     let data = [init];

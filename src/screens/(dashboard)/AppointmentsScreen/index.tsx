@@ -58,10 +58,13 @@ const AppointmentsScreen = () => {
            }
          })
        
-       }, [user])
+       }, [])
 // console.log(appointmentsData)
   // Filter for ongoing (upcoming) appointments
  
+  useEffect(() => {
+  
+  }, [appointmentsData])
 
   const ongoingAppointments = appointmentsData.filter((appointment) => {
     const appointmentDate = new Date(appointment.date);

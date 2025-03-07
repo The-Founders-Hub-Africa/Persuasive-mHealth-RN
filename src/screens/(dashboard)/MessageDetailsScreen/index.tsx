@@ -65,11 +65,11 @@ const MessageDetailsScreen = () => {
     },
   });
 
-  useEffect(() => {
-     if (audioPlayer.play) {
-       player.play()
-     }
-  }, [audio, video, audioPlayer]);
+  // useEffect(() => {
+  //    if (audioPlayer.play) {
+  //      player.play()
+  //    }
+  // }, [audio, video, audioPlayer]);
 
   // useEffect(() => {
   //    useAudioPlayer('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');

@@ -11,7 +11,7 @@ const AnalyticsScreen = () => {
     <ScrollView>
       <View style={style.container}>
         <Demographics />
-        <PatientActivity />
+        <PatientActivity hideViewAll />
         <AppointmentAnalysis />
       </View>
     </ScrollView>

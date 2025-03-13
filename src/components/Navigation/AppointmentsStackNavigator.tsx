@@ -45,92 +45,92 @@ const AppointmentsStackNavigator = () => {
         name="Appointment Details"
         component={AppointmentDetailsScreen}
         options={({ route }) => {
-
           let name = get_name(route.params);
-           
+
           return {
             title: `Appointment with ${name}`,
-            headerRight: () => (
-              <View style={{ zIndex: 3, elevation: 3 }}>
-                <TouchableOpacity
-                  style={globalStyles.actionsBtn}
-                  onPress={() => setMenuVisible(!menuVisible)}>
-                  <Feather name="more-vertical" size={24} color="#555" />
-                </TouchableOpacity>
+            // headerRight: () => (
+            //   <View style={{ zIndex: 3, elevation: 3 }}>
+            //     <TouchableOpacity
+            //       style={globalStyles.actionsBtn}
+            //       onPress={() => setMenuVisible(!menuVisible)}>
+            //       <Feather name="more-vertical" size={24} color="#555" />
+            //     </TouchableOpacity>
 
-                {/* Dropdown Menu */}
-                {menuVisible && (
-                  <View style={globalStyles.actionsDropdown}>
-                    <TouchableOpacity
-                      onPress={() => Alert.alert("Upload vai WhatsApp")}>
-                      <View
-                        style={{
-                          padding: 8,
-                          gap: 4,
-                          alignItems: "center",
-                          flexDirection: "row",
-                        }}>
-                        <MaterialIcons
-                          name="preview"
-                          size={16}
-                          color={theme.colors["neutral-700"]}
-                        />
-                        <Text
-                          style={{
-                            color: theme.colors["neutral-700"],
-                          }}>
-                          View
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => Alert.alert("Downloads")}>
-                      <View
-                        style={{
-                          padding: 8,
-                          gap: 4,
-                          alignItems: "center",
-                          flexDirection: "row",
-                        }}>
-                        <Feather
-                          name="download"
-                          size={16}
-                          color={theme.colors["neutral-700"]}
-                        />
-                        <Text style={{ color: theme.colors["neutral-700"] }}>
-                          Download
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => Alert.alert("Delete")}>
-                      <View
-                        style={{
-                          padding: 8,
-                          gap: 4,
-                          alignItems: "center",
-                          flexDirection: "row",
-                        }}>
-                        <Feather name="delete" size={16} color={"red"} />
-                        <Text style={{ color: "red" }}>Delete</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </View>
-            ),
+            //     {/* Dropdown Menu */}
+            //     {menuVisible && (
+            //       <View style={globalStyles.actionsDropdown}>
+            //         <TouchableOpacity
+            //           onPress={() => Alert.alert("Upload vai WhatsApp")}>
+            //           <View
+            //             style={{
+            //               padding: 8,
+            //               gap: 4,
+            //               alignItems: "center",
+            //               flexDirection: "row",
+            //             }}>
+            //             <MaterialIcons
+            //               name="preview"
+            //               size={16}
+            //               color={theme.colors["neutral-700"]}
+            //             />
+            //             <Text
+            //               style={{
+            //                 color: theme.colors["neutral-700"],
+            //               }}>
+            //               View
+            //             </Text>
+            //           </View>
+            //         </TouchableOpacity>
+            //         <TouchableOpacity onPress={() => Alert.alert("Downloads")}>
+            //           <View
+            //             style={{
+            //               padding: 8,
+            //               gap: 4,
+            //               alignItems: "center",
+            //               flexDirection: "row",
+            //             }}>
+            //             <Feather
+            //               name="download"
+            //               size={16}
+            //               color={theme.colors["neutral-700"]}
+            //             />
+            //             <Text style={{ color: theme.colors["neutral-700"] }}>
+            //               Download
+            //             </Text>
+            //           </View>
+            //         </TouchableOpacity>
+            //         <TouchableOpacity onPress={() => Alert.alert("Delete")}>
+            //           <View
+            //             style={{
+            //               padding: 8,
+            //               gap: 4,
+            //               alignItems: "center",
+            //               flexDirection: "row",
+            //             }}>
+            //             <Feather name="delete" size={16} color={"red"} />
+            //             <Text style={{ color: "red" }}>Delete</Text>
+            //           </View>
+            //         </TouchableOpacity>
+            //       </View>
+            //     )}
+            //   </View>
+            // ),
           };
         }}
       />
       <Stack.Screen name="New Appointment" component={NewAppointmentScreen} />
-      <Stack.Screen name="Edit Appointment" component={EditAppointmentScreen}
+      <Stack.Screen
+        name="Edit Appointment"
+        component={EditAppointmentScreen}
         options={({ route }) => {
-
           let name = get_name(route.params);
-           
+
           return {
             title: `Edit Appointment with ${name}`,
-          }
-        }} 
-    />
+          };
+        }}
+      />
     </Stack.Navigator>
   );
 };

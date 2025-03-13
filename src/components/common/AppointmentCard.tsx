@@ -8,66 +8,69 @@ import theme from "@/src/styles/theme";
 import { Feather } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import {  useAppointmentsMutation } from "@/src/integrations/features/apis/apiSlice";
+import { useAppointmentsMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addSingleAppointment } from "@/src/integrations/features/appointment/appointmentsSlice";
 
-
-
 const AppointmentCard = ({
-  appointment, appointmentPage
+  appointment,
+  appointmentPage,
 }: {
-        appointment: AppointmentProps;
-        appointmentPage: boolean
+  appointment: AppointmentProps;
+  appointmentPage: boolean;
 }) => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
   const isPassed = new Date(appointment.date) <= new Date();
-  
+
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
   // const appointment = useAppSelector(state => state.appointments.data);
 
   const [appointmentApi, { isLoading }] = useAppointmentsMutation();
-  
 
-  const handleCancel = (id:number) => {
-     let data = {
-                  data: { action: 'set_status', data:{id:id,status:'cancelled'} },
-                  token: user.usertoken
-                }
-              appointmentApi(data).then(data => {
-                if (data.error) {
-                  dispatch(addAlert({ ...data.error, page: "appointment page" }))
-              }
-                
-                  if (data.data) {
-                  dispatch(addSingleAppointment(data.data))
-                }
-              })
-    }
-    
-    const moveToEdit = () => {
-                appointmentPage?
-                                navigation.navigate("Edit Appointment",{ id: appointment.id, name: appointment.patient_name },)
-                                :
-                                  navigation.navigate("Appointments", {
-                                      screen: "Edit Appointment",
-                                      params: { id: appointment.id, name: appointment.patient_name },
-                                  })
-       
-                                }
+  const handleCancel = (id: number) => {
+    let data = {
+      data: { action: "set_status", data: { id: id, status: "cancelled" } },
+      token: user.usertoken,
+    };
+    appointmentApi(data).then(data => {
+      if (data.error) {
+        dispatch(addAlert({ ...data.error, page: "appointment page" }));
+      }
+
+      if (data.data) {
+        dispatch(addSingleAppointment(data.data));
+      }
+    });
+  };
+
+  const moveToEdit = () => {
+    appointmentPage
+      ? navigation.navigate("Edit Appointment", {
+          id: appointment.id,
+          name: appointment.patient_name,
+        })
+      : navigation.navigate("Appointments", {
+          screen: "Edit Appointment",
+          params: { id: appointment.id, name: appointment.patient_name },
+        });
+  };
 
   return (
     <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("Appointments", {
-          screen: "Appointment Details",
-          params: { id: appointment.id, name: appointment.patient_name },
-        })
-  
-      }
+      onPress={() => {
+        appointmentPage
+          ? navigation.navigate("Appointment Details", {
+              id: appointment.id,
+              name: appointment.patient_name,
+            })
+          : navigation.navigate("Appointments", {
+              screen: "Appointment Details",
+              params: { id: appointment.id, name: appointment.patient_name },
+            });
+      }}
       style={{
         backgroundColor: theme.colors["purple-50"],
         flexDirection: "row",
@@ -99,7 +102,9 @@ const AppointmentCard = ({
 
         {/* Center: Appointment Details */}
         <View style={{ gap: 8 }}>
-          <Text style={typography.textBase_Medium}>{appointment.patient_name}</Text>
+          <Text style={typography.textBase_Medium}>
+            {appointment.patient_name}
+          </Text>
           <View
             style={{
               flexDirection: "row",
@@ -123,9 +128,9 @@ const AppointmentCard = ({
               {appointment.mode}
             </Text>
           </View>
-          
-            <Text style={typography.textXS_Regular}>{appointment.status} </Text>
-              
+
+          <Text style={typography.textXS_Regular}>{appointment.status} </Text>
+
           <View
             style={{
               flexDirection: "row",
@@ -203,10 +208,7 @@ const AppointmentCard = ({
                 color: theme.colors.white,
               },
             ]}
-
-          onPress={moveToEdit}
-          
-          >
+            onPress={moveToEdit}>
             Reschedule
           </Text>
         </TouchableOpacity>
@@ -221,7 +223,7 @@ const AppointmentCard = ({
           {/* Dropdown Menu */}
           {menuVisible && (
             <View style={globalStyles.actionsDropdown}>
-                              <TouchableOpacity onPress={moveToEdit}>
+              <TouchableOpacity onPress={moveToEdit}>
                 <Text style={{ padding: 8 }}>Edit</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleCancel(appointment.id)}>
@@ -235,4 +237,4 @@ const AppointmentCard = ({
   );
 };
 
-export default AppointmentCard
+export default AppointmentCard;

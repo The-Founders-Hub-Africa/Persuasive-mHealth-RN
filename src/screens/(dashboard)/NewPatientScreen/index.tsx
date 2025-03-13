@@ -41,7 +41,7 @@ type FormData = {
   next_of_kin: string;
   condition: string;
   symptoms: string;
-  document: string;
+  // document: string;
   identifier: string;
   medical_practitioner: number;
 };
@@ -55,7 +55,6 @@ export default function NewPatientScreen() {
   const user = useAppSelector(state => state.user);
 
   const [showModal, setShowModal] = useState(false);
-   
 
   const {
     control,
@@ -75,7 +74,7 @@ export default function NewPatientScreen() {
       next_of_kin: "",
       condition: "",
       symptoms: "",
-      document: "",
+      // document: "",
       identifier: "",
       medical_practitioner: user.id,
     },
@@ -94,63 +93,58 @@ export default function NewPatientScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
-             let data_ = {
-                      token: user.usertoken,
-                      data: {
-                        formdata: data,
-                        img: fileDetails,
-                      },
-                    };
-                    // console.log(data_)
-                    let res = await Patients(data_);
-                if (res.success) {
-                  // reset form data here
-                  
-                  // 
-                      dispatch(
-                        addSinglePatient(res.data.patient)
-                  );
-                  dispatch( addPatientCount({gender:res.data.patient.gender}))
-                  setShowModal(true);
-                      navigation.navigate("Patients");
-                    } else {
-                      let err = {
-                        status_code: 500,
-                        data: { message: "Error occurred" },
-                        page: "new_patient_page",
-                      };
-                      dispatch(addAlert(err));
-                      // console.log('Error occurred')
-                    }
+    let data_ = {
+      token: user.usertoken,
+      data: {
+        formdata: data,
+        img: fileDetails,
+      },
+    };
+    // console.log(data_)
+    let res = await Patients(data_);
+    if (res.success) {
+      // reset form data here
 
-
-    
-  };
-
-  const handleImageUpload = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images", "videos"],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      let returndata = result.assets[0];
-      if (returndata.mimeType && returndata.fileName) {
-        const uri = returndata.uri || null;
-        setfileDetails({
-          type: returndata.mimeType,
-          filename: returndata.fileName,
-        });
-        if (uri) {
-          setValue("document", uri);
-        }
-      }
+      //
+      dispatch(addSinglePatient(res.data.patient));
+      dispatch(addPatientCount({ gender: res.data.patient.gender }));
+      setShowModal(true);
+      navigation.navigate("Patients");
     } else {
-      console.log("Image Picker Error: ---");
+      let err = {
+        status_code: 500,
+        data: { message: "Error occurred" },
+        page: "new_patient_page",
+      };
+      dispatch(addAlert(err));
+      // console.log('Error occurred')
     }
   };
+
+  // const handleImageUpload = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ["images", "videos"],
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+
+  //   if (!result.canceled) {
+  //     let returndata = result.assets[0];
+  //     if (returndata.mimeType && returndata.fileName) {
+  //       const uri = returndata.uri || null;
+  //       setfileDetails({
+  //         type: returndata.mimeType,
+  //         filename: returndata.fileName,
+  //       });
+  //       if (uri) {
+  //         setValue("document", uri);
+  //       }
+  //     }
+  //   } else {
+  //     console.log("Image Picker Error: ---");
+  //   }
+  // };
 
   return (
     <ScrollView>
@@ -564,9 +558,8 @@ export default function NewPatientScreen() {
             )}
           </View>
 
-
           {/* Medical document */}
-          <View style={formStyles.inputGroup}>
+          {/* <View style={formStyles.inputGroup}>
             <Text style={formStyles.label}>Medical document</Text>
             <TouchableOpacity
               style={styles.profileImageCntr}
@@ -620,14 +613,14 @@ export default function NewPatientScreen() {
                 }
               />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
 
         {/* Continue Button */}
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
           style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Create patient</Text>
+          <Text style={formStyles.submitText}>Create Patient</Text>
         </TouchableOpacity>
 
         {/* Success Modal */}
@@ -663,4 +656,3 @@ const styles = StyleSheet.create({
 function dispatch(arg0: any) {
   throw new Error("Function not implemented.");
 }
-

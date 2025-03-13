@@ -3,7 +3,6 @@ import React from "react";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { PatientProps } from "@/src/types";
 
 const PatientProfileCard = ({ patient }: { patient: PatientProps }) => {

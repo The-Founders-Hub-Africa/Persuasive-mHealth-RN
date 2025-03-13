@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import theme from "@/src/styles/theme";

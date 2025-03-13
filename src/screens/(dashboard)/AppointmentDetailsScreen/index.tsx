@@ -18,7 +18,6 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { get_id } from "@/src/integrations/axios_store";
 import { useRoute } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-// import {PatientProps} from '@/src/types'
 const AppointmentDetailsScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 

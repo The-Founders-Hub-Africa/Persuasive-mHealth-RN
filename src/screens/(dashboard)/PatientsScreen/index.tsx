@@ -2,21 +2,13 @@ import {
   View,
   ScrollView,
   Text,
-  TouchableOpacity,
-  Image,
-  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import globalStyles from "@/src/styles/global";
-import { patientsData } from "@/src/helpers";
 import SearchInput from "@/src/components/common/SearchInput";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { Feather } from "@expo/vector-icons";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { PatientProps } from "@/src/types";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addPatients } from "@/src/integrations/features/patient/patientsSlice";
@@ -181,4 +173,3 @@ const PatientsScreen = () => {
 };
 
 export default PatientsScreen;
-

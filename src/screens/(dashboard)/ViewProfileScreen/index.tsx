@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import theme from "@/src/styles/theme";
-import { Feather } from "@expo/vector-icons";
+import { Entypo, Feather } from "@expo/vector-icons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
@@ -108,7 +108,7 @@ const ViewProfileScreen = () => {
               {user.date_of_birth}
             </Text>
           </View>
-          <View style={{ flex: 2}}>
+          <View style={{ flex: 2 }}>
             <Text style={[typography.textBase_Regular]}>Phone number</Text>
             <Text style={[typography.textSmall_Regular, styles.input]}>
               {user.phone_number}
@@ -133,6 +133,21 @@ const ViewProfileScreen = () => {
             </TextInput>
           </View>
         </View>
+
+        <TouchableOpacity style={styles.whatsappButton}>
+          <View style={styles.whatsappButtonLeft}>
+            <View>
+              <Image
+                source={require("@/assets/images/whatsapp.png")}
+                style={{
+                  width: 16,
+                  height: 16,
+                }}
+              />
+            </View>
+            <Text>Sync to WhatsApp</Text>
+          </View>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={formStyles.submitButton}
@@ -195,5 +210,22 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
     lineHeight: 22,
     height: 150,
+  },
+  whatsappButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 16,
+    borderWidth: 1,
+    borderColor: theme.colors["purple-200"],
+    borderRadius: 10,
+    padding: 16,
+    width: "100%",
+  },
+  whatsappButtonLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 16,
   },
 });

@@ -82,21 +82,27 @@ const SettingsScreen = () => {
         </View>
 
         {/* Top */}
-        <View style={styles.profileContainer}>
-          <View style={styles.section}>
-            <Image
-              source={require("@/assets/images/avatar.png")}
-              style={styles.avatar}
-            />
+        <TouchableOpacity
+          onPress={() => navigation.navigate("View Profile")}
+          style={{
+            width: "100%",
+          }}>
+          <View style={styles.profileContainer}>
+            <View style={styles.section}>
+              <Image
+                source={require("@/assets/images/avatar.png")}
+                style={styles.avatar}
+              />
 
-            <View>
-              <Text style={typography.textLG_Medium}>{user.full_name}</Text>
-              <Text style={typography.textBase_Regular}>
-                {user.specialization}
-              </Text>
+              <View>
+                <Text style={typography.textLG_Medium}>{user.full_name}</Text>
+                <Text style={typography.textBase_Regular}>
+                  {user.specialization}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
 
         {/* Account */}
         <View style={styles.groupSection}>

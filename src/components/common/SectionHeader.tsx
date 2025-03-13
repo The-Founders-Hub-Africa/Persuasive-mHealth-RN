@@ -2,7 +2,15 @@ import typography from "@/src/styles/typography";
 import { Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
-const SectionHeader = ({ title, onPress }: { title: string; onPress: any }) => {
+const SectionHeader = ({
+  title,
+  onPress,
+  hideViewAll,
+}: {
+  title: string;
+  onPress: any;
+  hideViewAll?: boolean;
+}) => {
   return (
     <View
       style={{
@@ -21,16 +29,18 @@ const SectionHeader = ({ title, onPress }: { title: string; onPress: any }) => {
         {title}
       </Text>
 
-      <TouchableOpacity
-        onPress={onPress}
-        style={[
-          typography.textSmall_Light,
-          {
-            width: "auto",
-          },
-        ]}>
-        <Text>View all</Text>
-      </TouchableOpacity>
+      {!hideViewAll && (
+        <TouchableOpacity
+          onPress={onPress}
+          style={[
+            typography.textSmall_Light,
+            {
+              width: "auto",
+            },
+          ]}>
+          <Text>View all</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

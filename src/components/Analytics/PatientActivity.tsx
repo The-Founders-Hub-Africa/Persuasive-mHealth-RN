@@ -7,53 +7,55 @@ import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
 import { useAppSelector } from "@/src/integrations/hooks";
 
-const PatientActivity = () => {
+const PatientActivity = ({ hideViewAll }: { hideViewAll?: boolean }) => {
   const navigation = useNavigation<NavigationProp<any>>();
   const appointmentsData = useAppSelector(state => state.appointments.data);
-  
-  const [barData, setBarData] = useState<Array<{
-    value: number; label: string; spacing?: number;
-    labelWidth?: number; labelTextStyle?:
-      { color: string }; frontColor: string
-  }>>([]);
+
+  const [barData, setBarData] = useState<
+    Array<{
+      value: number;
+      label: string;
+      spacing?: number;
+      labelWidth?: number;
+      labelTextStyle?: { color: string };
+      frontColor: string;
+    }>
+  >([]);
   let onlineSample = {
-      value: 40,
-      label: "Jan",
-      spacing: 2,
-      labelWidth: 30,
-      labelTextStyle: { color: "gray" },
-      frontColor: theme.colors["purple-700"],
-  }
-  let offlineSample = { value: 20, frontColor: theme.colors["neutral-300"] }
-  
+    value: 40,
+    label: "Jan",
+    spacing: 2,
+    labelWidth: 30,
+    labelTextStyle: { color: "gray" },
+    frontColor: theme.colors["purple-700"],
+  };
+  let offlineSample = { value: 20, frontColor: theme.colors["neutral-300"] };
+
   useEffect(() => {
-    let data: { [key: string]: any } = {}
-    let fData = []
+    let data: { [key: string]: any } = {};
+    let fData = [];
 
     appointmentsData.forEach(appoint => {
-      let type = appoint.mode
-      let month = appoint.date.split('/')[1]
+      let type = appoint.mode;
+      let month = appoint.date.split("/")[1];
       if (data[month]) {
-         data[month][type] += 1
+        data[month][type] += 1;
       } else {
         data[month] = {
-          'online': 0,
-          'offline':0
-        }
-        data[month][type] += 1
+          online: 0,
+          offline: 0,
+        };
+        data[month][type] += 1;
       }
-    })
-  
-    for (const key in data) {
-      fData.push({ ...onlineSample, value: data[key]['online'], label: key })
-      fData.push({...offlineSample,value:data[key]['offline'],label:key})
-  }
+    });
 
-  setBarData(fData)
-  
-  }, [appointmentsData])
-  
-  
+    for (const key in data) {
+      fData.push({ ...onlineSample, value: data[key]["online"], label: key });
+      fData.push({ ...offlineSample, value: data[key]["offline"], label: key });
+    }
+
+    setBarData(fData);
+  }, [appointmentsData]);
 
   const renderTitle = () => {
     return (
@@ -111,10 +113,8 @@ const PatientActivity = () => {
     );
   };
 
-  return (
-    
-      barData.length>0?
-        <View
+  return barData.length > 0 ? (
+    <View
       style={{
         gap: 16,
         width: "100%",
@@ -122,6 +122,7 @@ const PatientActivity = () => {
       <SectionHeader
         title="Patient Activity"
         onPress={() => navigation.navigate("Patients")}
+        hideViewAll={hideViewAll}
       />
       {renderTitle()}
       <BarChart
@@ -134,10 +135,9 @@ const PatientActivity = () => {
         yAxisTextStyle={{ color: "gray" }}
         noOfSections={4}
       />
-    </View >
-        : <></>
-    
-  
+    </View>
+  ) : (
+    <></>
   );
 };
 

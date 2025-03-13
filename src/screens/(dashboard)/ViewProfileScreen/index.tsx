@@ -98,19 +98,19 @@ const ViewProfileScreen = () => {
           }}>
           <View style={{ flex: 1 }}>
             <Text style={[typography.textBase_Regular]}>Gender</Text>
-            <Text style={[typography.textSmall_Light, styles.input]}>
+            <Text style={[typography.textSmall_Regular, styles.input]}>
               {user.gender}
             </Text>
           </View>
           <View style={{ flex: 1.5 }}>
             <Text style={[typography.textBase_Regular]}>Date of birth</Text>
-            <Text style={[typography.textSmall_Light, styles.input]}>
+            <Text style={[typography.textSmall_Regular, styles.input]}>
               {user.date_of_birth}
             </Text>
           </View>
           <View style={{ flex: 2}}>
             <Text style={[typography.textBase_Regular]}>Phone number</Text>
-            <Text style={[typography.textSmall_Light, styles.input]}>
+            <Text style={[typography.textSmall_Regular, styles.input]}>
               {user.phone_number}
             </Text>
           </View>

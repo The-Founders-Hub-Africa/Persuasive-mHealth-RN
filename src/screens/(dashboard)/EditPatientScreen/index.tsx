@@ -24,7 +24,11 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import ModalPopup from "@/src/components/common/ModalPopup";
-import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  NavigationProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { convertDate, get_id, Patients } from "@/src/integrations/axios_store";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addSinglePatient } from "@/src/integrations/features/patient/patientsSlice";
@@ -41,7 +45,7 @@ type FormData = {
   next_of_kin: string;
   condition: string;
   symptoms: string;
-  document: string;
+  // document: string;
 };
 
 export default function EditPatientScreen() {
@@ -50,14 +54,15 @@ export default function EditPatientScreen() {
 
   const [showModal, setShowModal] = useState(false);
 
-const navigation = useNavigation<NavigationProp<any>>();
+  const navigation = useNavigation<NavigationProp<any>>();
   const route = useRoute();
-  let param = route.params
-  let id = get_id(param)
+  let param = route.params;
+  let id = get_id(param);
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
-  const [patient] = useAppSelector(state => state.patients.data.filter(data => data.id === id))
-
+  const [patient] = useAppSelector(state =>
+    state.patients.data.filter(data => data.id === id)
+  );
 
   const {
     control,
@@ -67,17 +72,19 @@ const navigation = useNavigation<NavigationProp<any>>();
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      full_name: patient.full_name,
-      whatsapp_number: patient.whatsapp_number,
-      address: patient.address,
-      about: patient.about,
-      date_of_birth: patient.date_of_birth?convertDate(patient.date_of_birth):'',
-      genotype: patient.genotype,
-      gender: patient.gender,
-      next_of_kin: patient.next_of_kin,
-      condition: patient.condition,
-      symptoms: patient.symptoms,
-      document: patient.document,
+      full_name: patient?.full_name,
+      whatsapp_number: patient?.whatsapp_number,
+      address: patient?.address,
+      about: patient?.about,
+      date_of_birth: patient?.date_of_birth
+        ? convertDate(patient?.date_of_birth)
+        : "",
+      genotype: patient?.genotype,
+      gender: patient?.gender,
+      next_of_kin: patient?.next_of_kin,
+      condition: patient?.condition,
+      symptoms: patient?.symptoms,
+      // document: patient?.document,
     },
   });
 
@@ -94,67 +101,64 @@ const navigation = useNavigation<NavigationProp<any>>();
   }, []);
 
   const handleContinue = async (data: FormData) => {
-    
     let newData = {
-      ...data, medical_practitioner: user.id,
-      identifier:"",
-        id: patient.id
-    }
-    
-         let data_ = {
-                  token: user.usertoken,
-                  data: {
-                    formdata: newData,
-                    img: fileDetails,
-                  },
-                };
-                // console.log(data_)
-                let res = await Patients(data_);
-            if (res.success) {
-              // reset form data here
-              
-              // 
-                  dispatch(
-                    addSinglePatient(res.data.patient)
-              );
-              setShowModal(true);
-                  navigation.navigate("Patients");
-                } else {
-                  let err = {
-                    status_code: 500,
-                    data: { message: "Error occurred" },
-                    page: "edit_patient_page",
-                  };
-                  dispatch(addAlert(err));
-                  // console.log('Error occurred')
-                }
+      ...data,
+      medical_practitioner: user.id,
+      identifier: "",
+      id: patient?.id,
+    };
 
-  };
+    let data_ = {
+      token: user.usertoken,
+      data: {
+        formdata: newData,
+        img: fileDetails,
+      },
+    };
+    // console.log(data_)
+    let res = await Patients(data_);
+    if (res.success) {
+      // reset form data here
 
-  const handleImageUpload = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images", "videos"],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      let returndata = result.assets[0];
-      if (returndata.mimeType && returndata.fileName) {
-        const uri = returndata.uri || null;
-        setfileDetails({
-          type: returndata.mimeType,
-          filename: returndata.fileName,
-        });
-        if (uri) {
-          setValue("document", uri);
-        }
-      }
+      //
+      dispatch(addSinglePatient(res.data.patient));
+      setShowModal(true);
+      navigation.navigate("Patients");
     } else {
-      console.log("Image Picker Error: ---");
+      let err = {
+        status_code: 500,
+        data: { message: "Error occurred" },
+        page: "edit_patient_page",
+      };
+      dispatch(addAlert(err));
+      // console.log('Error occurred')
     }
   };
+
+  // const handleImageUpload = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ["images", "videos"],
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+
+  //   if (!result.canceled) {
+  //     let returndata = result.assets[0];
+  //     if (returndata.mimeType && returndata.fileName) {
+  //       const uri = returndata.uri || null;
+  //       setfileDetails({
+  //         type: returndata.mimeType,
+  //         filename: returndata.fileName,
+  //       });
+  //       if (uri) {
+  //         setValue("document", uri);
+  //       }
+  //     }
+  //   } else {
+  //     console.log("Image Picker Error: ---");
+  //   }
+  // };
 
   return (
     <ScrollView>
@@ -564,9 +568,8 @@ const navigation = useNavigation<NavigationProp<any>>();
             )}
           </View>
 
-
           {/* Medical document */}
-          <View style={formStyles.inputGroup}>
+          {/* <View style={formStyles.inputGroup}>
             <Text style={formStyles.label}>Medical document</Text>
             <TouchableOpacity
               style={styles.profileImageCntr}
@@ -620,14 +623,14 @@ const navigation = useNavigation<NavigationProp<any>>();
                 }
               />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
 
         {/* Continue Button */}
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
           style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Create patient</Text>
+          <Text style={formStyles.submitText}>Create Patient</Text>
         </TouchableOpacity>
 
         {/* Success Modal */}

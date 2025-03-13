@@ -630,7 +630,7 @@ export default function EditPatientScreen() {
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
           style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Create Patient</Text>
+          <Text style={formStyles.submitText}>Edit Patient</Text>
         </TouchableOpacity>
 
         {/* Success Modal */}

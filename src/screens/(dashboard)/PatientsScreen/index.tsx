@@ -32,34 +32,32 @@ const PatientsScreen = () => {
 
   const [state, setState] = useState(patients);
 
-   useEffect(() => {
+  useEffect(() => {
     if (search) {
-        const filtered = patients.filter(elem => search_name(elem.full_name,search))
-          setState(filtered)
-      } else {
-       
-         setState(patients)
+      const filtered = patients.filter(elem =>
+        search_name(elem.full_name, search)
+      );
+      setState(filtered);
+    } else {
+      setState(patients);
+    }
+  }, [search]);
+
+  useEffect(() => {
+    let data = {
+      data: { action: "get_all", data: {} },
+      token: user.usertoken,
+    };
+    patientsApi(data).then(data => {
+      if (data.error) {
+        dispatch(addAlert({ ...data.error, page: "patient_screen" }));
       }
-    }, [search])
 
-    useEffect(() => {
-        let data = {
-          data: { action: 'get_all', data:{} },
-          token: user.usertoken
-        }
-      patientsApi(data).then(data => {
-        if (data.error) {
-          dispatch(addAlert({ ...data.error, page: "patient_screen" }))
+      if (data.data) {
+        dispatch(addPatients({ data: data.data, save: true }));
       }
-        
-        if (data.data) {
-          dispatch(addPatients({ data: data.data,save:true }))
-        }
-      })
-    
-    }, [user])
-
-
+    });
+  }, [user]);
 
   return (
     <ScrollView>
@@ -204,7 +202,10 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("Patient Details",{id:patient.id,name:patient.full_name});
+        navigation.navigate("Patient Details", {
+          id: patient.id,
+          name: patient.full_name,
+        });
       }}
       style={{
         backgroundColor: theme.colors["purple-50"],
@@ -279,12 +280,18 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
         {/* Dropdown Menu */}
         {menuVisible && (
           <View style={globalStyles.actionsDropdown}>
-            <TouchableOpacity onPress={() => Alert.alert("Edit")}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Edit Patient", {
+                  params: { id: patient.id, name: patient.full_name },
+                })
+              }>
               <Text style={{ padding: 8 }}>Edit</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => Alert.alert("Cancel")}>
+
+            {/* <TouchableOpacity onPress={() => Alert.alert("Cancel")}>
               <Text style={{ padding: 8, color: "red" }}>Cancel</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         )}
       </View>

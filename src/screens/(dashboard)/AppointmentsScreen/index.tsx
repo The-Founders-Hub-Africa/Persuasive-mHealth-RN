@@ -1,23 +1,10 @@
-import {
-  Alert,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import globalStyles from "@/src/styles/global";
 import Tabs from "@/src/components/common/Tabs";
 import SearchInput from "@/src/components/common/SearchInput";
 // import { appointmentsData } from "@/src/helpers";
 import { AppointmentProps } from "@/src/types";
-import formStyles from "@/src/styles/formStyles";
-import typography from "@/src/styles/typography";
-import theme from "@/src/styles/theme";
-import { Feather } from "@expo/vector-icons";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { useAppointmentsMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
@@ -99,11 +86,6 @@ const AppointmentsScreen = () => {
     }
   }, [hSearch]);
 
-  // console.log("testing state: ", state);
-  // console.log("appointmentsData: ", appointmentsData);
-  // console.log("ongoingAppointments: ", ongoingAppointments);
-  // console.log("historyAppointments: ", historyAppointments);
-
   const tabs = [
     {
       title: "Ongoing",
@@ -112,7 +94,7 @@ const AppointmentsScreen = () => {
           <SearchInput
             value={search}
             setValue={setSearch}
-            placeholder="Search"
+            placeholder="Search patient name"
           />
           <View
             style={{

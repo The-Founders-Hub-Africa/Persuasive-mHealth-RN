@@ -20,7 +20,7 @@ const AppointmentAnalysis = () => {
   ];
   return (
     <View>
-      <Text style={style.title}>Appointments analysis</Text>
+      <Text style={style.title}>Appointments Analysis</Text>
 
       <View style={style.container}>
         <View style={style.demographics}>

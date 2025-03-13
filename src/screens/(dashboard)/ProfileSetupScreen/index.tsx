@@ -21,7 +21,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { launchImageLibrary } from "react-native-image-picker";
-import { Calendar } from "react-native-calendars";
+import DatePicker from "react-native-modern-datepicker";
 import theme, { calendarTheme } from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
@@ -103,7 +103,6 @@ export default function ProfileSetupScreen({
   // };
 
   const handleContinue = async (data: FormData) => {
-
     let data_ = {
       token: user.usertoken,
       data: {
@@ -439,28 +438,22 @@ export default function ProfileSetupScreen({
           animationType="slide"
           onRequestClose={() => setCalendarVisible(false)}>
           <View style={modalStyles.modalCntr}>
-            <Calendar
-              style={{ borderRadius: theme.rounded.medium, width: 300 }}
-              theme={calendarTheme}
-              renderArrow={(direction: string) => (
-                <Feather
-                  name={direction === "left" ? "chevron-left" : "chevron-right"}
-                  size={24}
-                  color={theme.colors["neutral-700"]}
-                />
-              )}
-              current={getValues("date_of_birth")}
-              markedDates={{
-                [getValues("date_of_birth")]: {
-                  selected: true,
-                  selectedColor: theme.colors["purple-700"],
-                },
-              }}
-              onDayPress={(day: { dateString: string }) => {
-                setValue("date_of_birth", day.dateString);
+            <DatePicker
+              onSelectedChange={(date: string) => {
+                setValue("date_of_birth", date);
                 setCalendarVisible(false);
               }}
-              enableSwipeMonths
+              current={getValues("date_of_birth")}
+              mode="calendar"
+              style={{ borderRadius: 10 }}
+              options={{
+                textHeaderColor: theme.colors["purple-700"],
+                textDefaultColor: theme.colors["neutral-700"],
+                selectedTextColor: "#fff",
+                mainColor: theme.colors["purple-700"],
+                textSecondaryColor: theme.colors["neutral-500"],
+                borderColor: "rgba(122, 146, 165, 0.1)",
+              }}
             />
           </View>
         </Modal>

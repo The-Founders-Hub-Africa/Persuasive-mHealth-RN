@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
   },
   tabWrapper: {
     flexDirection: "row",
+    borderBottomWidth: 2,
+    borderBottomColor: theme.colors["zinc-300"],
   },
   tabButton: {
     paddingVertical: 8,

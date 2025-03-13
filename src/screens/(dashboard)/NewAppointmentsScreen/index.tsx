@@ -13,11 +13,10 @@ import globalStyles from "@/src/styles/global";
 import formStyles from "@/src/styles/formStyles";
 import { Controller, useForm } from "react-hook-form";
 import { Feather, Ionicons } from "@expo/vector-icons";
-import theme, { calendarTheme } from "@/src/styles/theme";
-import { Calendar } from "react-native-calendars";
+import theme from "@/src/styles/theme";
+import DatePicker from "react-native-modern-datepicker";
 import modalStyles from "@/src/styles/modalStyles";
 import { Picker } from "@react-native-picker/picker";
-import { TimerPickerModal } from "react-native-timer-picker";
 // import { launchImageLibrary } from "react-native-image-picker";
 import typography from "@/src/styles/typography";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -361,28 +360,22 @@ const NewAppointmentsScreen = () => {
           animationType="slide"
           onRequestClose={() => setCalendarVisible(false)}>
           <View style={modalStyles.modalCntr}>
-            <Calendar
-              style={{ borderRadius: theme.rounded.medium, width: 300 }}
-              theme={calendarTheme}
-              renderArrow={(direction: string) => (
-                <Feather
-                  name={direction === "left" ? "chevron-left" : "chevron-right"}
-                  size={24}
-                  color={theme.colors["neutral-700"]}
-                />
-              )}
+            <DatePicker
+              style={{ borderRadius: 10 }}
               current={getValues("date")}
-              markedDates={{
-                [getValues("date")]: {
-                  selected: true,
-                  selectedColor: theme.colors["purple-700"],
-                },
+              options={{
+                textHeaderColor: theme.colors["purple-700"],
+                textDefaultColor: theme.colors["neutral-700"],
+                selectedTextColor: "#fff",
+                mainColor: theme.colors["purple-700"],
+                textSecondaryColor: theme.colors["neutral-500"],
+                borderColor: "rgba(122, 146, 165, 0.1)",
               }}
-              onDayPress={(day: { dateString: string }) => {
-                setValue("date", day.dateString);
+              onSelectedChange={(date: string) => {
+                setValue("date", date);
                 setCalendarVisible(false);
               }}
-              enableSwipeMonths
+              mode="calendar"
             />
           </View>
         </Modal>
@@ -415,25 +408,32 @@ const NewAppointmentsScreen = () => {
           )}
         </View>
 
-        <TimerPickerModal
+        {/* Time Modal */}
+        <Modal
           visible={showPicker}
-          setIsVisible={setShowPicker}
-          onConfirm={pickedDuration => {
-            setValue("time", formatTime(pickedDuration));
-            setShowPicker(false);
-          }}
-          modalTitle="Select Time"
-          onCancel={() => setShowPicker(false)}
-          closeOnOverlayPress
-          use12HourPicker
-          styles={{
-            confirmButton: {
-              backgroundColor: theme.colors["purple-700"],
-              color: theme.colors.white,
-              borderWidth: 0,
-            },
-          }}
-        />
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowPicker(false)}>
+          <View style={modalStyles.modalCntr}>
+            <DatePicker
+              mode="time"
+              minuteInterval={5}
+              options={{
+                textHeaderColor: theme.colors["purple-700"],
+                textDefaultColor: theme.colors["neutral-700"],
+                selectedTextColor: "#fff",
+                mainColor: theme.colors["purple-700"],
+                textSecondaryColor: theme.colors["neutral-500"],
+                borderColor: "rgba(122, 146, 165, 0.1)",
+              }}
+              onTimeChange={time => {
+                setValue("time", time);
+                setShowPicker(false);
+              }}
+              style={{ borderRadius: 10 }}
+            />
+          </View>
+        </Modal>
 
         {/* Mode Selection */}
         <View style={formStyles.inputGroup}>

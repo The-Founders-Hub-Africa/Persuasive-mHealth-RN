@@ -413,6 +413,7 @@ export default function EditPatientScreen() {
               render={({ field: { onChange, value } }) => (
                 <View style={formStyles.inputDropdownCntr}>
                   <Picker selectedValue={value} onValueChange={onChange}>
+                    <Picker.Item label="Select Genotype" value="" />
                     <Picker.Item label="AA" value="AA" />
                     <Picker.Item label="BB" value="BB" />
                     <Picker.Item label="CC" value="CC" />

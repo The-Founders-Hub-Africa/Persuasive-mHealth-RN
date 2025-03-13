@@ -317,7 +317,7 @@ export default function EditProfileScreen() {
                   />
                   <TextInput
                     style={[formStyles.inputText, formStyles.inputTextDisabled]}
-                    placeholder="+2349012345678"
+                    placeholder="+264812345678"
                     placeholderTextColor={theme.colors["disabled-text"]}
                     keyboardType="phone-pad"
                     value={value}

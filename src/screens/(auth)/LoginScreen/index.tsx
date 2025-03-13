@@ -149,7 +149,7 @@ export default function LoginScreen({
               render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={formStyles.inputText}
-                  placeholder="+63 912 345 6789"
+                  placeholder="+264812345678"
                   placeholderTextColor={theme.colors["disabled-text"]}
                   keyboardType="phone-pad"
                   value={value}

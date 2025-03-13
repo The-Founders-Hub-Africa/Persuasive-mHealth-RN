@@ -39,6 +39,7 @@ type FormData = {
   genotype: string;
   gender: string;
   next_of_kin: string;
+  kin_number: string;
   condition: string;
   symptoms: string;
   // document: string;
@@ -71,6 +72,7 @@ export default function NewPatientScreen() {
       genotype: "",
       gender: "",
       next_of_kin: "",
+      kin_number: "",
       condition: "",
       symptoms: "",
       // document: "",
@@ -211,7 +213,7 @@ export default function NewPatientScreen() {
                   />
                   <TextInput
                     style={formStyles.inputText}
-                    placeholder="+2349012345678"
+                    placeholder="+264812345678"
                     placeholderTextColor={theme.colors["disabled-text"]}
                     keyboardType="phone-pad"
                     value={value}
@@ -494,6 +496,32 @@ export default function NewPatientScreen() {
             {errors.next_of_kin && (
               <Text style={globalStyles.errorText}>
                 {errors.next_of_kin.message}
+              </Text>
+            )}
+          </View>
+
+          {/* Kin Number */}
+          <View style={formStyles.inputGroup}>
+            <Text style={formStyles.label}>Kin Number</Text>
+            <Controller
+              control={control}
+              name="kin_number"
+              rules={{ required: "Kin number is required" }}
+              render={({ field: { onChange, value } }) => (
+                <View style={formStyles.inputCntr}>
+                  <TextInput
+                    style={formStyles.inputText}
+                    placeholder="+264812345678"
+                    placeholderTextColor={theme.colors["disabled-text"]}
+                    value={value}
+                    onChangeText={onChange}
+                  />
+                </View>
+              )}
+            />
+            {errors.kin_number && (
+              <Text style={globalStyles.errorText}>
+                {errors.kin_number.message}
               </Text>
             )}
           </View>

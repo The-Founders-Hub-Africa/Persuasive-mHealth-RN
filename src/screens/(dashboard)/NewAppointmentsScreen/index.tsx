@@ -23,22 +23,21 @@ import typography from "@/src/styles/typography";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import ModalPopup from "@/src/components/common/ModalPopup";
 import Alert_System from "@/src/integrations/features/alert/Alert";
-import {  usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
+import { usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
-import { addPatients } from '@/src/integrations/features/patient/patientsSlice'
-import { Appointments,convertDate } from "@/src/integrations/axios_store";
+import { addPatients } from "@/src/integrations/features/patient/patientsSlice";
+import { Appointments, convertDate } from "@/src/integrations/axios_store";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { addSingleAppointment } from "@/src/integrations/features/appointment/appointmentsSlice";
-
 
 type FormData = {
   patient: number;
   condition: string;
   symptoms: string;
   notes: string;
-  document: string | null;
+  // document: string | null;
   date: string;
   time: string;
   mode: string;
@@ -52,27 +51,26 @@ const NewAppointmentsScreen = () => {
   const [showPicker, setShowPicker] = useState(false);
   const [fileDetails, setfileDetails] = useState({ type: "", filename: "" });
 
-   const dispatch = useAppDispatch();
-   const user = useAppSelector(state => state.user);
-   const patients = useAppSelector(state => state.patients.data);
-   const [patientsApi, { isLoading }] = usePatientMutation();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  const patients = useAppSelector(state => state.patients.data);
+  const [patientsApi, { isLoading }] = usePatientMutation();
 
   useEffect(() => {
-          let data = {
-            data: { action: 'get_all', data:{} },
-            token: user.usertoken
-          }
-        patientsApi(data).then(data => {
-          if (data.error) {
-            dispatch(addAlert({ ...data.error, page: "new appointment page" }))
-        }
-          
-          if (data.data) {
-            dispatch(addPatients({ data: data.data,save:true }))
-          }
-        })
-      
-      }, [user])
+    let data = {
+      data: { action: "get_all", data: {} },
+      token: user.usertoken,
+    };
+    patientsApi(data).then(data => {
+      if (data.error) {
+        dispatch(addAlert({ ...data.error, page: "new appointment page" }));
+      }
+
+      if (data.data) {
+        dispatch(addPatients({ data: data.data, save: true }));
+      }
+    });
+  }, [user]);
 
   const formatTime = ({
     hours,
@@ -98,76 +96,71 @@ const NewAppointmentsScreen = () => {
       condition: "",
       symptoms: "",
       notes: "",
-      document: null,
+      // document: null,
       date: "",
       time: "",
       mode: "",
-      medical_practitioner:user.id
+      medical_practitioner: user.id,
     },
   });
 
   const handleContinue = async (data: FormData) => {
-    
-        let data_ = {
-          token: user.usertoken,
-          data: {
-            formdata: data,
-            img: fileDetails,
-          },
-        };
-        // console.log(data_)
-        let res = await Appointments(data_);
+    let data_ = {
+      token: user.usertoken,
+      data: {
+        formdata: data,
+        img: fileDetails,
+      },
+    };
+    // console.log(data_)
+    let res = await Appointments(data_);
     if (res.success) {
       // reset form data here
-      
-      // 
-          dispatch(
-            addSingleAppointment(res.data.event)
-      );
+
+      //
+      dispatch(addSingleAppointment(res.data.event));
       setShowModal(true);
-          navigation.navigate("Appointments");
-        } else {
-          let err = {
-            status_code: 500,
-            data: { message: "Error occurred" },
-            page: "newappointment_page",
-          };
-          dispatch(addAlert(err));
-          // console.log('Error occurred')
-        }
-    
+      navigation.navigate("Appointments");
+    } else {
+      let err = {
+        status_code: 500,
+        data: { message: "Error occurred" },
+        page: "newappointment_page",
+      };
+      dispatch(addAlert(err));
+      // console.log('Error occurred')
+    }
   };
 
-  const handleImageUpload = async () => {
+  // const handleImageUpload = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ["images", "videos"],
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-         mediaTypes: ["images", "videos"],
-         allowsEditing: true,
-         aspect: [4, 3],
-         quality: 1,
-       });
-   
-       if (!result.canceled) {
-         let returndata = result.assets[0];
-         if (returndata.mimeType && returndata.fileName) {
-           const uri = returndata.uri || null;
-           setfileDetails({
-             type: returndata.mimeType,
-             filename: returndata.fileName,
-           });
-           setValue("document", uri);
-         }
-       } else {
-         console.log("Image Picker Error: ---");
-       }
-  };
+  //   if (!result.canceled) {
+  //     let returndata = result.assets[0];
+  //     if (returndata.mimeType && returndata.fileName) {
+  //       const uri = returndata.uri || null;
+  //       setfileDetails({
+  //         type: returndata.mimeType,
+  //         filename: returndata.fileName,
+  //       });
+  //       setValue("document", uri);
+  //     }
+  //   } else {
+  //     console.log("Image Picker Error: ---");
+  //   }
+  // };
 
   return (
     <ScrollView>
-      <Alert_System/>
+      <Alert_System />
       <View style={globalStyles.dashboardContainer}>
         {/* Patient Name */}
-         <View style={formStyles.inputGroup}>
+        <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Select Patient</Text>
           <Controller
             control={control}
@@ -180,9 +173,14 @@ const NewAppointmentsScreen = () => {
                   onValueChange={onChange}
                   style={formStyles.inputText}>
                   <Picker.Item label="Select Patient" value="" />
-                  {patients.map((patient,index)=><Picker.Item key={index} label={patient.full_name} value={patient.id} />)}
+                  {patients.map((patient, index) => (
+                    <Picker.Item
+                      key={index}
+                      label={patient.full_name}
+                      value={patient.id}
+                    />
+                  ))}
 
-                  
                   {/* <Picker.Item label="Offline" value="offline" />
                   <Picker.Item label="Online" value="online" /> */}
                 </Picker>
@@ -275,7 +273,7 @@ const NewAppointmentsScreen = () => {
         </View>
 
         {/* Upload Document */}
-        <View style={formStyles.inputGroup}>
+        {/* <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Upload Document</Text>
           <TouchableOpacity
             style={styles.profileImageCntr}
@@ -326,7 +324,7 @@ const NewAppointmentsScreen = () => {
               }
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* Date Picker */}
         <View style={formStyles.inputGroup}>

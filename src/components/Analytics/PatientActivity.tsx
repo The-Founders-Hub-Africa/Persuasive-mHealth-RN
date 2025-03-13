@@ -121,7 +121,7 @@ const PatientActivity = ({ hideViewAll }: { hideViewAll?: boolean }) => {
       }}>
       <SectionHeader
         title="Patient Activity"
-        onPress={() => navigation.navigate("Patients")}
+        onPress={() => navigation.navigate("Analytics")}
         hideViewAll={hideViewAll}
       />
       {renderTitle()}

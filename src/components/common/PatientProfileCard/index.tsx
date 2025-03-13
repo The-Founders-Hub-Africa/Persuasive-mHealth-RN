@@ -63,28 +63,18 @@ const PatientProfileCard = ({ patient }: { patient: PatientProps }) => {
             style={[
               typography.textSmall_Medium,
               {
-                backgroundColor: "white",
-                borderWidth: 1,
+                borderBottomWidth: 1,
                 borderColor: theme.colors["purple-600"],
-                borderRadius: 8,
-                paddingVertical: 4,
-                paddingHorizontal: 8,
+                paddingBottom: 4,
                 alignSelf: "flex-start", // Prevents unnecessary stretching
                 width: "auto",
-
-                gap: 4,
               },
             ]}>
             <Text
               style={{
                 color: theme.colors["purple-600"],
               }}>
-              <FontAwesome
-                name="whatsapp"
-                size={16}
-                color={theme.colors["purple-600"]}
-              />{" "}
-              Call on WhatsApp
+              View Messages
             </Text>
           </TouchableOpacity>
         </View>

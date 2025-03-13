@@ -25,7 +25,6 @@ const PatientList = ({ patientsData }: { patientsData: PatientProps[] }) => {
 export default PatientList;
 
 const PatientCard = ({ patient }: { patient: PatientProps }) => {
-  
   const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -35,7 +34,7 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
         navigation.navigate("Patients", {
           screen: "Patient Details",
           params: { id: patient.id, name: patient.full_name },
-         })
+        })
       }
       style={{
         backgroundColor: theme.colors["purple-50"],
@@ -110,11 +109,13 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
         {/* Dropdown Menu */}
         {menuVisible && (
           <View style={globalStyles.actionsDropdown}>
-            <TouchableOpacity onPress={() =>
-        navigation.navigate("Patients", {
-          screen: "Edit Patient",
-          params: { id: patient.id, name: patient.full_name },
-         })} >
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Patients", {
+                  screen: "Edit Patient",
+                  params: { id: patient.id, name: patient.full_name },
+                })
+              }>
               <Text style={{ padding: 8 }}>Edit</Text>
             </TouchableOpacity>
 

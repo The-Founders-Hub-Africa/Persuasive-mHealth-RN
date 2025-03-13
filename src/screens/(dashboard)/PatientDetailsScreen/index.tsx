@@ -11,19 +11,44 @@ import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 import PatientProfileCard from "@/src/components/common/PatientProfileCard";
 import formStyles from "@/src/styles/formStyles";
-import { useNavigation, NavigationProp, useRoute } from "@react-navigation/native";
+import {
+  useNavigation,
+  NavigationProp,
+  useRoute,
+} from "@react-navigation/native";
 import { PatientProps } from "@/src/types";
 import { useAppSelector } from "@/src/integrations/hooks";
 import { get_id } from "@/src/integrations/axios_store";
+import Tabs from "@/src/components/common/Tabs";
 
 const PatientDetailsScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
-  
- const route = useRoute();
- let param = route.params
- let id = get_id(param)
- const [patient] = useAppSelector(state => state.patients.data.filter(data => data.id === id))
+  const route = useRoute();
+  let param = route.params;
+  let id = get_id(param);
+  const [patient] = useAppSelector(state =>
+    state.patients.data.filter(data => data.id === id)
+  );
+
+  const tabs = [
+    {
+      title: "Personal Data",
+      component: (
+        <View>
+          <Text>Personal Data</Text>
+        </View>
+      ),
+    },
+    {
+      title: "Medical History",
+      component: (
+        <View>
+          <Text>Medical History</Text>
+        </View>
+      ),
+    },
+  ];
 
   return (
     <ScrollView>
@@ -35,6 +60,8 @@ const PatientDetailsScreen = () => {
           },
         ]}>
         <PatientProfileCard patient={patient} />
+
+        <Tabs tabs={tabs} />
 
         {/* <View style={styles.stats}>
           <View
@@ -145,12 +172,6 @@ const PatientDetailsScreen = () => {
             </TextInput>
           </View>
         </View> */}
-
-        <TouchableOpacity
-          style={formStyles.submitButton}
-          onPress={() => navigation.navigate("Edit Patient",{id:patient.id,name:patient.full_name})}>
-          <Text style={formStyles.submitText}>Edit patient</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );

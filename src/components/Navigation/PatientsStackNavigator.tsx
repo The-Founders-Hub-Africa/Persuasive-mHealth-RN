@@ -8,7 +8,8 @@ import { TouchableOpacity } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import NewPatientScreen from "@/src/screens/(dashboard)/NewPatientScreen";
 import EditPatientScreen from "@/src/screens/(dashboard)/EditPatientScreen";
-import { get_name } from "@/src/integrations/axios_store";
+import { get_id, get_name } from "@/src/integrations/axios_store";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,18 @@ const PatientsStackNavigator = () => {
 
   const handleNewPatient = () => {
     navigation.navigate("Patients", { screen: "New Patient" });
+  };
+
+  const handleEditPatient = (route: any) => {
+    let id = get_id(route.params);
+    let name = get_name(route.params);
+    navigation.navigate("Patients", {
+      screen: "Edit Patient",
+      params: {
+        id: id,
+        name: name,
+      },
+    });
   };
 
   return (
@@ -45,6 +58,15 @@ const PatientsStackNavigator = () => {
 
           return {
             title: `${name} details`,
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleEditPatient(route)}>
+                <MaterialCommunityIcons
+                  name="clipboard-edit-outline"
+                  size={24}
+                  color={theme.colors["neutral-700"]}
+                />
+              </TouchableOpacity>
+            ),
           };
         }}
         component={PatientDetailsScreen}

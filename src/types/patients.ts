@@ -4,7 +4,7 @@ export interface PatientProps {
   id: number;
   full_name: string;
   whatsapp_number: string;
-  identifier:string,
+  identifier: string;
   image: ImageSourcePropType | undefined;
   document: ImageSourcePropType | undefined;
   date: string;
@@ -12,6 +12,7 @@ export interface PatientProps {
   address: string;
   medical_practitioner: number;
   next_of_kin: string;
+  kin_number: string;
   about: string;
   genotype: string;
   gender: string;

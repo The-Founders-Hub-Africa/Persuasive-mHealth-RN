@@ -8,7 +8,13 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { PatientProps } from "@/src/types";
 import typography from "@/src/styles/typography";
 
-const PatientList = ({ patientsData }: { patientsData: PatientProps[] }) => {
+const PatientList = ({
+  patientsData,
+  patientPage = false,
+}: {
+  patientsData: PatientProps[];
+  patientPage?: boolean;
+}) => {
   return (
     <View
       style={{
@@ -16,7 +22,11 @@ const PatientList = ({ patientsData }: { patientsData: PatientProps[] }) => {
         width: "100%",
       }}>
       {patientsData.map(patient => (
-        <PatientCard key={patient.id} patient={patient} />
+        <PatientCard
+          key={patient.id}
+          patient={patient}
+          patientPage={patientPage}
+        />
       ))}
     </View>
   );
@@ -24,18 +34,41 @@ const PatientList = ({ patientsData }: { patientsData: PatientProps[] }) => {
 
 export default PatientList;
 
-const PatientCard = ({ patient }: { patient: PatientProps }) => {
+export const PatientCard = ({
+  patient,
+  patientPage,
+}: {
+  patient: PatientProps;
+  patientPage: boolean;
+}) => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
 
+  const moveToEdit = () => {
+    patientPage
+      ? navigation.navigate("Edit Patient", {
+          id: patient.id,
+          name: patient.full_name,
+        })
+      : navigation.navigate("Patients", {
+          screen: "Edit Patient",
+          params: { id: patient.id, name: patient.full_name },
+        });
+  };
+
   return (
     <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("Patients", {
-          screen: "Patient Details",
-          params: { id: patient.id, name: patient.full_name },
-        })
-      }
+      onPress={() => {
+        patientPage
+          ? navigation.navigate("Patient Details", {
+              id: patient.id,
+              name: patient.full_name,
+            })
+          : navigation.navigate("Patients", {
+              screen: "Patient Details",
+              params: { id: patient.id, name: patient.full_name },
+            });
+      }}
       style={{
         backgroundColor: theme.colors["purple-50"],
         flexDirection: "row",
@@ -109,19 +142,9 @@ const PatientCard = ({ patient }: { patient: PatientProps }) => {
         {/* Dropdown Menu */}
         {menuVisible && (
           <View style={globalStyles.actionsDropdown}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Patients", {
-                  screen: "Edit Patient",
-                  params: { id: patient.id, name: patient.full_name },
-                })
-              }>
+            <TouchableOpacity onPress={moveToEdit}>
               <Text style={{ padding: 8 }}>Edit</Text>
             </TouchableOpacity>
-
-            {/* <TouchableOpacity onPress={() => Alert.alert("Cancel")}>
-              <Text style={{ padding: 8, color: "red" }}>Cancel</Text>
-            </TouchableOpacity> */}
           </View>
         )}
       </View>

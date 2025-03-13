@@ -145,7 +145,7 @@ const ViewProfileScreen = () => {
                 }}
               />
             </View>
-            <Text>Sync to WhatsApp</Text>
+            <Text>WhatsApp Assistant</Text>
           </View>
         </TouchableOpacity>
 

@@ -278,7 +278,7 @@ const SettingsScreen = () => {
                   }}
                 />
               </View>
-              <Text>Sync to WhatsApp</Text>
+              <Text>WhatsApp Assistant</Text>
             </View>
             <View style={styles.groupSectionRight}>
               <Entypo

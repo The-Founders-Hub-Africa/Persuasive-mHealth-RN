@@ -38,29 +38,29 @@ const PatientsStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen name="Patient Details" 
-        
+      <Stack.Screen
+        name="Patient Details"
         options={({ route }) => {
-        
-                  let name = get_name(route.params);
-                   
-                  return {
-                    title: `${name} details`,
-                  }
-        }} 
-        
-        component={PatientDetailsScreen} />
+          let name = get_name(route.params);
+
+          return {
+            title: `${name} details`,
+          };
+        }}
+        component={PatientDetailsScreen}
+      />
       <Stack.Screen name="New Patient" component={NewPatientScreen} />
-      <Stack.Screen name="Edit Patient"
+      <Stack.Screen
+        name="Edit Patient"
         options={({ route }) => {
-        
-                  let name = get_name(route.params);
-                   
-                  return {
-                    title: `${name} (Edit)`,
-                  }
-        }} 
-        component={EditPatientScreen} />
+          let name = get_name(route.params);
+
+          return {
+            title: `${name} (Edit)`,
+          };
+        }}
+        component={EditPatientScreen}
+      />
     </Stack.Navigator>
   );
 };

@@ -61,17 +61,19 @@ const formStyles = StyleSheet.create({
     marginBottom: 24,
     width: 72,
     height: 72,
-    borderRadius: 8,
+    borderRadius: theme.rounded.full,
     backgroundColor: theme.colors["disabled-bg"],
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: theme.colors["purple-400"],
+    overflow: "hidden",
   },
   profileImage: {
     width: 72,
     height: 72,
-    borderRadius: 8,
+    borderRadius: theme.rounded.full,
+    objectFit: "cover",
   },
 
   // for select gender input

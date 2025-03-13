@@ -71,7 +71,7 @@ export default function EditProfileScreen() {
       date_of_birth: user.date_of_birth
         ? convertDate(user.date_of_birth)
         : new Date().toISOString().split("T")[0], // Default to today
-      image: user.image ? `${baseUrl}${user.image}` :null,
+      image: user.image ? `${baseUrl}${user.image}` : null,
       // image: null,
     },
   });
@@ -89,7 +89,6 @@ export default function EditProfileScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
-
     let data_ = {
       token: user.usertoken,
       data: {
@@ -189,23 +188,6 @@ export default function EditProfileScreen() {
           globalStyles.dashboardContainer,
           { gap: 24, flex: 1, width: "100%" },
         ]}>
-        <View>
-          <Text
-            style={[
-              typography.text2XL_SemiBold,
-              { textAlign: "left", marginBottom: 8 },
-            ]}>
-            Edit Profile
-          </Text>
-          <Text
-            style={[
-              typography.textBase_Regular,
-              { textAlign: "left", marginBottom: 24 },
-            ]}>
-            Update your profile
-          </Text>
-        </View>
-
         <View
           style={{
             justifyContent: "center",

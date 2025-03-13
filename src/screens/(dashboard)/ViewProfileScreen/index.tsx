@@ -92,23 +92,25 @@ const ViewProfileScreen = () => {
             flexDirection: "row",
             gap: 8,
             justifyContent: "space-between",
+            alignItems: "stretch",
             width: "100%",
+            flexWrap: "wrap",
           }}>
-          <View style={{ flex: 1.5 }}>
+          <View style={{ flex: 1 }}>
             <Text style={[typography.textBase_Regular]}>Gender</Text>
-            <Text style={[typography.textBase_Regular, styles.input]}>
+            <Text style={[typography.textSmall_Light, styles.input]}>
               {user.gender}
             </Text>
           </View>
           <View style={{ flex: 1.5 }}>
             <Text style={[typography.textBase_Regular]}>Date of birth</Text>
-            <Text style={[typography.textBase_Regular, styles.input]}>
+            <Text style={[typography.textSmall_Light, styles.input]}>
               {user.date_of_birth}
             </Text>
           </View>
-          <View style={{ flex: 2 }}>
+          <View style={{ flex: 2}}>
             <Text style={[typography.textBase_Regular]}>Phone number</Text>
-            <Text style={[typography.textBase_Regular, styles.input]}>
+            <Text style={[typography.textSmall_Light, styles.input]}>
               {user.phone_number}
             </Text>
           </View>
@@ -135,7 +137,7 @@ const ViewProfileScreen = () => {
         <TouchableOpacity
           style={formStyles.submitButton}
           onPress={() => navigation.navigate("Analytics")}>
-          <Text style={formStyles.submitText}>View analytics</Text>
+          <Text style={formStyles.submitText}>View Analytics</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

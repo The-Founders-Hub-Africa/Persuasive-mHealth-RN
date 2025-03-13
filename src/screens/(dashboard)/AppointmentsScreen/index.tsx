@@ -23,10 +23,8 @@ import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addAppointments } from "@/src/integrations/features/appointment/appointmentsSlice";
 import AppointmentCard from "@/src/components/common/AppointmentCard";
-import { search_name } from "@/src/integrations/axios_store";
+import { convertDate, search_name } from "@/src/integrations/axios_store";
 // import { getPatientById } from "@/src/integrations/features/patient/patientsSlice";
-
-
 
 const AppointmentsScreen = () => {
   const [search, setSearch] = useState("");
@@ -42,69 +40,70 @@ const AppointmentsScreen = () => {
 
   // const getPatientById = (patientsData:AppointmentProps, id:number) => patientsData.filter(patient:AppointmentProps => patient.id === id);
 
-   useEffect(() => {
-           let data = {
-             data: { action: 'get_all', data:{} },
-             token: user.usertoken
-           }
-           console.log(data.token)
-         appointmentApi(data).then(data => {
-           if (data.error) {
-             dispatch(addAlert({ ...data.error, page: "appointment page" }))
-         }
-           
-           if (data.data) {
-             dispatch(addAppointments({ data: data.data,save:true }))
-           }
-         })
-       
-       }, [])
-// console.log(appointmentsData)
-  // Filter for ongoing (upcoming) appointments
- 
   useEffect(() => {
-  
-  }, [appointmentsData])
+    let data = {
+      data: { action: "get_all", data: {} },
+      token: user.usertoken,
+    };
+    console.log(data.token);
+    appointmentApi(data).then(data => {
+      if (data.error) {
+        dispatch(addAlert({ ...data.error, page: "appointment page" }));
+      }
 
-  const ongoingAppointments = appointmentsData.filter((appointment) => {
-    const appointmentDate = new Date(appointment.date);
+      if (data.data) {
+        dispatch(addAppointments({ data: data.data, save: true }));
+      }
+    });
+  }, []);
+  // console.log(appointmentsData)
+  // Filter for ongoing (upcoming) appointments
+
+  useEffect(() => {}, [appointmentsData]);
+
+  const ongoingAppointments = appointmentsData.filter(appointment => {
+    const appointmentDate = new Date(convertDate(appointment.date));
     return appointmentDate >= today;
   });
 
   // Filter for past appointments
   const historyAppointments = appointmentsData.filter(appointment => {
-    const appointmentDate = new Date(appointment.date);
+    const appointmentDate = new Date(convertDate(appointment.date));
     return appointmentDate < today;
   });
 
-  const [state, setState] = useState({'history': historyAppointments,
-    'ongoing': ongoingAppointments
+  const [state, setState] = useState({
+    history: historyAppointments,
+    ongoing: ongoingAppointments,
   });
-  
-  useEffect(() => {
-  if (search) {
-      const filtered = ongoingAppointments.filter(elem => search_name(elem.patient_name,search))
-        setState({...state,ongoing: filtered})
-    } else {
-     
-       setState({...state,ongoing:ongoingAppointments})
-    }
-  }, [search])
-
 
   useEffect(() => {
-  
-  if (hSearch) {
-    const filtered = historyAppointments.filter(elem => search_name(elem.patient_name, hSearch))
-        setState({...state,history: filtered})
+    if (search) {
+      const filtered = ongoingAppointments.filter(elem =>
+        search_name(elem.patient_name, search)
+      );
+      setState({ ...state, ongoing: filtered });
     } else {
-     
-       setState({...state,history:historyAppointments})
+      setState({ ...state, ongoing: ongoingAppointments });
     }
-  }, [hSearch])
+  }, [search]);
 
+  useEffect(() => {
+    if (hSearch) {
+      const filtered = historyAppointments.filter(elem =>
+        search_name(elem.patient_name, hSearch)
+      );
+      setState({ ...state, history: filtered });
+    } else {
+      setState({ ...state, history: historyAppointments });
+    }
+  }, [hSearch]);
 
-  
+  // console.log("testing state: ", state);
+  // console.log("appointmentsData: ", appointmentsData);
+  // console.log("ongoingAppointments: ", ongoingAppointments);
+  // console.log("historyAppointments: ", historyAppointments);
+
   const tabs = [
     {
       title: "Ongoing",
@@ -167,7 +166,11 @@ const AppointmentsList = ({
         width: "100%",
       }}>
       {appointmentsData.map(appointment => (
-        <AppointmentCard key={appointment.id} appointment={appointment} appointmentPage = {true} />
+        <AppointmentCard
+          key={appointment.id}
+          appointment={appointment}
+          appointmentPage={true}
+        />
       ))}
     </View>
   );

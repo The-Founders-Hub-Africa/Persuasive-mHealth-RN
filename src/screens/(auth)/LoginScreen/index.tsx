@@ -34,7 +34,7 @@ export default function LoginScreen({
 }: {
   navigation: NavigationProp<any>;
 }) {
-  const [isSubmitting, setIsSubmitting] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     control,
     handleSubmit,

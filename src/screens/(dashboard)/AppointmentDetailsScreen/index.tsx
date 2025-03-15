@@ -22,11 +22,15 @@ const AppointmentDetailsScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
 
   const route = useRoute();
-  let param = route.params
-  let id = get_id(param)
-  const [appointment] = useAppSelector(state => state.appointments.data.filter(data => data.id === id))
-  const [patient] = useAppSelector(state => state.patients.data.filter(data => data.id === appointment.patient))
-  
+  let param = route.params;
+  let id = get_id(param);
+  const [appointment] = useAppSelector(state =>
+    state.appointments.data.filter(data => data.id === id)
+  );
+  const [patient] = useAppSelector(state =>
+    state.patients.data.filter(data => data.id === appointment.patient)
+  );
+
   return (
     <ScrollView>
       <View
@@ -36,7 +40,7 @@ const AppointmentDetailsScreen = () => {
             gap: 24,
           },
         ]}>
-        <PatientProfileCard patient ={patient} />
+        <PatientProfileCard patient={patient} />
         <View style={styles.stats}>
           <View
             style={{
@@ -111,7 +115,9 @@ const AppointmentDetailsScreen = () => {
             gap: 8,
           }}>
           <Text style={typography.textBase_Medium}>Medical condition</Text>
-          <Text style={typography.textSmall_Regular}>{appointment.condition }</Text>
+          <Text style={typography.textSmall_Regular}>
+            {appointment.condition}
+          </Text>
         </View>
 
         <View
@@ -145,7 +151,12 @@ const AppointmentDetailsScreen = () => {
 
         <TouchableOpacity
           style={formStyles.submitButton}
-          onPress={() => navigation.navigate("Edit Appointment",{id:appointment.id,name:appointment.patient_name})}>
+          onPress={() =>
+            navigation.navigate("Edit Appointment", {
+              id: appointment.id,
+              name: appointment.patient_name,
+            })
+          }>
           <Text style={formStyles.submitText}>Edit appointment</Text>
         </TouchableOpacity>
       </View>

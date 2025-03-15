@@ -52,6 +52,7 @@ export default function NewPatientScreen() {
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [fileDetails, setfileDetails] = useState({ type: "", filename: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -639,8 +640,23 @@ export default function NewPatientScreen() {
         {/* Continue Button */}
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
-          style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Create Patient</Text>
+          disabled={isSubmitting}
+          style={[
+            formStyles.submitButton,
+            {
+              backgroundColor: isSubmitting
+                ? theme.colors["disabled-bg"]
+                : theme.colors["purple-700"],
+            },
+          ]}>
+          <Text
+            style={{
+              color: isSubmitting
+                ? theme.colors["disabled-text"]
+                : theme.colors.white,
+            }}>
+            Create Patient
+          </Text>
         </TouchableOpacity>
 
         {/* Success Modal */}

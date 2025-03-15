@@ -49,6 +49,7 @@ const NewAppointmentsScreen = () => {
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [fileDetails, setfileDetails] = useState({ type: "", filename: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -463,10 +464,24 @@ const NewAppointmentsScreen = () => {
         {/* Submit Button */}
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
-          style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Book Appointment</Text>
+          disabled={isSubmitting}
+          style={[
+            formStyles.submitButton,
+            {
+              backgroundColor: isSubmitting
+                ? theme.colors["disabled-bg"]
+                : theme.colors["purple-700"],
+            },
+          ]}>
+          <Text
+            style={{
+              color: isSubmitting
+                ? theme.colors["disabled-text"]
+                : theme.colors.white,
+            }}>
+            Book Appointment
+          </Text>
         </TouchableOpacity>
-
         {/* Success Modal */}
         <ModalPopup
           title="Success!"

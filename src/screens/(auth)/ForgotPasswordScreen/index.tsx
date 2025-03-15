@@ -26,6 +26,7 @@ export default function ForgotPasswordScreen({
 }: {
   navigation: NavigationProp<any>;
 }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const {
     control,
@@ -39,7 +40,11 @@ export default function ForgotPasswordScreen({
 
   const onSubmit = (data: FormData) => {
     if (data.email) {
-      setEmailSent(true);
+      setIsSubmitting(true);
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setEmailSent(true);
+      }, 3000);
     } else {
       Alert.alert("Please fill all fields");
     }
@@ -71,7 +76,7 @@ export default function ForgotPasswordScreen({
                 marginBottom: 24,
               },
             ]}>
-            Ener the email associated with your account and we will send you an
+            Enter the email associated with your account and we will send you an
             email wih instructions to reset your password
           </Text>
 
@@ -116,8 +121,23 @@ export default function ForgotPasswordScreen({
           {/* Login Button */}
           <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
-            style={formStyles.submitButton}>
-            <Text style={formStyles.submitText}>Send instructions</Text>
+            disabled={isSubmitting}
+            style={[
+              formStyles.submitButton,
+              {
+                backgroundColor: isSubmitting
+                  ? theme.colors["disabled-bg"]
+                  : theme.colors["purple-700"],
+              },
+            ]}>
+            <Text
+              style={{
+                color: isSubmitting
+                  ? theme.colors["disabled-text"]
+                  : theme.colors.white,
+              }}>
+              Send instructions
+            </Text>
           </TouchableOpacity>
 
           {/* Remembered your password */}

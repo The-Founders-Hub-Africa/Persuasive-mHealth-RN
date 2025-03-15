@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   View,
@@ -25,6 +25,7 @@ export default function ResetPasswordScreen({
 }: {
   navigation: NavigationProp<any>;
 }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     control,
     handleSubmit,
@@ -165,8 +166,23 @@ export default function ResetPasswordScreen({
         {/* Reset password Button */}
         <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
-          style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Reset password</Text>
+          disabled={isSubmitting}
+          style={[
+            formStyles.submitButton,
+            {
+              backgroundColor: isSubmitting
+                ? theme.colors["disabled-bg"]
+                : theme.colors["purple-700"],
+            },
+          ]}>
+          <Text
+            style={{
+              color: isSubmitting
+                ? theme.colors["disabled-text"]
+                : theme.colors.white,
+            }}>
+            Reset password
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

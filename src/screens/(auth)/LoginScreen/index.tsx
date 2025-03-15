@@ -12,7 +12,7 @@ import { Feather, SimpleLineIcons } from "@expo/vector-icons";
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 import { NavigationProp } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 
@@ -34,6 +34,7 @@ export default function LoginScreen({
 }: {
   navigation: NavigationProp<any>;
 }) {
+  const [isSubmitting, setIsSubmitting] = useState(true);
   const {
     control,
     handleSubmit,
@@ -212,13 +213,24 @@ export default function LoginScreen({
         {/* Login Button */}
         <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
+          disabled={isSubmitting}
           style={[
             formStyles.submitButton,
             {
               marginTop: 40,
+              backgroundColor: isSubmitting
+                ? theme.colors["disabled-bg"]
+                : theme.colors["purple-700"],
             },
           ]}>
-          <Text style={[formStyles.submitText]}>Login</Text>
+          <Text
+            style={{
+              color: isSubmitting
+                ? theme.colors["disabled-text"]
+                : theme.colors.white,
+            }}>
+            Login
+          </Text>
         </TouchableOpacity>
 
         {/* Don't have an account */}

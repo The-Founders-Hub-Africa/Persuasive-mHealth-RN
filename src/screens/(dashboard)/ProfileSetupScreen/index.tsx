@@ -51,6 +51,7 @@ export default function ProfileSetupScreen({
   navigation: NavigationProp<any>;
   route: any;
 }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { email, phone_number } = route.params || {};
   const [calendarVisible, setCalendarVisible] = useState(false);
 
@@ -461,8 +462,23 @@ export default function ProfileSetupScreen({
         {/* Continue Button */}
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
-          style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Continue</Text>
+          disabled={isSubmitting}
+          style={[
+            formStyles.submitButton,
+            {
+              backgroundColor: isSubmitting
+                ? theme.colors["disabled-bg"]
+                : theme.colors["purple-700"],
+            },
+          ]}>
+          <Text
+            style={{
+              color: isSubmitting
+                ? theme.colors["disabled-text"]
+                : theme.colors.white,
+            }}>
+            Continue
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

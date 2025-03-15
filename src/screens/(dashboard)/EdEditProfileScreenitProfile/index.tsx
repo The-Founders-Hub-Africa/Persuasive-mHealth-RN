@@ -49,6 +49,7 @@ export default function EditProfileScreen() {
   const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [imageDetails, setimageDetails] = useState({ type: "", filename: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -528,8 +529,23 @@ export default function EditProfileScreen() {
         {/* Continue Button */}
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
-          style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Update</Text>
+          disabled={isSubmitting}
+          style={[
+            formStyles.submitButton,
+            {
+              backgroundColor: isSubmitting
+                ? theme.colors["disabled-bg"]
+                : theme.colors["purple-700"],
+            },
+          ]}>
+          <Text
+            style={{
+              color: isSubmitting
+                ? theme.colors["disabled-text"]
+                : theme.colors.white,
+            }}>
+            Update
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

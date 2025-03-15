@@ -35,6 +35,7 @@ export default function OTPVerificationScreen({
 }: {
   navigation: NavigationProp<any>;
 }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
@@ -236,13 +237,24 @@ export default function OTPVerificationScreen({
 
             <TouchableOpacity
               onPress={handleSubmit(handleVerifyOTP)}
+              disabled={isSubmitting}
               style={[
                 formStyles.submitButton,
                 {
                   marginTop: 24,
+                  backgroundColor: isSubmitting
+                    ? theme.colors["disabled-bg"]
+                    : theme.colors["purple-700"],
                 },
               ]}>
-              <Text style={formStyles.submitText}>Verify OTP</Text>
+              <Text
+                style={{
+                  color: isSubmitting
+                    ? theme.colors["disabled-text"]
+                    : theme.colors.white,
+                }}>
+                Verify OTP
+              </Text>
             </TouchableOpacity>
 
             {/* Resend OTP */}

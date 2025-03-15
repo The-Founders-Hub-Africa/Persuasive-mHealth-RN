@@ -50,6 +50,7 @@ const EditAppointmentScreen = () => {
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [fileDetails, setfileDetails] = useState({ type: "", filename: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const route = useRoute();
   let param = route.params;
@@ -454,8 +455,23 @@ const EditAppointmentScreen = () => {
         {/* Submit Button */}
         <TouchableOpacity
           onPress={handleSubmit(handleContinue)}
-          style={formStyles.submitButton}>
-          <Text style={formStyles.submitText}>Update Appointment</Text>
+          disabled={isSubmitting}
+          style={[
+            formStyles.submitButton,
+            {
+              backgroundColor: isSubmitting
+                ? theme.colors["disabled-bg"]
+                : theme.colors["purple-700"],
+            },
+          ]}>
+          <Text
+            style={{
+              color: isSubmitting
+                ? theme.colors["disabled-text"]
+                : theme.colors.white,
+            }}>
+            Update Appointment
+          </Text>
         </TouchableOpacity>
 
         {/* Success Modal */}

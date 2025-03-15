@@ -21,6 +21,7 @@ type FormData = {
 };
 
 const PasswordScreen = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     control,
     handleSubmit,
@@ -142,8 +143,23 @@ const PasswordScreen = () => {
           {/* Reset password Button */}
           <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
-            style={formStyles.submitButton}>
-            <Text style={formStyles.submitText}>Save password</Text>
+            disabled={isSubmitting}
+            style={[
+              formStyles.submitButton,
+              {
+                backgroundColor: isSubmitting
+                  ? theme.colors["disabled-bg"]
+                  : theme.colors["purple-700"],
+              },
+            ]}>
+            <Text
+              style={{
+                color: isSubmitting
+                  ? theme.colors["disabled-text"]
+                  : theme.colors.white,
+              }}>
+              Save password
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

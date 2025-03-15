@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import React from "react";
 import globalStyles from "@/src/styles/global";
 import PatientProfileCard from "@/src/components/common/PatientProfileCard";
@@ -19,6 +19,10 @@ const PatientDetailsScreen = () => {
     {
       title: "Personal Data",
       component: <PersonalData patient={patient} />,
+    },
+    {
+      title: "Medical History",
+      component: <Text>Coming soon!</Text>,
     },
   ];
 

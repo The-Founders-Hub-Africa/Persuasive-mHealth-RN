@@ -19,7 +19,7 @@ import formStyles from "@/src/styles/formStyles";
 import { useRoute } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { useWhatsappRecordsMutation } from "@/src/integrations/features/apis/apiSlice";
-import { get_id } from "@/src/integrations/axios_store";
+import { get_id, get_name } from "@/src/integrations/axios_store";
 import { addwhatsappMessage } from "@/src/integrations/features/whatsappMessages/whatsappMessageSlice";
 // import SoundPlayer from 'react-native-sound-player';
 import { AudioPlayer, AudioStatus, useAudioPlayer } from "expo-audio";
@@ -112,6 +112,7 @@ const MessageDetailsScreen = () => {
 
   let param = route.params;
   let id = get_id(param);
+  let patientName = get_name(param);
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -159,13 +160,33 @@ const MessageDetailsScreen = () => {
               switch (message.record_type) {
                 case "text":
                   return (
-                    <View key={index} style={[styles.messageText]}>
+                    <View
+                      key={index}
+                      style={[
+                        styles.messageText,
+                        {
+                          backgroundColor:
+                            message.context != "medical_practitioner"
+                              ? theme.colors["neutral-200"]
+                              : theme.colors["purple-50"],
+                        },
+                      ]}>
                       <Text
-                        style={
-                          message.context != "medical_practitioner" && {
-                            color: "blue",
-                          }
-                        }>
+                        style={{
+                          color:
+                            message.context != "medical_practitioner"
+                              ? theme.colors["neutral-700"]
+                              : theme.colors["purple-700"],
+                        }}>
+                        {message.context != "medical_practitioner"
+                          ? patientName
+                          : user.full_name}
+                      </Text>
+                      <Text
+                        style={{
+                          color: theme.colors["neutral-500"],
+                          marginBlockEnd: 10,
+                        }}>
                         {message.timestamp}
                       </Text>
                       <Text key={index}>{message.content}</Text>
@@ -173,12 +194,44 @@ const MessageDetailsScreen = () => {
                   );
                 case "image":
                   return (
-                    <View key={index}>
+                    <View
+                      key={index}
+                      style={[
+                        styles.messageText,
+                        {
+                          backgroundColor:
+                            message.context != "medical_practitioner"
+                              ? theme.colors["neutral-200"]
+                              : theme.colors["purple-50"],
+                        },
+                      ]}>
                       <Text
                         style={
-                          message.context != "medical_practitioner" && {
-                            color: "blue",
-                          }
+                          message.context != "medical_practitioner"
+                            ? {
+                                color: theme.colors["neutral-700"],
+                              }
+                            : {
+                                color: theme.colors["purple-700"],
+                                textAlign: "right",
+                              }
+                        }>
+                        {message.context != "medical_practitioner"
+                          ? patientName
+                          : user.full_name}
+                      </Text>
+                      <Text
+                        style={
+                          message.context != "medical_practitioner"
+                            ? {
+                                color: theme.colors["neutral-600"],
+                                marginBlockEnd: 10,
+                              }
+                            : {
+                                color: theme.colors["purple-700"],
+                                textAlign: "right",
+                                marginBlockEnd: 10,
+                              }
                         }>
                         {message.timestamp}
                       </Text>
@@ -196,12 +249,45 @@ const MessageDetailsScreen = () => {
                   );
                 case "video":
                   return (
-                    <View key={index}>
+                    <View
+                      key={index}
+                      style={[
+                        styles.messageText,
+                        {
+                          backgroundColor:
+                            message.context != "medical_practitioner"
+                              ? theme.colors["neutral-200"]
+                              : theme.colors["purple-50"],
+                        },
+                      ]}>
+                      {" "}
                       <Text
                         style={
-                          message.context != "medical_practitioner" && {
-                            color: "blue",
-                          }
+                          message.context != "medical_practitioner"
+                            ? {
+                                color: theme.colors["neutral-700"],
+                              }
+                            : {
+                                color: theme.colors["purple-700"],
+                                textAlign: "right",
+                              }
+                        }>
+                        {message.context != "medical_practitioner"
+                          ? patientName
+                          : user.full_name}
+                      </Text>
+                      <Text
+                        style={
+                          message.context != "medical_practitioner"
+                            ? {
+                                color: theme.colors["neutral-600"],
+                                marginBlockEnd: 10,
+                              }
+                            : {
+                                color: theme.colors["purple-700"],
+                                textAlign: "right",
+                                marginBlockEnd: 10,
+                              }
                         }>
                         {message.timestamp}
                       </Text>
@@ -225,16 +311,48 @@ const MessageDetailsScreen = () => {
                   );
                 case "audio":
                   return (
-                    <View key={index}>
+                    <View
+                      key={index}
+                      style={[
+                        styles.messageText,
+                        {
+                          backgroundColor:
+                            message.context != "medical_practitioner"
+                              ? theme.colors["neutral-200"]
+                              : theme.colors["purple-50"],
+                        },
+                      ]}>
+                      {" "}
                       <Text
                         style={
-                          message.context != "medical_practitioner" && {
-                            color: "blue",
-                          }
+                          message.context != "medical_practitioner"
+                            ? {
+                                color: theme.colors["neutral-700"],
+                              }
+                            : {
+                                color: theme.colors["purple-700"],
+                                textAlign: "right",
+                              }
+                        }>
+                        {message.context != "medical_practitioner"
+                          ? patientName
+                          : user.full_name}
+                      </Text>
+                      <Text
+                        style={
+                          message.context != "medical_practitioner"
+                            ? {
+                                color: theme.colors["neutral-600"],
+                                marginBlockEnd: 10,
+                              }
+                            : {
+                                color: theme.colors["purple-700"],
+                                textAlign: "right",
+                                marginBlockEnd: 10,
+                              }
                         }>
                         {message.timestamp}
                       </Text>
-
                       <TouchableOpacity
                         key={index}
                         onPress={() => handleAudio(message.id)}>

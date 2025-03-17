@@ -9,10 +9,10 @@ import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addPatientAndMessage } from "@/src/integrations/features/patient/patientAndMessageSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import Alert_System from "@/src/integrations/features/alert/Alert";
+import { useFocusEffect } from "@react-navigation/native";
 
 const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
   const [search, setSearch] = useState("");
-
   
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -39,14 +39,13 @@ const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
 
   // }, [patients,error])
   
-
-  useEffect(() => {
-   
+  useFocusEffect(
+    React.useCallback(() => {
+    
     let data = {
       data: { action: "get_all_last", data: {} },
       token: user.usertoken,
     };
-    console.log(data.token);
     patientandmessage(data).then(data => {
       if (data.error) {
         dispatch(addAlert({ ...data.error, page: "message_list" }));
@@ -56,8 +55,9 @@ const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
         dispatch(addPatientAndMessage({ ...data.data, save: true }));
       }
     });
-    
-  },[]);
+      
+    }, [])
+  );  
 
   useEffect(() => {
     let data = [init];

@@ -131,6 +131,7 @@ export const Patients = async (data) => {
 
 export const axiosGetMediaFile = async (file_id,token) => {
     const imageUrl = `${baseUrl}/platforms/get_media/${file_id}`;
+    console.log('url',imageUrl)
     return axios.get(imageUrl, {
         responseType: 'blob',
         headers: {

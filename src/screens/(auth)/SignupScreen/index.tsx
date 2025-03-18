@@ -225,7 +225,14 @@ export default function SignupScreen({
                   value:
                     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
                   message:
-                    "Password must contain at least one letter and one number",
+                    "Password must contain at least one capital letter, one small letter, one number, and one of the following special characters: @$!%*?&",
+                },
+                validate: value => {
+                  const invalidChars = /[^A-Za-z\d@$!%*?&]/g; // Reject anything not in allowed set
+                  if (invalidChars.test(value)) {
+                    return "Password contains invalid special characters. Only @$!%*?& are allowed.";
+                  }
+                  return true;
                 },
               }}
               render={({ field: { onChange, value } }) => (

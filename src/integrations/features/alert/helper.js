@@ -13,7 +13,7 @@ export const get_message_and_code = (data) => {
 
     if (data.status == 200) {
         result.message = [data.message]
-        result.status_code = data.status_code
+        result.status_code = 200
         return result  
     }
 

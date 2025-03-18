@@ -20,6 +20,7 @@ import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { useRegisterMPUserMutation } from "@/src/integrations/features/apis/apiSlice";
 import Alert_System from "@/src/integrations/features/alert/Alert";
 import Toast from "react-native-toast-message";
+import { userRegistered } from "@/src/integrations/features/user/boarderUserSlice";
 
 type FormData = {
   email: string;
@@ -86,7 +87,7 @@ export default function SignupScreen({
             save: true,
           })
         );
-        // setuserlogged(true)
+        dispatch(userRegistered())
         navigation.navigate("OTP Verification");
       } else if (res.error) {
         dispatch(addAlert({ ...res.error, page: "signup" }));

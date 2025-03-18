@@ -18,8 +18,9 @@ import formStyles from "@/src/styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { useOTPMutation } from "@/src/integrations/features/apis/apiSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
-import { loginUser } from "@/src/integrations/features/user/usersSlice";
+import { loginUser, logoutUser } from "@/src/integrations/features/user/usersSlice";
 import ModalPopup from "@/src/components/common/ModalPopup";
+import Alert_System from "@/src/integrations/features/alert/Alert";
 
 type FormData = {
   otp0: string;
@@ -79,7 +80,7 @@ export default function OTPVerificationScreen({
     if (res.data) {
       dispatch(
         addAlert({
-          status_code: 200,
+          status: 200,
           message: "OTP Sent",
         })
       );
@@ -106,10 +107,12 @@ export default function OTPVerificationScreen({
 
     let res = await OTP(data_);
     if (res.data) {
-      dispatch(
-        loginUser({ ...user, verified_number: true, logedin: true, save: true })
-      );
       setShowModal(true);
+      dispatch(
+        // loginUser({ ...user, verified_number: true, logedin: true, save: true })
+        logoutUser()
+      );
+      
     } else if (res.error) {
       dispatch(addAlert({ ...res.error, page: "otp" }));
     }
@@ -125,6 +128,7 @@ export default function OTPVerificationScreen({
 
   return (
     <ScrollView>
+      <Alert_System/>
       <View style={globalStyles.container}>
         <Image
           source={require("@/assets/images/otp-icon.png")}
@@ -284,7 +288,7 @@ export default function OTPVerificationScreen({
           setShowModal={setShowModal}
           onPress={() => {
             setShowModal(false);
-            navigation.navigate("Profile Setup");
+            // navigation.navigate("Profile Setup");
           }}
         />
       </View>

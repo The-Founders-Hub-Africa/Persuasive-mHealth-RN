@@ -95,7 +95,13 @@ export default function LoginScreen({
         })
       );
       // setuserlogged(true)
-      navigation.navigate("Dashboard");
+      if (res.data.user.full_name == 'Not Set') {
+        console.log('profile not set')
+        navigation.navigate("Profile Setup");
+      } else {
+        navigation.navigate("Dashboard");
+      }
+      
     } else if (res.error) {
       dispatch(addAlert({ ...res.error, page: "login" }));
     }

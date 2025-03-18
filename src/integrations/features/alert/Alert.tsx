@@ -27,6 +27,7 @@ const Alert_System = () => {
                 text1: message
             });
         }
+        console.log('alert_system',alert)
         dispatch(clearAlert())
       }
     }, [alert])

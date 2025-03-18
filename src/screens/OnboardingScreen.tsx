@@ -6,6 +6,7 @@ import globalStyles from "@/src/styles/global";
 import typography from "../styles/typography";
 import formStyles from "../styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { boardUser } from "../integrations/features/user/boarderUserSlice";
 
 const onboardingData = [
   {
@@ -40,12 +41,28 @@ export default function OnboardingScreen({
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
+   const board = useAppSelector(state => state.board);
 
+  
+  
+  useEffect(() => {
+  if (board.boarded && board.registered) {
+      navigation.navigate("Login");
+  } else if (board.boarded) {
+      navigation.navigate("Signup");
+    }
+
+  }, [board])
+  
   useEffect(() => {
     if (user.logedin) {
-      if (user.verified_number) {
+      if (user.verified_number && user.full_name != 'Not Set') {
+        console.log('pushed to Dashboard')
         navigation.navigate("Dashboard");
-      } else {
+      } else if (user.full_name == 'Not Set') {
+        console.log('profile not Set ooh')
+        navigation.navigate("Profile Setup");
+      }else {
         navigation.navigate("OTP Verification");
       }
     }
@@ -56,11 +73,13 @@ export default function OnboardingScreen({
       setIndex(index + 1);
     } else {
       navigation.navigate("Signup");
+      dispatch(boardUser())
     }
   };
 
   const handleSkip = () => {
     navigation.navigate("Signup");
+    dispatch(boardUser())
   };
 
   return (

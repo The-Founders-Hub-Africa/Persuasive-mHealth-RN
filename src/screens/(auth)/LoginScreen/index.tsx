@@ -34,7 +34,7 @@ export default function LoginScreen({
 }: {
   navigation: NavigationProp<any>;
 }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -219,19 +219,19 @@ export default function LoginScreen({
         {/* Login Button */}
         <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
+          disabled={isLoading}
           style={[
             formStyles.submitButton,
             {
               marginTop: 40,
-              backgroundColor: isSubmitting
+              backgroundColor: isLoading
                 ? theme.colors["disabled-bg"]
                 : theme.colors["purple-700"],
             },
           ]}>
           <Text
             style={{
-              color: isSubmitting
+              color: isLoading
                 ? theme.colors["disabled-text"]
                 : theme.colors.white,
             }}>

@@ -35,8 +35,8 @@ export default function OTPVerificationScreen({
   navigation,
 }: {
   navigation: NavigationProp<any>;
-}) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  }) {
+  
   const [otpSent, setOtpSent] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
@@ -57,7 +57,7 @@ export default function OTPVerificationScreen({
     },
   });
 
-  const OTP = useOTPMutation()[0];
+  const [OTP, {isLoading} ] = useOTPMutation();
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -241,19 +241,19 @@ export default function OTPVerificationScreen({
 
             <TouchableOpacity
               onPress={handleSubmit(handleVerifyOTP)}
-              disabled={isSubmitting}
+              disabled={isLoading}
               style={[
                 formStyles.submitButton,
                 {
                   marginTop: 24,
-                  backgroundColor: isSubmitting
+                  backgroundColor: isLoading
                     ? theme.colors["disabled-bg"]
                     : theme.colors["purple-700"],
                 },
               ]}>
               <Text
                 style={{
-                  color: isSubmitting
+                  color: isLoading
                     ? theme.colors["disabled-text"]
                     : theme.colors.white,
                 }}>

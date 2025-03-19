@@ -12,8 +12,7 @@ import BottomTabs from "./src/components/Navigation/BottomTabs";
 import { Provider } from "react-redux";
 import { store } from "./src/integrations/store";
 import AnalyticsScreen from "./src/screens/(dashboard)/AnalyticsScreen";
-
-
+import ToastManager from "toastify-react-native";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -21,6 +20,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
+      <ToastManager />
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Onboarding">
           <Stack.Screen

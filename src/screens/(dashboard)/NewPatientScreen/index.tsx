@@ -29,7 +29,7 @@ import { Patients } from "@/src/integrations/axios_store";
 import { addPatientCount } from "@/src/integrations/features/user/usersSlice";
 import DatePicker from "react-native-modern-datepicker";
 import Alert_System from "@/src/integrations/features/alert/Alert";
-import Toast from "react-native-toast-message";
+import Toast from "toastify-react-native";
 
 type FormData = {
   full_name: string;
@@ -50,9 +50,7 @@ type FormData = {
 
 export default function NewPatientScreen() {
   useEffect(() => {
-    Toast.show({ type: "error", text1: "Testing toat messsage" });
-
-    // Removed invalid Toast.setRef line
+    Toast.success("Promised is resolved");
   }, []);
 
   const navigation = useNavigation<NavigationProp<any>>();
@@ -175,7 +173,6 @@ export default function NewPatientScreen() {
               zIndex: 1000,
             }}>
             <Alert_System />
-            <Toast />
           </View>
 
           {/* Personal Information */}

@@ -49,12 +49,11 @@ type FormData = {
 };
 
 export default function NewPatientScreen() {
-
   useEffect(() => {
-    Toast.show({ type: 'error', text1: "Testing toat messsage" })
-    
+    Toast.show({ type: "error", text1: "Testing toat messsage" });
+
     // Removed invalid Toast.setRef line
-  }, [])
+  }, []);
 
   const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
@@ -64,7 +63,7 @@ export default function NewPatientScreen() {
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
- 
+
   const {
     control,
     handleSubmit,
@@ -103,7 +102,6 @@ export default function NewPatientScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
-   
     let data_ = {
       token: user.usertoken,
       data: {
@@ -111,20 +109,20 @@ export default function NewPatientScreen() {
         img: fileDetails,
       },
     };
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     let res = await Patients(data_);
     if (res.success) {
       // reset form data here
 
       //
-      
-      setIsSubmitting(false)
+
+      setIsSubmitting(false);
       dispatch(addSinglePatient(res.data.patient));
       dispatch(addPatientCount({ gender: res.data.patient.gender }));
       setShowModal(true);
       navigation.navigate("Patients");
     } else {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
       let err = {
         status: res.status,
         data: res.data,
@@ -161,446 +159,455 @@ export default function NewPatientScreen() {
 
   return (
     <>
-    <View style={{ height: 60, backgroundColor: "white" }}>
-      <Alert_System />
-      <Toast topOffset={0}/>
-    </View>
-    
-    <ScrollView>
-      
-     
-    
-      <View
-        style={[
-          globalStyles.dashboardContainer,
-          { gap: 24, flex: 1, width: "100%" },
-        ]}>
-        {/* Personal Information */}
-        <View style={{ width: "100%" }}>
-          <Text
-            style={[
-              typography.textXL_Medium,
-              {
-                marginBottom: 8,
-              },
-            ]}>
-            Personal Information
-          </Text>
-       
-          {/* Full Name */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Full Name</Text>
-            <Controller
-              control={control}
-              name="full_name"
-              rules={{ required: "Full Name is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.inputCntr}>
-                  <Feather
-                    name="user"
+      <ScrollView>
+        <View
+          style={[
+            globalStyles.dashboardContainer,
+            { gap: 24, flex: 1, width: "100%", position: "relative" }, // position: "relative" is used to position the alert and toast at the top of the screen
+          ]}>
+          <View
+            style={{
+              position: "absolute",
+              top: -30,
+              left: 20,
+              right: 20,
+              width: "100%",
+              zIndex: 1000,
+            }}>
+            <Alert_System />
+            <Toast />
+          </View>
+
+          {/* Personal Information */}
+          <View style={{ width: "100%" }}>
+            <Text
+              style={[
+                typography.textXL_Medium,
+                {
+                  marginBottom: 8,
+                },
+              ]}>
+              Personal Information
+            </Text>
+
+            {/* Full Name */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Full Name</Text>
+              <Controller
+                control={control}
+                name="full_name"
+                rules={{ required: "Full Name is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={formStyles.inputCntr}>
+                    <Feather
+                      name="user"
+                      size={20}
+                      color={theme.colors["neutral-700"]}
+                    />
+                    <TextInput
+                      style={formStyles.inputText}
+                      placeholder="John Doe"
+                      placeholderTextColor={theme.colors["disabled-text"]}
+                      value={value}
+                      onChangeText={onChange}
+                    />
+                  </View>
+                )}
+              />
+              {errors.full_name && (
+                <Text style={globalStyles.errorText}>
+                  {errors.full_name.message}
+                </Text>
+              )}
+            </View>
+
+            {/* Phone Number */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Phone Number</Text>
+              <Controller
+                control={control}
+                name="whatsapp_number"
+                rules={{ required: "Phone number is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={formStyles.inputCntr}>
+                    <Feather
+                      name="phone"
+                      size={20}
+                      color={theme.colors["neutral-700"]}
+                    />
+                    <TextInput
+                      style={formStyles.inputText}
+                      placeholder="+264812345678"
+                      placeholderTextColor={theme.colors["disabled-text"]}
+                      keyboardType="phone-pad"
+                      value={value}
+                      onChangeText={onChange}
+                    />
+                  </View>
+                )}
+              />
+              {errors.whatsapp_number && (
+                <Text style={globalStyles.errorText}>
+                  {errors.whatsapp_number.message?.toString()}
+                </Text>
+              )}
+            </View>
+
+            {/* Address */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Address</Text>
+              <Controller
+                control={control}
+                name="address"
+                rules={{ required: "Address is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      justifyContent: "flex-start",
+                      gap: 4,
+                      borderWidth: 1,
+                      borderColor: theme.colors["purple-400"],
+                      borderRadius: 8,
+                      paddingVertical: 2,
+                      paddingHorizontal: 12,
+                      width: "100%",
+                    }}>
+                    <EvilIcons
+                      name="location"
+                      size={24}
+                      color={theme.colors["neutral-700"]}
+                      style={{
+                        marginTop: 12,
+                      }}
+                    />
+                    <TextInput
+                      style={[
+                        formStyles.inputText,
+                        { height: 70, textAlignVertical: "top" },
+                      ]}
+                      placeholder="Tell us about yourself..."
+                      placeholderTextColor={theme.colors["disabled-text"]}
+                      value={value}
+                      onChangeText={onChange}
+                      multiline={true}
+                      numberOfLines={7}
+                    />
+                  </View>
+                )}
+              />
+              {errors.address && (
+                <Text style={globalStyles.errorText}>
+                  {errors.address.message}
+                </Text>
+              )}
+            </View>
+
+            {/* About */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>About</Text>
+              <Controller
+                control={control}
+                name="about"
+                rules={{ required: "About is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      justifyContent: "flex-start",
+                      gap: 4,
+                      borderWidth: 1,
+                      borderColor: theme.colors["purple-400"],
+                      borderRadius: 8,
+                      paddingVertical: 2,
+                      paddingHorizontal: 12,
+                      width: "100%",
+                    }}>
+                    <EvilIcons
+                      name="location"
+                      size={24}
+                      color={theme.colors["neutral-700"]}
+                      style={{
+                        marginTop: 12,
+                      }}
+                    />
+                    <TextInput
+                      style={[
+                        formStyles.inputText,
+                        { height: 150, textAlignVertical: "top" },
+                      ]}
+                      placeholder="Tell us about yourself..."
+                      placeholderTextColor={theme.colors["disabled-text"]}
+                      value={value}
+                      onChangeText={onChange}
+                      multiline={true}
+                      numberOfLines={2}
+                    />
+                  </View>
+                )}
+              />
+              {errors.about && (
+                <Text style={globalStyles.errorText}>
+                  {errors.about.message}
+                </Text>
+              )}
+            </View>
+          </View>
+          {/* Other Information */}
+          <View style={{ width: "100%" }}>
+            <Text
+              style={[
+                typography.textXL_Medium,
+                {
+                  marginBottom: 8,
+                },
+              ]}>
+              Other Information
+            </Text>
+
+            {/* Date of Birth */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Date of Birth</Text>
+              <TouchableOpacity onPress={() => setCalendarVisible(true)}>
+                <View style={formStyles.inputDateCntr}>
+                  <Ionicons
+                    name="calendar-outline"
                     size={20}
                     color={theme.colors["neutral-700"]}
                   />
-                  <TextInput
-                    style={formStyles.inputText}
-                    placeholder="John Doe"
-                    placeholderTextColor={theme.colors["disabled-text"]}
-                    value={value}
-                    onChangeText={onChange}
+                  <Controller
+                    control={control}
+                    name="date_of_birth"
+                    render={({ field: { value } }) => (
+                      <Text style={formStyles.inputText}>{value}</Text>
+                    )}
                   />
                 </View>
-              )}
-            />
-            {errors.full_name && (
-              <Text style={globalStyles.errorText}>
-                {errors.full_name.message}
-              </Text>
-            )}
-          </View>
-        
-          {/* Phone Number */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Phone Number</Text>
-            <Controller
-              control={control}
-              name="whatsapp_number"
-              rules={{ required: "Phone number is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.inputCntr}>
-                  <Feather
-                    name="phone"
-                    size={20}
-                    color={theme.colors["neutral-700"]}
-                  />
-                  <TextInput
-                    style={formStyles.inputText}
-                    placeholder="+264812345678"
-                    placeholderTextColor={theme.colors["disabled-text"]}
-                    keyboardType="phone-pad"
-                    value={value}
-                    onChangeText={onChange}
-                  />
-                </View>
-              )}
-            />
-            {errors.whatsapp_number && (
-              <Text style={globalStyles.errorText}>
-                {errors.whatsapp_number.message?.toString()}
-              </Text>
-            )}
-          </View>
+              </TouchableOpacity>
+            </View>
 
-          {/* Address */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Address</Text>
-            <Controller
-              control={control}
-              name="address"
-              rules={{ required: "Address is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                    gap: 4,
-                    borderWidth: 1,
-                    borderColor: theme.colors["purple-400"],
-                    borderRadius: 8,
-                    paddingVertical: 2,
-                    paddingHorizontal: 12,
-                    width: "100%",
-                  }}>
-                  <EvilIcons
-                    name="location"
-                    size={24}
-                    color={theme.colors["neutral-700"]}
-                    style={{
-                      marginTop: 12,
-                    }}
-                  />
-                  <TextInput
-                    style={[
-                      formStyles.inputText,
-                      { height: 70, textAlignVertical: "top" },
-                    ]}
-                    placeholder="Tell us about yourself..."
-                    placeholderTextColor={theme.colors["disabled-text"]}
-                    value={value}
-                    onChangeText={onChange}
-                    multiline={true}
-                    numberOfLines={7}
-                  />
-                </View>
-              )}
-            />
-            {errors.address && (
-              <Text style={globalStyles.errorText}>
-                {errors.address.message}
-              </Text>
-            )}
-          </View>
-
-          {/* About */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>About</Text>
-            <Controller
-              control={control}
-              name="about"
-              rules={{ required: "About is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                    gap: 4,
-                    borderWidth: 1,
-                    borderColor: theme.colors["purple-400"],
-                    borderRadius: 8,
-                    paddingVertical: 2,
-                    paddingHorizontal: 12,
-                    width: "100%",
-                  }}>
-                  <EvilIcons
-                    name="location"
-                    size={24}
-                    color={theme.colors["neutral-700"]}
-                    style={{
-                      marginTop: 12,
-                    }}
-                  />
-                  <TextInput
-                    style={[
-                      formStyles.inputText,
-                      { height: 150, textAlignVertical: "top" },
-                    ]}
-                    placeholder="Tell us about yourself..."
-                    placeholderTextColor={theme.colors["disabled-text"]}
-                    value={value}
-                    onChangeText={onChange}
-                    multiline={true}
-                    numberOfLines={2}
-                  />
-                </View>
-              )}
-            />
-            {errors.about && (
-              <Text style={globalStyles.errorText}>{errors.about.message}</Text>
-            )}
-          </View>
-        </View>
-
-        {/* Other Information */}
-        <View style={{ width: "100%" }}>
-          <Text
-            style={[
-              typography.textXL_Medium,
-              {
-                marginBottom: 8,
-              },
-            ]}>
-            Other Information
-          </Text>
-
-          {/* Date of Birth */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Date of Birth</Text>
-            <TouchableOpacity onPress={() => setCalendarVisible(true)}>
-              <View style={formStyles.inputDateCntr}>
-                <Ionicons
-                  name="calendar-outline"
-                  size={20}
-                  color={theme.colors["neutral-700"]}
-                />
-                <Controller
-                  control={control}
-                  name="date_of_birth"
-                  render={({ field: { value } }) => (
-                    <Text style={formStyles.inputText}>{value}</Text>
-                  )}
+            {/* Calendar Modal */}
+            <Modal
+              visible={calendarVisible}
+              transparent={true}
+              animationType="slide"
+              onRequestClose={() => setCalendarVisible(false)}>
+              <View style={modalStyles.modalCntr}>
+                <DatePicker
+                  onSelectedChange={(date: string) => {
+                    setValue("date_of_birth", date);
+                    setCalendarVisible(false);
+                  }}
+                  current={getValues("date_of_birth")}
+                  mode="calendar"
+                  style={{ borderRadius: 10 }}
+                  options={{
+                    textHeaderColor: theme.colors["purple-700"],
+                    textDefaultColor: theme.colors["neutral-700"],
+                    selectedTextColor: "#fff",
+                    mainColor: theme.colors["purple-700"],
+                    textSecondaryColor: theme.colors["neutral-500"],
+                    borderColor: "rgba(122, 146, 165, 0.1)",
+                  }}
                 />
               </View>
-            </TouchableOpacity>
-          </View>
+            </Modal>
 
-          {/* Calendar Modal */}
-          <Modal
-            visible={calendarVisible}
-            transparent={true}
-            animationType="slide"
-            onRequestClose={() => setCalendarVisible(false)}>
-            <View style={modalStyles.modalCntr}>
-              <DatePicker
-                onSelectedChange={(date: string) => {
-                  setValue("date_of_birth", date);
-                  setCalendarVisible(false);
-                }}
-                current={getValues("date_of_birth")}
-                mode="calendar"
-                style={{ borderRadius: 10 }}
-                options={{
-                  textHeaderColor: theme.colors["purple-700"],
-                  textDefaultColor: theme.colors["neutral-700"],
-                  selectedTextColor: "#fff",
-                  mainColor: theme.colors["purple-700"],
-                  textSecondaryColor: theme.colors["neutral-500"],
-                  borderColor: "rgba(122, 146, 165, 0.1)",
-                }}
+            {/* Genotype */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Genotype</Text>
+              <Controller
+                control={control}
+                name="genotype"
+                rules={{ required: "Genotype is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={formStyles.inputDropdownCntr}>
+                    <Picker selectedValue={value} onValueChange={onChange}>
+                      <Picker.Item label="Select Genotype" value="" />
+                      <Picker.Item label="AA" value="AA" />
+                      <Picker.Item label="AS" value="AS" />
+                      <Picker.Item label="AC" value="AC" />
+                      <Picker.Item label="SC" value="SC" />
+                      <Picker.Item label="SS" value="SS" />
+                      <Picker.Item label="SD" value="SD" />
+                      <Picker.Item label="SE" value="SE" />
+                    </Picker>
+                  </View>
+                )}
               />
+              {errors.genotype && (
+                <Text style={globalStyles.errorText}>
+                  {errors.genotype.message?.toString()}
+                </Text>
+              )}
             </View>
-          </Modal>
 
-          {/* Genotype */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Genotype</Text>
-            <Controller
-              control={control}
-              name="genotype"
-              rules={{ required: "Genotype is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.inputDropdownCntr}>
-                  <Picker selectedValue={value} onValueChange={onChange}>
-                    <Picker.Item label="Select Genotype" value="" />
-                    <Picker.Item label="AA" value="AA" />
-                    <Picker.Item label="AS" value="AS" />
-                    <Picker.Item label="AC" value="AC" />
-                    <Picker.Item label="SC" value="SC" />
-                    <Picker.Item label="SS" value="SS" />
-                    <Picker.Item label="SD" value="SD" />
-                    <Picker.Item label="SE" value="SE" />
-                  </Picker>
-                </View>
+            {/* Gender */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Gender</Text>
+              <Controller
+                control={control}
+                name="gender"
+                rules={{ required: "Gender is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={formStyles.genderCntr}>
+                    <TouchableOpacity
+                      onPress={() => onChange("male")}
+                      style={[
+                        formStyles.inputCntr,
+                        formStyles.genderOptionMale,
+                      ]}>
+                      <MaterialIcons
+                        name={
+                          value === "male"
+                            ? "check-box"
+                            : "check-box-outline-blank"
+                        }
+                        size={20}
+                        color={theme.colors["purple-700"]}
+                      />
+                      <Text style={formStyles.genderText}>Male</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => onChange("female")}
+                      style={[
+                        formStyles.inputCntr,
+                        formStyles.genderOptionFemale,
+                      ]}>
+                      <MaterialIcons
+                        name={
+                          value === "female"
+                            ? "check-box"
+                            : "check-box-outline-blank"
+                        }
+                        size={20}
+                        color={theme.colors["purple-700"]}
+                      />
+                      <Text style={formStyles.genderText}>Female</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              />
+              {errors.gender && (
+                <Text style={globalStyles.errorText}>
+                  {errors.gender.message?.toString()}
+                </Text>
               )}
-            />
-            {errors.genotype && (
-              <Text style={globalStyles.errorText}>
-                {errors.genotype.message?.toString()}
-              </Text>
-            )}
-          </View>
+            </View>
 
-          {/* Gender */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Gender</Text>
-            <Controller
-              control={control}
-              name="gender"
-              rules={{ required: "Gender is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.genderCntr}>
-                  <TouchableOpacity
-                    onPress={() => onChange("male")}
-                    style={[formStyles.inputCntr, formStyles.genderOptionMale]}>
-                    <MaterialIcons
-                      name={
-                        value === "male"
-                          ? "check-box"
-                          : "check-box-outline-blank"
-                      }
+            {/* Next of kin */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Next of kin</Text>
+              <Controller
+                control={control}
+                name="next_of_kin"
+                rules={{ required: "Next of kin is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={formStyles.inputCntr}>
+                    <Feather
+                      name="user"
                       size={20}
-                      color={theme.colors["purple-700"]}
+                      color={theme.colors["neutral-700"]}
                     />
-                    <Text style={formStyles.genderText}>Male</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => onChange("female")}
-                    style={[
-                      formStyles.inputCntr,
-                      formStyles.genderOptionFemale,
-                    ]}>
-                    <MaterialIcons
-                      name={
-                        value === "female"
-                          ? "check-box"
-                          : "check-box-outline-blank"
-                      }
-                      size={20}
-                      color={theme.colors["purple-700"]}
+                    <TextInput
+                      style={formStyles.inputText}
+                      placeholder="John Doe"
+                      placeholderTextColor={theme.colors["disabled-text"]}
+                      value={value}
+                      onChangeText={onChange}
                     />
-                    <Text style={formStyles.genderText}>Female</Text>
-                  </TouchableOpacity>
-                </View>
+                  </View>
+                )}
+              />
+              {errors.next_of_kin && (
+                <Text style={globalStyles.errorText}>
+                  {errors.next_of_kin.message}
+                </Text>
               )}
-            />
-            {errors.gender && (
-              <Text style={globalStyles.errorText}>
-                {errors.gender.message?.toString()}
-              </Text>
-            )}
-          </View>
+            </View>
 
-          {/* Next of kin */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Next of kin</Text>
-            <Controller
-              control={control}
-              name="next_of_kin"
-              rules={{ required: "Next of kin is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.inputCntr}>
-                  <Feather
-                    name="user"
-                    size={20}
-                    color={theme.colors["neutral-700"]}
-                  />
-                  <TextInput
-                    style={formStyles.inputText}
-                    placeholder="John Doe"
-                    placeholderTextColor={theme.colors["disabled-text"]}
-                    value={value}
-                    onChangeText={onChange}
-                  />
-                </View>
+            {/* Kin Number */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Kin Number</Text>
+              <Controller
+                control={control}
+                name="kin_number"
+                rules={{ required: "Kin number is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={formStyles.inputCntr}>
+                    <TextInput
+                      style={formStyles.inputText}
+                      placeholder="+264812345678"
+                      placeholderTextColor={theme.colors["disabled-text"]}
+                      value={value}
+                      onChangeText={onChange}
+                    />
+                  </View>
+                )}
+              />
+              {errors.kin_number && (
+                <Text style={globalStyles.errorText}>
+                  {errors.kin_number.message}
+                </Text>
               )}
-            />
-            {errors.next_of_kin && (
-              <Text style={globalStyles.errorText}>
-                {errors.next_of_kin.message}
-              </Text>
-            )}
-          </View>
+            </View>
 
-          {/* Kin Number */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Kin Number</Text>
-            <Controller
-              control={control}
-              name="kin_number"
-              rules={{ required: "Kin number is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.inputCntr}>
-                  <TextInput
-                    style={formStyles.inputText}
-                    placeholder="+264812345678"
-                    placeholderTextColor={theme.colors["disabled-text"]}
-                    value={value}
-                    onChangeText={onChange}
-                  />
-                </View>
+            {/* Medical Condition */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Medical Condition</Text>
+              <Controller
+                control={control}
+                name="condition"
+                rules={{ required: "Medical condition is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={formStyles.inputCntr}>
+                    <TextInput
+                      style={formStyles.inputText}
+                      placeholder="Diabetes, Hypertension, etc."
+                      placeholderTextColor={theme.colors["disabled-text"]}
+                      value={value}
+                      onChangeText={onChange}
+                    />
+                  </View>
+                )}
+              />
+              {errors.condition && (
+                <Text style={globalStyles.errorText}>
+                  {errors.condition.message}
+                </Text>
               )}
-            />
-            {errors.kin_number && (
-              <Text style={globalStyles.errorText}>
-                {errors.kin_number.message}
-              </Text>
-            )}
-          </View>
+            </View>
 
-          {/* Medical Condition */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Medical Condition</Text>
-            <Controller
-              control={control}
-              name="condition"
-              rules={{ required: "Medical condition is required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.inputCntr}>
-                  <TextInput
-                    style={formStyles.inputText}
-                    placeholder="Diabetes, Hypertension, etc."
-                    placeholderTextColor={theme.colors["disabled-text"]}
-                    value={value}
-                    onChangeText={onChange}
-                  />
-                </View>
+            {/* Symptoms */}
+            <View style={formStyles.inputGroup}>
+              <Text style={formStyles.label}>Symptoms</Text>
+              <Controller
+                control={control}
+                name="symptoms"
+                rules={{ required: "Symptoms are required" }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={formStyles.inputCntr}>
+                    <TextInput
+                      style={formStyles.inputText}
+                      placeholder="Fever, Cough, Headache"
+                      placeholderTextColor={theme.colors["disabled-text"]}
+                      value={value}
+                      onChangeText={onChange}
+                    />
+                  </View>
+                )}
+              />
+              {errors.symptoms && (
+                <Text style={globalStyles.errorText}>
+                  {errors.symptoms.message}
+                </Text>
               )}
-            />
-            {errors.condition && (
-              <Text style={globalStyles.errorText}>
-                {errors.condition.message}
-              </Text>
-            )}
-          </View>
+            </View>
 
-          {/* Symptoms */}
-          <View style={formStyles.inputGroup}>
-            <Text style={formStyles.label}>Symptoms</Text>
-            <Controller
-              control={control}
-              name="symptoms"
-              rules={{ required: "Symptoms are required" }}
-              render={({ field: { onChange, value } }) => (
-                <View style={formStyles.inputCntr}>
-                  <TextInput
-                    style={formStyles.inputText}
-                    placeholder="Fever, Cough, Headache"
-                    placeholderTextColor={theme.colors["disabled-text"]}
-                    value={value}
-                    onChangeText={onChange}
-                  />
-                </View>
-              )}
-            />
-            {errors.symptoms && (
-              <Text style={globalStyles.errorText}>
-                {errors.symptoms.message}
-              </Text>
-            )}
-          </View>
-
-          {/* Medical document */}
-          {/* <View style={formStyles.inputGroup}>
+            {/* Medical document */}
+            {/* <View style={formStyles.inputGroup}>
             <Text style={formStyles.label}>Medical document</Text>
             <TouchableOpacity
               style={styles.profileImageCntr}
@@ -655,42 +662,40 @@ export default function NewPatientScreen() {
               />
             </TouchableOpacity>
           </View> */}
+          </View>
+          {/* Continue Button */}
+          <TouchableOpacity
+            onPress={handleSubmit(handleContinue)}
+            disabled={isSubmitting}
+            style={[
+              formStyles.submitButton,
+              {
+                backgroundColor: isSubmitting
+                  ? theme.colors["disabled-bg"]
+                  : theme.colors["purple-700"],
+              },
+            ]}>
+            <Text
+              style={{
+                color: isSubmitting
+                  ? theme.colors["disabled-text"]
+                  : theme.colors.white,
+              }}>
+              Create Patient
+            </Text>
+          </TouchableOpacity>
+          {/* Success Modal */}
+          <ModalPopup
+            title="Success!"
+            message="Patient created successfully"
+            showModal={showModal}
+            setShowModal={setShowModal}
+            onPress={() => {
+              setShowModal(false);
+            }}
+          />
         </View>
-
-        {/* Continue Button */}
-        <TouchableOpacity
-          onPress={handleSubmit(handleContinue)}
-          disabled={isSubmitting}
-          style={[
-            formStyles.submitButton,
-            {
-              backgroundColor: isSubmitting
-                ? theme.colors["disabled-bg"]
-                : theme.colors["purple-700"],
-            },
-          ]}>
-          <Text
-            style={{
-              color: isSubmitting
-                ? theme.colors["disabled-text"]
-                : theme.colors.white,
-            }}>
-            Create Patient
-          </Text>
-        </TouchableOpacity>
-
-        {/* Success Modal */}
-        <ModalPopup
-          title="Success!"
-          message="Patient created successfully"
-          showModal={showModal}
-          setShowModal={setShowModal}
-          onPress={() => {
-            setShowModal(false);
-          }}
-        />
-      </View>
-    </ScrollView>
+      </ScrollView>
     </>
   );
 }

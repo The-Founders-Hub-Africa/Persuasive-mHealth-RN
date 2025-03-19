@@ -26,6 +26,7 @@ type FormData = {
   email: string;
   phone: string;
   password: string;
+  confirm_password: string;
   agreed: boolean;
 };
 
@@ -43,6 +44,7 @@ export default function SignupScreen({
       email: "",
       phone: "",
       password: "",
+      confirm_password: "",
       agreed: false,
     },
   });
@@ -86,7 +88,7 @@ export default function SignupScreen({
             save: true,
           })
         );
-        dispatch(userRegistered())
+        dispatch(userRegistered());
         navigation.navigate("OTP Verification");
       } else if (res.error) {
         dispatch(addAlert({ ...res.error, page: "signup" }));
@@ -176,8 +178,8 @@ export default function SignupScreen({
               rules={{
                 required: "Phone number is required",
                 pattern: {
-                  value: /^\+?[1-9]\d{9,14}$/,
-                  message: "Enter a valid phone number",
+                  value: /^\+[1-9]\d{9,14}$/,
+                  message: "Enter a valid phone number starting with +",
                 },
               }}
               render={({ field: { onChange, value } }) => (
@@ -251,6 +253,46 @@ export default function SignupScreen({
           {errors.password && (
             <Text style={globalStyles.errorText}>
               {errors.password?.message?.toString()}
+            </Text>
+          )}
+        </View>
+
+        {/* Confirm Password Input */}
+        <View style={formStyles.inputGroup}>
+          <Text style={formStyles.label}>Confirm Password</Text>
+          <View style={formStyles.inputCntr}>
+            <Feather
+              name="lock"
+              size={20}
+              color={theme.colors["neutral-700"]}
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: "Confirm password is required",
+                validate: (value, formValues) => {
+                  if (value !== formValues.password) {
+                    return "Passwords do not match";
+                  }
+                  return true;
+                },
+              }}
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  style={formStyles.inputText}
+                  placeholder="********"
+                  placeholderTextColor={theme.colors["disabled-text"]}
+                  secureTextEntry
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
+              name="confirm_password"
+            />
+          </View>
+          {errors.confirm_password && (
+            <Text style={globalStyles.errorText}>
+              {errors.confirm_password?.message?.toString()}
             </Text>
           )}
         </View>

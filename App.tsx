@@ -12,11 +12,7 @@ import BottomTabs from "./src/components/Navigation/BottomTabs";
 import { Provider } from "react-redux";
 import { store } from "./src/integrations/store";
 import AnalyticsScreen from "./src/screens/(dashboard)/AnalyticsScreen";
-import { Alert, TouchableOpacity } from "react-native";
-import { Feather } from "@expo/vector-icons";
-import globalStyles from "./src/styles/global";
-import { View, Text } from "react-native";
-import theme from "./src/styles/theme";
+
 
 const Stack = createNativeStackNavigator();
 

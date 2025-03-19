@@ -74,7 +74,7 @@ export const UserProfile = async (data) => {
         return {
             type: 'Error',
             success:false,
-            data: err.data,
+            data: err.response.data,
             status: err.status
         }
 
@@ -97,7 +97,7 @@ export const Appointments = async (data) => {
         return {
             type: 'Error',
             success:false,
-            data: err.data,
+            data: err.response.data,
             status: err.status
         }
 
@@ -117,10 +117,11 @@ export const Patients = async (data) => {
             success:true
         }
     }).catch(err => {
+        // console.log('patient err',err.response.data)
         return {
             type: 'Error',
             success:false,
-            data: err.data,
+            data: err.response.data,
             status: err.status
         }
 
@@ -146,7 +147,7 @@ export const axiosGetMediaFile = async (file_id,token) => {
     }).catch(err => {
         return {
             success: false,
-            data: err.data,
+            data: err.response.data,
             status: err.status
         }
     });

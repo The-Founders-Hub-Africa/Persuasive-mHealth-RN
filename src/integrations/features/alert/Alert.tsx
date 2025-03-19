@@ -5,6 +5,7 @@ import Toast from 'react-native-toast-message';
 import { clearAlert } from "./alertSlice";
 import React from "react";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { View } from "react-native";
 
 const Alert_System = () => {
 
@@ -22,10 +23,16 @@ const Alert_System = () => {
         }
         let type = alert.status_code === 200 ? 'success' : 'error'
         for (const message of alert.message) {
+          console.log('message from alert', message)
+          
             Toast.show({
                 type: type,
-                text1: message
+              text1: message,
+                
             });
+
+          // Removed invalid Toast.setRef block
+          
         }
         console.log('alert_system',alert)
         dispatch(clearAlert())
@@ -33,7 +40,8 @@ const Alert_System = () => {
     }, [alert])
   
   return (
-      <React.Fragment></React.Fragment>
+    // <React.Fragment></React.Fragment>
+    <View></View>
   )
 }
 

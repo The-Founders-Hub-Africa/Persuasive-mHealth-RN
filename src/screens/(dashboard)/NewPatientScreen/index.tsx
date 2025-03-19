@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
@@ -29,6 +28,8 @@ import { addSinglePatient } from "@/src/integrations/features/patient/patientsSl
 import { Patients } from "@/src/integrations/axios_store";
 import { addPatientCount } from "@/src/integrations/features/user/usersSlice";
 import DatePicker from "react-native-modern-datepicker";
+import Alert_System from "@/src/integrations/features/alert/Alert";
+import Toast from "react-native-toast-message";
 
 type FormData = {
   full_name: string;
@@ -48,6 +49,13 @@ type FormData = {
 };
 
 export default function NewPatientScreen() {
+
+  useEffect(() => {
+    Toast.show({ type: 'error', text1: "Testing toat messsage" })
+    
+    // Removed invalid Toast.setRef line
+  }, [])
+
   const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -56,7 +64,7 @@ export default function NewPatientScreen() {
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
-
+ 
   const {
     control,
     handleSubmit,
@@ -95,6 +103,8 @@ export default function NewPatientScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
+
+   
     let data_ = {
       token: user.usertoken,
       data: {
@@ -102,24 +112,25 @@ export default function NewPatientScreen() {
         img: fileDetails,
       },
     };
-    // console.log(data_)
+    setIsSubmitting(true)
     let res = await Patients(data_);
     if (res.success) {
       // reset form data here
 
       //
+      setIsSubmitting(false)
       dispatch(addSinglePatient(res.data.patient));
       dispatch(addPatientCount({ gender: res.data.patient.gender }));
       setShowModal(true);
       navigation.navigate("Patients");
     } else {
+      setIsSubmitting(false)
       let err = {
-        status_code: 500,
-        data: { message: "Error occurred" },
+        status: 500,
+        data: res.data,
         page: "new_patient_page",
       };
       dispatch(addAlert(err));
-      // console.log('Error occurred')
     }
   };
 
@@ -149,7 +160,16 @@ export default function NewPatientScreen() {
   // };
 
   return (
+    <>
+    <View style={{ height: 60, backgroundColor: "white" }}>
+      <Alert_System />
+      <Toast topOffset={0}/>
+    </View>
+    
     <ScrollView>
+      
+     
+    
       <View
         style={[
           globalStyles.dashboardContainer,
@@ -166,7 +186,7 @@ export default function NewPatientScreen() {
             ]}>
             Personal Information
           </Text>
-
+       
           {/* Full Name */}
           <View style={formStyles.inputGroup}>
             <Text style={formStyles.label}>Full Name</Text>
@@ -197,7 +217,7 @@ export default function NewPatientScreen() {
               </Text>
             )}
           </View>
-
+        
           {/* Phone Number */}
           <View style={formStyles.inputGroup}>
             <Text style={formStyles.label}>Phone Number</Text>
@@ -671,6 +691,7 @@ export default function NewPatientScreen() {
         />
       </View>
     </ScrollView>
+    </>
   );
 }
 

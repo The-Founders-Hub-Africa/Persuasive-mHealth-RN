@@ -80,7 +80,20 @@ const Demographics = () => {
             ]}>
             Total No of Children
           </Text>
-          <Text style={style.right}>2000</Text>
+          <Text style={style.right}>1000</Text>
+        </View>
+
+        <View style={style.demographics}>
+          <Text
+            style={[
+              style.left,
+              {
+                borderLeftColor: theme.colors["pink-600"],
+              },
+            ]}>
+            Total No of Teenagers
+          </Text>
+          <Text style={style.right}>1000</Text>
         </View>
 
         <View style={style.demographics}>

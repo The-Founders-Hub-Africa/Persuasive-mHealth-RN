@@ -91,9 +91,17 @@ export default function ResetPasswordScreen({
                   message: "Password must not exceed 20 characters",
                 },
                 pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                  value:
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
                   message:
-                    "Password must contain at least one letter and one number",
+                    "Password must contain at least one capital letter, one small letter, one number, and one of the following special characters: @$!%*?&",
+                },
+                validate: value => {
+                  const invalidChars = /[^A-Za-z\d@$!%*?&]/g; // Reject anything not in allowed set
+                  if (invalidChars.test(value)) {
+                    return "Password contains invalid special characters. Only @$!%*?& are allowed.";
+                  }
+                  return true;
                 },
               }}
               render={({ field: { onChange, value } }) => (
@@ -128,19 +136,12 @@ export default function ResetPasswordScreen({
             <Controller
               control={control}
               rules={{
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-                maxLength: {
-                  value: 20,
-                  message: "Password must not exceed 20 characters",
-                },
-                pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                  message:
-                    "Password must contain at least one letter and one number",
+                required: "Confirm password is required",
+                validate: (value, formValues) => {
+                  if (value !== formValues.password) {
+                    return "Passwords do not match";
+                  }
+                  return true;
                 },
               }}
               render={({ field: { onChange, value } }) => (

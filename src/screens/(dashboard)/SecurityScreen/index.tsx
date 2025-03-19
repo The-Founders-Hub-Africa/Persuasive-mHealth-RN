@@ -24,7 +24,7 @@ const SecurityScreen = () => {
 
           <TouchableOpacity
             style={styles.groupSectionLink}
-            onPress={() => navigation.navigate("Change Password")}>
+            onPress={() => navigation.navigate("Old Password")}>
             <View style={styles.groupSectionLeft}>
               <View>
                 <Feather

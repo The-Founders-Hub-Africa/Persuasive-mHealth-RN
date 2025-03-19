@@ -8,7 +8,8 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import SettingsScreen from "@/src/screens/(dashboard)/SettingsScreen";
 import SecurityScreen from "@/src/screens/(dashboard)/SecurityScreen";
-import PasswordScreen from "@/src/screens/(dashboard)/PasswordScreen";
+import OldPasswordScreen from "@/src/screens/(dashboard)/OldPasswordScreen";
+import ResetPasswordScreen from "@/src/screens/(dashboard)/ResetPasswordScreen";
 import NotificationSettingsScreen from "@/src/screens/(dashboard)/NotificationSettingsScreen";
 import FAQScreen from "@/src/screens/(dashboard)/FAQScreen";
 import PrivacyPolicyScreen from "@/src/screens/(dashboard)/PrivacyPolicyScreen";
@@ -62,7 +63,20 @@ const SettingsStackNavigator = () => {
         }}
       />
       <Stack.Screen name="Security" component={SecurityScreen} />
-      <Stack.Screen name="Change Password" component={PasswordScreen} />
+      <Stack.Screen
+        name="Old Password"
+        component={OldPasswordScreen}
+        options={{
+          title: "Change Password",
+        }}
+      />
+      <Stack.Screen
+        name="Reset Password"
+        component={ResetPasswordScreen}
+        options={{
+          title: "Change Password",
+        }}
+      />
       <Stack.Screen
         name="Notification Settings"
         component={NotificationSettingsScreen}

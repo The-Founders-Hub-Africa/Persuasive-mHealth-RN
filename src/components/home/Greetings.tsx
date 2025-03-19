@@ -52,22 +52,16 @@ const Greetings = () => {
             color={theme.colors["neutral-700"]}
           />
         </Pressable>
-        <Pressable
-          onPress={() =>
-            navigation.navigate("Settings", {
-              screen: "View Profile",
-            })
-          }>
-          <Image
-            source={{ uri: `${baseUrl}${user.image}` }}
-            style={{
-              width: 46,
-              height: 46,
-              borderRadius: theme.rounded.medium,
-              backgroundColor: theme.colors["purple-100"],
-            }}
-          />
-        </Pressable>
+
+        <Image
+          source={{ uri: `${baseUrl}${user.image}` }}
+          style={{
+            width: 46,
+            height: 46,
+            borderRadius: theme.rounded.medium,
+            backgroundColor: theme.colors["purple-100"],
+          }}
+        />
       </View>
     </View>
   );

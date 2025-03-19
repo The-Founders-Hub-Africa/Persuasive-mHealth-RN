@@ -90,6 +90,7 @@ export default function EditProfileScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
+    setIsSubmitting(true)
     let data_ = {
       token: user.usertoken,
       data: {
@@ -108,27 +109,18 @@ export default function EditProfileScreen() {
           save: true,
         })
       );
+       setIsSubmitting(false)
       navigation.navigate("Home");
     } else {
+      setIsSubmitting(false)
       let err = {
-        status_code: 500,
-        data: { message: "Error occurred" },
+        status_code: res.status,
+        data: res.data,
         page: "editprofile",
       };
+       
       dispatch(addAlert(err));
-      // console.log('Error occurred')
     }
-
-    // let res = await editUser(data_)
-    //           if (res.data){
-    //               // console.log(res.data)
-    //             // setuserlogged(true)
-
-    //           } else if (res.error) {
-    //             console.log('error')
-    //           }
-
-    // navigation.navigate("Home");
   };
 
   // const handleImageUpload = async () => {

@@ -105,6 +105,7 @@ const NewAppointmentsScreen = () => {
   });
 
   const handleContinue = async (data: FormData) => {
+    setIsSubmitting(true)
     let data_ = {
       token: user.usertoken,
       data: {
@@ -118,13 +119,15 @@ const NewAppointmentsScreen = () => {
       // reset form data here
 
       //
+      setIsSubmitting(false)
       dispatch(addSingleAppointment(res.data.event));
       setShowModal(true);
       navigation.navigate("Appointments");
     } else {
+      setIsSubmitting(false)
       let err = {
-        status_code: 500,
-        data: { message: "Error occurred" },
+        status_code: res.status,
+        data: res.data,
         page: "newappointment_page",
       };
       dispatch(addAlert(err));

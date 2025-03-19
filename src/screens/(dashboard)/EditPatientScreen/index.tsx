@@ -104,6 +104,7 @@ export default function EditPatientScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
+    setIsSubmitting(true)
     let newData = {
       ...data,
       medical_practitioner: user.id,
@@ -124,13 +125,15 @@ export default function EditPatientScreen() {
       // reset form data here
 
       //
+      setIsSubmitting(false)
       dispatch(addSinglePatient(res.data.patient));
       setShowModal(true);
       navigation.navigate("Patients");
     } else {
+      setIsSubmitting(false)
       let err = {
-        status_code: 500,
-        data: { message: "Error occurred" },
+        status_code: res.status,
+        data: res.data,
         page: "edit_patient_page",
       };
       dispatch(addAlert(err));
@@ -138,30 +141,6 @@ export default function EditPatientScreen() {
     }
   };
 
-  // const handleImageUpload = async () => {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ["images", "videos"],
-  //     allowsEditing: true,
-  //     aspect: [4, 3],
-  //     quality: 1,
-  //   });
-
-  //   if (!result.canceled) {
-  //     let returndata = result.assets[0];
-  //     if (returndata.mimeType && returndata.fileName) {
-  //       const uri = returndata.uri || null;
-  //       setfileDetails({
-  //         type: returndata.mimeType,
-  //         filename: returndata.fileName,
-  //       });
-  //       if (uri) {
-  //         setValue("document", uri);
-  //       }
-  //     }
-  //   } else {
-  //     console.log("Image Picker Error: ---");
-  //   }
-  // };
 
   return (
     <ScrollView>

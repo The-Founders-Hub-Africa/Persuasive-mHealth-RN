@@ -103,7 +103,6 @@ export default function NewPatientScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
-
    
     let data_ = {
       token: user.usertoken,
@@ -118,6 +117,7 @@ export default function NewPatientScreen() {
       // reset form data here
 
       //
+      
       setIsSubmitting(false)
       dispatch(addSinglePatient(res.data.patient));
       dispatch(addPatientCount({ gender: res.data.patient.gender }));
@@ -126,7 +126,7 @@ export default function NewPatientScreen() {
     } else {
       setIsSubmitting(false)
       let err = {
-        status: 500,
+        status: res.status,
         data: res.data,
         page: "new_patient_page",
       };

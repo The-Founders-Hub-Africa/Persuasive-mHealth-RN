@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useForm, Controller } from "react-hook-form";
-import Toast from "react-native-toast-message";
 import { NavigationProp } from "@react-navigation/native";
 import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
@@ -20,7 +19,7 @@ import { useOTPMutation } from "@/src/integrations/features/apis/apiSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { loginUser, logoutUser } from "@/src/integrations/features/user/usersSlice";
 import ModalPopup from "@/src/components/common/ModalPopup";
-import Alert_System from "@/src/integrations/features/alert/Alert";
+// import Alert_System from "@/src/integrations/features/alert/Alert";
 
 type FormData = {
   otp0: string;
@@ -90,11 +89,7 @@ export default function OTPVerificationScreen({
       dispatch(addAlert({ ...res.error, page: "otp" }));
     }
 
-    // Toast.show({
-    //   type: "success",
-    //   text1: "OTP Sent",
-    //   text2: "Check your messages.",
-    // });
+    
   };
 
   // const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
@@ -116,19 +111,12 @@ export default function OTPVerificationScreen({
     } else if (res.error) {
       dispatch(addAlert({ ...res.error, page: "otp" }));
     }
-    // if (otpCode.length === 6) {
-    // } else {
-    //   Toast.show({
-    //     type: "error",
-    //     text1: "Invalid OTP",
-    //     text2: "Please enter a valid 4-digit OTP.",
-    //   });
-    // }
+   
   };
 
   return (
     <ScrollView>
-      <Alert_System/>
+      {/* <Alert_System/> */}
       <View style={globalStyles.container}>
         <Image
           source={require("@/assets/images/otp-icon.png")}
@@ -278,7 +266,6 @@ export default function OTPVerificationScreen({
             </View>
           </>
         )}
-        <Toast />
 
         {/* Success Modal */}
         <ModalPopup

@@ -11,14 +11,14 @@ import {
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
 import typography from "@/src/styles/typography";
-import Toast from "react-native-toast-message";
+
 import { useRoute } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { useWhatsappRecordsMutation } from "@/src/integrations/features/apis/apiSlice";
 import { get_id, get_name } from "@/src/integrations/axios_store";
 import { addwhatsappMessage } from "@/src/integrations/features/whatsappMessages/whatsappMessageSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
-import Alert_System from "@/src/integrations/features/alert/Alert";
+// import Alert_System from "@/src/integrations/features/alert/Alert";
 import { getMediaFiles } from "@/src/integrations/mediaFiles";
 import VideoScreen from "./videoScreen";
 import AudioScreen from "./audioScreen";
@@ -69,14 +69,14 @@ const MessageDetailsScreen = () => {
     });
   }, [user]);
 
-  const handleSaveToProfile = () => {
-    Toast.show({ type: "success", text1: "Image saved to profile!" });
-    setSelectedImage(null);
-  };
+  // const handleSaveToProfile = () => {
+  //   Toast.show({ type: "success", text1: "Image saved to profile!" });
+  //   setSelectedImage(null);
+  // };
 
   return (
     <ScrollView>
-      <Alert_System />
+      {/* <Alert_System /> */}
       <View style={globalStyles.dashboardContainer}>
         <View style={{ gap: 8, width: "100%" }}>
           {mgs.data &&

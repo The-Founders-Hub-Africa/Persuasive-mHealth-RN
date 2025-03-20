@@ -8,7 +8,7 @@ import AppointmentCalendar from "@/src/components/home/AppointmentCalendar";
 import RecentAppointments from "@/src/components/home/RecentAppointments";
 import RecentPatients from "@/src/components/home/RecentPatients";
 // import { patientsData, appointmentsData } from "@/src/helpers";
-import Alert_System from "@/src/integrations/features/alert/Alert";
+// import Alert_System from "@/src/integrations/features/alert/Alert";
 import {  useAppointmentsMutation, usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
@@ -65,7 +65,7 @@ const HomeScreen = () => {
   return (
     <ScrollView>
       <View style={globalStyles.dashboardContainer}>
-        <Alert_System/>
+        {/* <Alert_System/> */}
         <Greetings />
         <SearchCard />
 

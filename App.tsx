@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import { store } from "./src/integrations/store";
 import AnalyticsScreen from "./src/screens/(dashboard)/AnalyticsScreen";
 import ToastManager from "toastify-react-native";
+import Alert_System from "./src/integrations/features/alert/Alert";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -27,8 +28,8 @@ export default function App() {
             name="Onboarding"
             component={OnboardingScreen}
             options={{
-              headerShadowVisible: false, // ✅ Removes the shadow
-              headerTitle: "", // ✅ Hides the title
+              headerShadowVisible: false,
+              headerTitle: "",
             }}
           />
 
@@ -85,57 +86,6 @@ export default function App() {
             component={AnalyticsScreen}
             options={{
               headerShadowVisible: false,
-              // headerRight: () => (
-              //   <View style={{ zIndex: 3, elevation: 3 }}>
-              //     <TouchableOpacity
-              //       style={globalStyles.actionsBtn}
-              //       onPress={() => setMenuVisible(!menuVisible)}>
-              //       <Feather name="more-vertical" size={24} color="#555" />
-              //     </TouchableOpacity>
-
-              //     {/* Dropdown Menu */}
-              //     {menuVisible && (
-              //       <View style={globalStyles.actionsDropdown}>
-              //         <TouchableOpacity onPress={() => Alert.alert("Share")}>
-              //           <View
-              //             style={{
-              //               padding: 8,
-              //               gap: 4,
-              //               alignItems: "center",
-              //               flexDirection: "row",
-              //             }}>
-              //             <Feather
-              //               name="upload"
-              //               size={16}
-              //               color={theme.colors["neutral-700"]}
-              //             />
-              //             <Text style={{ color: theme.colors["neutral-700"] }}>
-              //               Share
-              //             </Text>
-              //           </View>
-              //         </TouchableOpacity>
-              //         <TouchableOpacity onPress={() => Alert.alert("Download")}>
-              //           <View
-              //             style={{
-              //               padding: 8,
-              //               gap: 4,
-              //               alignItems: "center",
-              //               flexDirection: "row",
-              //             }}>
-              //             <Feather
-              //               name="download"
-              //               size={16}
-              //               color={theme.colors["neutral-700"]}
-              //             />
-              //             <Text style={{ color: theme.colors["neutral-700"] }}>
-              //               Download
-              //             </Text>
-              //           </View>
-              //         </TouchableOpacity>
-              //       </View>
-              //     )}
-              //   </View>
-              // ),
             }}
           />
           <Stack.Screen
@@ -146,6 +96,7 @@ export default function App() {
             }}
           />
         </Stack.Navigator>
+        <Alert_System />
       </NavigationContainer>
     </Provider>
   );

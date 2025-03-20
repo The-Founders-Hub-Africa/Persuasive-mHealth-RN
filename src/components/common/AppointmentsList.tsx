@@ -1,7 +1,7 @@
 import React  from "react";
 import { AppointmentProps } from "@/src/types";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import Alert_System from "@/src/integrations/features/alert/Alert";
+// import Alert_System from "@/src/integrations/features/alert/Alert";
 import AppointmentCard from "./AppointmentCard";
 import { View } from "react-native";
 

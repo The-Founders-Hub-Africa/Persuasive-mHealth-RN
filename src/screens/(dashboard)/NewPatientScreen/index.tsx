@@ -28,7 +28,7 @@ import { addSinglePatient } from "@/src/integrations/features/patient/patientsSl
 import { Patients } from "@/src/integrations/axios_store";
 import { addPatientCount } from "@/src/integrations/features/user/usersSlice";
 import DatePicker from "react-native-modern-datepicker";
-import Alert_System from "@/src/integrations/features/alert/Alert";
+// import Alert_System from "@/src/integrations/features/alert/Alert";
 import Toast from "toastify-react-native";
 
 type FormData = {
@@ -49,9 +49,9 @@ type FormData = {
 };
 
 export default function NewPatientScreen() {
-  useEffect(() => {
-    Toast.success("Promised is resolved");
-  }, []);
+  // useEffect(() => {
+  //   Toast.success("Promised is resolved");
+  // }, []);
 
   const navigation = useNavigation<NavigationProp<any>>();
   const [calendarVisible, setCalendarVisible] = useState(false);
@@ -156,25 +156,14 @@ export default function NewPatientScreen() {
   // };
 
   return (
-    <>
       <ScrollView>
         <View
           style={[
             globalStyles.dashboardContainer,
             { gap: 24, flex: 1, width: "100%", position: "relative" }, // position: "relative" is used to position the alert and toast at the top of the screen
           ]}>
-          <View
-            style={{
-              position: "absolute",
-              top: -30,
-              left: 20,
-              right: 20,
-              width: "100%",
-              zIndex: 1000,
-            }}>
-            <Alert_System />
-          </View>
-
+         
+          {/* <Alert_System /> */}
           {/* Personal Information */}
           <View style={{ width: "100%" }}>
             <Text
@@ -693,7 +682,7 @@ export default function NewPatientScreen() {
           />
         </View>
       </ScrollView>
-    </>
+  
   );
 }
 
@@ -712,6 +701,4 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 });
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}
+

@@ -8,7 +8,7 @@ import { usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addPatientAndMessage } from "@/src/integrations/features/patient/patientAndMessageSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
-import Alert_System from "@/src/integrations/features/alert/Alert";
+// import Alert_System from "@/src/integrations/features/alert/Alert";
 import { useFocusEffect } from "@react-navigation/native";
 
 const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
@@ -81,7 +81,7 @@ const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
 
   return (
     <ScrollView>
-      <Alert_System />
+      {/* <Alert_System /> */}
       <View style={globalStyles.dashboardContainer}>
         {/* Search input */}
         {canSearch && (

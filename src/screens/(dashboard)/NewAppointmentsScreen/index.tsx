@@ -21,7 +21,7 @@ import { Picker } from "@react-native-picker/picker";
 import typography from "@/src/styles/typography";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import ModalPopup from "@/src/components/common/ModalPopup";
-import Alert_System from "@/src/integrations/features/alert/Alert";
+// import Alert_System from "@/src/integrations/features/alert/Alert";
 import { usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
@@ -160,7 +160,7 @@ const NewAppointmentsScreen = () => {
 
   return (
     <ScrollView>
-      <Alert_System />
+      {/* <Alert_System /> */}
       <View style={globalStyles.dashboardContainer}>
         {/* Patient Name */}
         <View style={formStyles.inputGroup}>

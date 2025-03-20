@@ -18,8 +18,7 @@ import { loginUser } from "@/src/integrations/features/user/usersSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { useRegisterMPUserMutation } from "@/src/integrations/features/apis/apiSlice";
-import Alert_System from "@/src/integrations/features/alert/Alert";
-import Toast from "react-native-toast-message";
+// import Alert_System from "@/src/integrations/features/alert/Alert";
 import { userRegistered } from "@/src/integrations/features/user/boarderUserSlice";
 
 type FormData = {
@@ -98,7 +97,7 @@ export default function SignupScreen({
 
   return (
     <ScrollView>
-      <Alert_System />
+      {/* <Alert_System /> */}
       <View style={globalStyles.container}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
@@ -125,7 +124,6 @@ export default function SignupScreen({
           ]}>
           Fill your information below
         </Text>
-        <Toast />
         {/* Email Input */}
         <View style={formStyles.inputGroup}>
           <Text style={formStyles.label}>Email</Text>

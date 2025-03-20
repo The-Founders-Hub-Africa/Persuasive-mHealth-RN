@@ -21,8 +21,7 @@ import { loginUser } from "@/src/integrations/features/user/usersSlice";
 // import { useDispatch, useSelector } from "react-redux"
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
-import Alert_System from "@/src/integrations/features/alert/Alert";
-import Toast from "react-native-toast-message";
+// import Alert_System from "@/src/integrations/features/alert/Alert";
 
 type FormData = {
   phone_number: string;
@@ -109,7 +108,7 @@ export default function LoginScreen({
 
   return (
     <ScrollView>
-      <Alert_System />
+      {/* <Alert_System /> */}
       <View style={[globalStyles.container]}>
         <Image
           source={require("@/assets/purpleLogoIcon.png")}
@@ -136,8 +135,6 @@ export default function LoginScreen({
           ]}>
           Sign in to continue.
         </Text>
-
-        <Toast />
 
         {/* Number Input */}
         <View style={formStyles.inputGroup}>

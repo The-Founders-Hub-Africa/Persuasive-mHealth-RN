@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { logoutUser } from "../user/usersSlice"
 import { useEffect } from "react"
-import Toast from 'react-native-toast-message';
+import Toast from "toastify-react-native";
 import { clearAlert } from "./alertSlice";
 import React from "react";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
@@ -21,15 +21,22 @@ const Alert_System = () => {
           dispatch(logoutUser())
           navigation.navigate('Login')
         }
-        let type = alert.status_code === 200 ? 'success' : 'error'
+        // let type = alert.status_code === 200 ? 'success' : 'error'
         for (const message of alert.message) {
           console.log('message from alert', message)
+          if (alert.status_code === 200) {
+            Toast.success(message)
+          } else {
+            Toast.error(message)
+          }
           
-            Toast.show({
-                type: type,
-              text1: message,
+            // Toast.show({
+            //     type: type,
+            //   text1: message,
                 
-            });
+            // });
+          
+          
 
           // Removed invalid Toast.setRef block
           

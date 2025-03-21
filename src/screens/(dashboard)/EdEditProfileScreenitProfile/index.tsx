@@ -114,7 +114,7 @@ export default function EditProfileScreen() {
     } else {
       setIsSubmitting(false)
       let err = {
-        status_code: res.status,
+        status: res.status,
         data: res.data,
         page: "editprofile",
       };
@@ -123,33 +123,7 @@ export default function EditProfileScreen() {
     }
   };
 
-  // const handleImageUpload = async () => {
-
-  //   launchImageLibrary(
-  //     {
-  //       mediaType: "photo",
-  //       includeBase64: false,
-  //       quality: 1,
-  //     },
-  //     response => {
-  //       if (response.didCancel) {
-  //         console.log("User cancelled image picker");
-  //       } else if (response.errorMessage) {
-  //         console.log("Image Picker Error: ", response.errorMessage);
-  //       } else if (response.assets && response.assets.length > 0) {
-  //         const uri = response.assets[0].uri || null;
-  //         console.log(response.assets)
-
-  //         let imageData = {
-
-  //         }
-
-  //         // console.log(uri)
-  //         setValue("image", uri); // Update the form state with image URI
-  //       }
-  //     }
-  //   );
-  // };
+ 
 
   const handleImageUpload = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

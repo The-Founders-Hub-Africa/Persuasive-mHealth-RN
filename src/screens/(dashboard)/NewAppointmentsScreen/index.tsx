@@ -126,7 +126,7 @@ const NewAppointmentsScreen = () => {
     } else {
       setIsSubmitting(false)
       let err = {
-        status_code: res.status,
+        status: res.status,
         data: res.data,
         page: "newappointment_page",
       };

@@ -28,7 +28,7 @@ import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import modalStyles from "@/src/styles/modalStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import { UserProfile } from "@/src/integrations/axios_store";
+import { convertDate, UserProfile } from "@/src/integrations/axios_store";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 
@@ -75,12 +75,14 @@ export default function ProfileSetupScreen({
       work_experience: 1,
       gender: user.gender,
       date_of_birth: user.date_of_birth
-        ? user.date_of_birth
-        : new Date().toISOString().split("T")[0], // Default to today
+              ? convertDate(user.date_of_birth)
+              : new Date().toISOString().split("T")[0],  // Default to today
       // image: user.image?user.image:null,
       image: null,
     },
   });
+
+  
 
   useEffect(() => {
     if (email) setValue("email", email);
@@ -104,6 +106,7 @@ export default function ProfileSetupScreen({
   // };
 
   const handleContinue = async (data: FormData) => {
+    setIsSubmitting(true)
     let data_ = {
       token: user.usertoken,
       data: {
@@ -115,6 +118,7 @@ export default function ProfileSetupScreen({
     // console.log(data_)
     let res = await UserProfile(data_);
     if (res.success) {
+      setIsSubmitting(false)
       dispatch(
         loginUser({
           ...res.data.user,
@@ -127,9 +131,10 @@ export default function ProfileSetupScreen({
       // lets see if this works
       navigation.navigate("Dashboard", { screen: "Home" });
     } else {
+      setIsSubmitting(false)
       let err = {
-        status_code: 500,
-        data: { message: "Error occurred" },
+        status: res.status,
+        data: res.data,
         page: "editprofile",
       };
       dispatch(addAlert(err));

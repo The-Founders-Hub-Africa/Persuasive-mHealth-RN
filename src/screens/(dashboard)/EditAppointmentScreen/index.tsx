@@ -121,7 +121,7 @@ const EditAppointmentScreen = () => {
     } else {
        setIsSubmitting(false)
       let err = {
-        status_code: res.status,
+        status: res.status,
         data: res.data,
         page: "edit_appointment_page",
       };

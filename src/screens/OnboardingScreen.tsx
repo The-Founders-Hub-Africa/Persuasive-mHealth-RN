@@ -45,19 +45,33 @@ export default function OnboardingScreen({
 
   
   
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (board.navigate && board.boarded && board.registered) {
-      console.log('ran boarded login')
-      navigation.navigate("Login");
-    } else if (board.navigate && board.boarded) {
-      console.log('ran boarded signup')
-      navigation.navigate("Signup");
-    }
+  //   if (board.navigate && board.boarded && board.registered) {
+  //     console.log('ran boarded login')
+  //     navigation.navigate("Login");
+  //   } else if (board.navigate && board.boarded) {
+  //     console.log('ran boarded signup')
+  //     navigation.navigate("Signup");
+  //   }
 
-  }, [board])
+  // }, [board])
   
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (user.logedin) {
+  //     if (user.verified_number && user.full_name != 'Not Set') {
+  //       console.log('pushed to Dashboard')
+  //       navigation.navigate("Dashboard");
+  //     } else if (user.full_name == 'Not Set') {
+  //       console.log('profile not Set ooh')
+  //       navigation.navigate("Profile Setup");
+  //     }else {
+  //       navigation.navigate("OTP Verification");
+  //     }
+  //   }
+  // }, [user]);
+
+   useEffect(() => {
     if (user.logedin) {
       if (user.verified_number && user.full_name != 'Not Set') {
         console.log('pushed to Dashboard')
@@ -68,8 +82,18 @@ export default function OnboardingScreen({
       }else {
         navigation.navigate("OTP Verification");
       }
+    } else {
+
+      if (board.navigate && board.boarded && board.registered) {
+      console.log('ran boarded login')
+      navigation.navigate("Login");
+    } else if (board.navigate && board.boarded) {
+      console.log('ran boarded signup')
+      navigation.navigate("Signup");
     }
-  }, [user]);
+      
+    }
+  }, [user,board]);
 
   const handleNext = () => {
     if (index < onboardingData.length - 1) {

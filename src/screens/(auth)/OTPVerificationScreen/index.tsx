@@ -17,7 +17,10 @@ import formStyles from "@/src/styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { useOTPMutation } from "@/src/integrations/features/apis/apiSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
-import { loginUser, logoutUser } from "@/src/integrations/features/user/usersSlice";
+import {
+  loginUser,
+  logoutUser,
+} from "@/src/integrations/features/user/usersSlice";
 import ModalPopup from "@/src/components/common/ModalPopup";
 // import Alert_System from "@/src/integrations/features/alert/Alert";
 
@@ -34,8 +37,7 @@ export default function OTPVerificationScreen({
   navigation,
 }: {
   navigation: NavigationProp<any>;
-  }) {
-  
+}) {
   const [otpSent, setOtpSent] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
@@ -56,7 +58,7 @@ export default function OTPVerificationScreen({
     },
   });
 
-  const [OTP, {isLoading} ] = useOTPMutation();
+  const [OTP, { isLoading }] = useOTPMutation();
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -88,8 +90,6 @@ export default function OTPVerificationScreen({
     } else if (res.error) {
       dispatch(addAlert({ ...res.error, page: "otp" }));
     }
-
-    
   };
 
   // const handleVerifyOTP = async (data: { [s: string]: unknown }) => {
@@ -107,11 +107,9 @@ export default function OTPVerificationScreen({
         // loginUser({ ...user, verified_number: true, logedin: true, save: true })
         logoutUser()
       );
-      
     } else if (res.error) {
       dispatch(addAlert({ ...res.error, page: "otp" }));
     }
-   
   };
 
   return (
@@ -166,8 +164,23 @@ export default function OTPVerificationScreen({
 
             <TouchableOpacity
               onPress={handleGetOTP}
-              style={formStyles.submitButton}>
-              <Text style={formStyles.submitText}>Get OTP</Text>
+              disabled={isLoading}
+              style={[
+                formStyles.submitButton,
+                {
+                  backgroundColor: isLoading
+                    ? theme.colors["disabled-bg"]
+                    : theme.colors["purple-700"],
+                },
+              ]}>
+              <Text
+                style={{
+                  color: isLoading
+                    ? theme.colors["disabled-text"]
+                    : theme.colors.white,
+                }}>
+                Get OTP
+              </Text>
             </TouchableOpacity>
           </>
         ) : (

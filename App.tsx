@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import OnboardingScreen from "./src/screens/OnboardingScreen";
@@ -14,14 +14,13 @@ import { store } from "./src/integrations/store";
 import AnalyticsScreen from "./src/screens/(dashboard)/AnalyticsScreen";
 import ToastManager from "toastify-react-native";
 import Alert_System from "./src/integrations/features/alert/Alert";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [menuVisible, setMenuVisible] = useState(false);
-
   return (
     <Provider store={store}>
-      <ToastManager />
+      <ToastManager textStyle={{ fontSize: 16, width: "100%" }} />
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Onboarding">
           <Stack.Screen

@@ -16,9 +16,6 @@ import { convertDate, search_name } from "@/src/integrations/axios_store";
 const AppointmentsScreen = () => {
   const [search, setSearch] = useState("");
   const [hSearch, setHSearch] = useState("");
-  // Filter appointments based on date
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
   const appointmentsData = useAppSelector(state => state.appointments.data);
@@ -44,20 +41,29 @@ const AppointmentsScreen = () => {
     });
   }, []);
   // console.log(appointmentsData)
-  // Filter for ongoing (upcoming) appointments
+  // Filter for ongoing (pending) appointments
 
   useEffect(() => {}, [appointmentsData]);
 
-  const ongoingAppointments = appointmentsData.filter(appointment => {
-    const appointmentDate = new Date(convertDate(appointment.date));
-    return appointmentDate >= today;
-  });
+  const ongoingAppointments = appointmentsData
+    .filter(appointment => appointment.status === "pending")
+    .sort(
+      (a, b) =>
+        new Date(convertDate(b.date)).getTime() -
+        new Date(convertDate(a.date)).getTime()
+    );
 
-  // Filter for past appointments
-  const historyAppointments = appointmentsData.filter(appointment => {
-    const appointmentDate = new Date(convertDate(appointment.date));
-    return appointmentDate < today;
-  });
+  // Filter for history appointments (completed or cancelled)
+  const historyAppointments = appointmentsData
+    .filter(
+      appointment =>
+        appointment.status === "completed" || appointment.status === "cancelled"
+    )
+    .sort(
+      (a, b) =>
+        new Date(convertDate(b.date)).getTime() -
+        new Date(convertDate(a.date)).getTime()
+    );
 
   const [state, setState] = useState({
     history: historyAppointments,

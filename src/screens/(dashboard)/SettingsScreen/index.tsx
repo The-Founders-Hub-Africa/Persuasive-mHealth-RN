@@ -297,8 +297,25 @@ const SettingsScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={handleLogout} style={styles.submitButton}>
-          <Text style={styles.submitText}>Logout</Text>
+        <TouchableOpacity
+          onPress={handleLogout}
+          disabled={isLoading}
+          style={[
+            styles.submitButton,
+            {
+              backgroundColor: isLoading
+                ? theme.colors["disabled-bg"]
+                : theme.colors["purple-700"],
+            },
+          ]}>
+          <Text
+            style={{
+              color: isLoading
+                ? theme.colors["disabled-text"]
+                : theme.colors.white,
+            }}>
+            Logout
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

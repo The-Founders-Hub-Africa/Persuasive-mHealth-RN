@@ -213,7 +213,7 @@ const AppointmentCard = ({
       </View>
 
       {/* Right */}
-      {isCompletedOrCancelled || isPendingAndPassed ? (
+      {isCompletedOrCancelled ? (
         <TouchableOpacity
           style={[
             formStyles.submitButton,

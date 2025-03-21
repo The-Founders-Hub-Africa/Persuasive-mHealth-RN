@@ -1,4 +1,4 @@
-import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { AppointmentProps } from "@/src/types";
 import globalStyles from "@/src/styles/global";
@@ -12,6 +12,7 @@ import { useAppointmentsMutation } from "@/src/integrations/features/apis/apiSli
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addSingleAppointment } from "@/src/integrations/features/appointment/appointmentsSlice";
+import { convertDate } from "@/src/integrations/axios_store";
 
 const AppointmentCard = ({
   appointment,
@@ -22,7 +23,10 @@ const AppointmentCard = ({
 }) => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [menuVisible, setMenuVisible] = useState(false);
-  const isPassed = new Date(appointment.date) <= new Date();
+  const isPassed = new Date(convertDate(appointment.date)) <= new Date();
+  const isCompletedOrCancelled =
+    appointment.status === "completed" || appointment.status === "cancelled";
+  const isPendingAndPassed = appointment.status === "pending" && isPassed;
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
@@ -33,6 +37,22 @@ const AppointmentCard = ({
   const handleCancel = (id: number) => {
     let data = {
       data: { action: "set_status", data: { id: id, status: "cancelled" } },
+      token: user.usertoken,
+    };
+    appointmentApi(data).then(data => {
+      if (data.error) {
+        dispatch(addAlert({ ...data.error, page: "appointment page" }));
+      }
+
+      if (data.data) {
+        dispatch(addSingleAppointment(data.data));
+      }
+    });
+  };
+
+  const handleComplete = (id: number) => {
+    let data = {
+      data: { action: "set_status", data: { id: id, status: "completed" } },
       token: user.usertoken,
     };
     appointmentApi(data).then(data => {
@@ -147,13 +167,15 @@ const AppointmentCard = ({
               <AntDesign
                 name="calendar"
                 size={15}
-                color={theme.colors["neutral-500"]}
+                color={isPendingAndPassed ? "red" : theme.colors["neutral-500"]}
               />
               <Text
                 style={[
                   typography.textXS_Regular,
                   {
-                    color: theme.colors["neutral-500"],
+                    color: isPendingAndPassed
+                      ? "red"
+                      : theme.colors["neutral-500"],
                     width: "auto",
                   },
                 ]}>
@@ -171,13 +193,15 @@ const AppointmentCard = ({
               <AntDesign
                 name="clockcircleo"
                 size={15}
-                color={theme.colors["neutral-500"]}
+                color={isPendingAndPassed ? "red" : theme.colors["neutral-500"]}
               />
               <Text
                 style={[
                   typography.textXS_Regular,
                   {
-                    color: theme.colors["neutral-500"],
+                    color: isPendingAndPassed
+                      ? "red"
+                      : theme.colors["neutral-500"],
                     width: "auto",
                   },
                 ]}>
@@ -189,7 +213,7 @@ const AppointmentCard = ({
       </View>
 
       {/* Right */}
-      {isPassed ? (
+      {isCompletedOrCancelled || isPendingAndPassed ? (
         <TouchableOpacity
           style={[
             formStyles.submitButton,
@@ -225,6 +249,9 @@ const AppointmentCard = ({
             <View style={globalStyles.actionsDropdown}>
               <TouchableOpacity onPress={moveToEdit}>
                 <Text style={{ padding: 8 }}>Edit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleComplete(appointment.id)}>
+                <Text style={{ padding: 8 }}>Complete</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleCancel(appointment.id)}>
                 <Text style={{ padding: 8, color: "red" }}>Cancel</Text>

@@ -11,6 +11,12 @@ export const get_message_and_code = (data) => {
         return result  
     }
 
+    if (result.status_code == "PARSING_ERROR") {
+        result.message = ['Parsing Error']
+        result.status_code = 500
+        return result
+    }
+
     if (data.status == 200) {
         result.message = [data.message]
         result.status_code = 200

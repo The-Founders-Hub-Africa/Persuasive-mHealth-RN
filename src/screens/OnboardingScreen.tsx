@@ -46,9 +46,12 @@ export default function OnboardingScreen({
   
   
   useEffect(() => {
-  if (board.boarded && board.registered) {
+
+    if (board.navigate && board.boarded && board.registered) {
+      console.log('ran boarded login')
       navigation.navigate("Login");
-  } else if (board.boarded) {
+    } else if (board.navigate && board.boarded) {
+      console.log('ran boarded signup')
       navigation.navigate("Signup");
     }
 

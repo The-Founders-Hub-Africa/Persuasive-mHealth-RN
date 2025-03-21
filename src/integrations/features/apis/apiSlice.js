@@ -40,6 +40,16 @@ export const mediAppApi = createApi({
             invalidatesTags: ['userlogin']
         }),
 
+        changePassword: builder.mutation({
+            query: data => ({
+                url: "/changepassword",
+                headers: { "Authorization": `Token ${data.token}`},
+                method: "POST",
+                body: data
+            }),
+        }),
+        
+
         logout: builder.mutation({
             query: token => ({
                 url: `/logout`,
@@ -119,7 +129,8 @@ export const {
     useLoginMutation, useRegisterMPUserMutation,
     useLogoutMutation, useOTPMutation,
     useAppointmentsMutation,
-    usePatientMutation, useWhatsappRecordsMutation
+    usePatientMutation, useWhatsappRecordsMutation,
+    useChangePasswordMutation
     
     } = mediAppApi
               

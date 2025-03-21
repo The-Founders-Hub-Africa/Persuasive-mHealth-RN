@@ -1,9 +1,23 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import typography from "@/src/styles/typography";
 import theme from "@/src/styles/theme";
+import { useAppSelector } from "@/src/integrations/hooks";
+import { getPatientAgeGroups } from "@/src/integrations/axios_store";
 
 const Demographics = () => {
+
+  const user = useAppSelector(state => state.user);
+  const patients = useAppSelector(state => state.patients.data);
+  const today = new Date().toISOString().split("T")[0];
+
+  const [ageGroups, setAgeGroup] = useState({ childrenCount: 0, teenageCount: 0, adultCount: 0 });
+
+  useEffect(() => {
+    const { childrenCount, teenageCount, adultCount } = getPatientAgeGroups(patients);
+    setAgeGroup({ childrenCount, teenageCount, adultCount });
+  }, [patients]);
+
   return (
     <View>
       <Text style={style.title}>Patient Demographics</Text>
@@ -27,7 +41,7 @@ const Demographics = () => {
                 width: "auto",
               },
             ]}>
-            02/03/2035
+            {new Date(today).toLocaleDateString("en-GB")}
           </Text>
         </View>
 
@@ -41,7 +55,7 @@ const Demographics = () => {
             ]}>
             Total No of Patients
           </Text>
-          <Text style={style.right}>4033</Text>
+          <Text style={style.right}>{user.patient_count}</Text>
         </View>
 
         <View style={style.demographics}>
@@ -54,7 +68,7 @@ const Demographics = () => {
             ]}>
             Total No of Female Patients
           </Text>
-          <Text style={style.right}>1500</Text>
+          <Text style={style.right}>{user.female_count}</Text>
         </View>
 
         <View style={style.demographics}>
@@ -67,7 +81,7 @@ const Demographics = () => {
             ]}>
             Total No of Male Patients
           </Text>
-          <Text style={style.right}>1000</Text>
+          <Text style={style.right}>{ user.male_count}</Text>
         </View>
 
         <View style={style.demographics}>
@@ -80,7 +94,7 @@ const Demographics = () => {
             ]}>
             Total No of Children
           </Text>
-          <Text style={style.right}>1000</Text>
+          <Text style={style.right}>{ageGroups.childrenCount}</Text>
         </View>
 
         <View style={style.demographics}>
@@ -93,7 +107,7 @@ const Demographics = () => {
             ]}>
             Total No of Teenagers
           </Text>
-          <Text style={style.right}>1000</Text>
+          <Text style={style.right}>{ ageGroups.teenageCount}</Text>
         </View>
 
         <View style={style.demographics}>
@@ -106,7 +120,7 @@ const Demographics = () => {
             ]}>
             Total No of Adults
           </Text>
-          <Text style={style.right}>533</Text>
+          <Text style={style.right}>{ageGroups.adultCount }</Text>
         </View>
       </View>
     </View>
@@ -147,3 +161,5 @@ const style = StyleSheet.create({
     width: "auto",
   },
 });
+
+

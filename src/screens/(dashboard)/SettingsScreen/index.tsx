@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   TextInput,
+  Linking,
 } from "react-native";
 import React from "react";
 import globalStyles from "@/src/styles/global";
@@ -267,7 +268,13 @@ const SettingsScreen = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.groupSectionLink}>
+          <TouchableOpacity style={styles.groupSectionLink}   onPress={() => {
+              const url = `https://wa.me/${user.api_number}`; // Replace with your WhatsApp link
+              Linking.openURL(url).catch(err =>
+              console.error("Failed to open URL:", err)
+              );
+            }}>
+            
             <View style={styles.groupSectionLeft}>
               <View>
                 <Image

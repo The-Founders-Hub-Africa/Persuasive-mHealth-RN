@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Linking,
 } from "react-native";
 import React from "react";
 import theme from "@/src/styles/theme";
@@ -134,7 +135,12 @@ const ViewProfileScreen = () => {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.whatsappButton}>
+        <TouchableOpacity style={styles.whatsappButton} onPress={() => {
+                      const url = `https://wa.me/${user.api_number}`; // Replace with your WhatsApp link
+                      Linking.openURL(url).catch(err =>
+                      console.error("Failed to open URL:", err)
+                      );
+                    }}>
           <View style={styles.whatsappButtonLeft}>
             <View>
               <Image

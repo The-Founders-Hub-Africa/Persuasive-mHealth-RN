@@ -14,6 +14,10 @@ import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
+import { useChangePasswordMutation } from "@/src/integrations/features/apis/apiSlice";
+import { useAppDispatch,useAppSelector } from "@/src/integrations/hooks";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { clearOld } from "@/src/integrations/features/user/boarderUserSlice";
 
 type FormData = {
   password: string;
@@ -21,7 +25,12 @@ type FormData = {
 };
 
 const ResetPasswordScreen = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  const old = useAppSelector(state => state.board.old);
+
   const {
     control,
     handleSubmit,
@@ -33,8 +42,26 @@ const ResetPasswordScreen = () => {
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    Alert.alert("Submitted");
+  const onSubmit = (dataForm: FormData) => {
+    let data_ = {
+      'action': 'change_password',
+      'old_password': old,
+      'new_password' : dataForm.password,
+      'token': user.usertoken
+    }
+    changePassword(data_).then(data => {
+          if (data.error) {
+            dispatch(addAlert({ ...data.error, page: "reset password page" }));
+            
+              }
+      if (data.data) { 
+             dispatch(addAlert({ ...data.data, page: "reset password page", status:200 }));
+             dispatch(clearOld());
+            // navigation.navigate("Reset Password");
+          }
+         
+        });
+    
   };
 
   return (
@@ -144,18 +171,18 @@ const ResetPasswordScreen = () => {
           {/* Reset password Button */}
           <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
-            disabled={isSubmitting}
+            disabled={isLoading}
             style={[
               formStyles.submitButton,
               {
-                backgroundColor: isSubmitting
+                backgroundColor: isLoading
                   ? theme.colors["disabled-bg"]
                   : theme.colors["purple-700"],
               },
             ]}>
             <Text
               style={{
-                color: isSubmitting
+                color: isLoading
                   ? theme.colors["disabled-text"]
                   : theme.colors.white,
               }}>

@@ -14,13 +14,19 @@ import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
+import { useChangePasswordMutation } from "@/src/integrations/features/apis/apiSlice";
+import { useAppDispatch,useAppSelector } from "@/src/integrations/hooks";
+import { addAlert } from "@/src/integrations/features/alert/alertSlice";
+import { addOld } from "@/src/integrations/features/user/boarderUserSlice";
 
 type FormData = {
   password: string;
 };
 
 const OldPasswordScreen = ({ navigation }: { navigation: any }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
   const {
     control,
     handleSubmit,
@@ -31,8 +37,26 @@ const OldPasswordScreen = ({ navigation }: { navigation: any }) => {
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    navigation.navigate("Reset Password");
+  const onSubmit = (dataForm: FormData) => {
+    let data_ = { 'action': 'old_password', 'old_password': dataForm.password, 'token': user.usertoken }
+    
+    changePassword(data_).then(data => {
+      if (data.error) {
+        dispatch(addAlert({ ...data.error, page: "old password page" }));
+        
+          }
+      if (data.data) { 
+        dispatch(addOld(dataForm.password));
+        navigation.navigate("Reset Password");
+      }
+     
+    });
+    
+    
+      // Found screens with the same name nested inside one another.Check:
+      // Dashboard > Home, Dashboard > Home > Home,
+        
+    
   };
 
   return (
@@ -80,22 +104,22 @@ const OldPasswordScreen = ({ navigation }: { navigation: any }) => {
           {/* Reset password Button */}
           <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
-            disabled={isSubmitting}
+            disabled={isLoading}
             style={[
               formStyles.submitButton,
               {
-                backgroundColor: isSubmitting
+                backgroundColor: isLoading
                   ? theme.colors["disabled-bg"]
                   : theme.colors["purple-700"],
               },
             ]}>
             <Text
               style={{
-                color: isSubmitting
+                color: isLoading
                   ? theme.colors["disabled-text"]
                   : theme.colors.white,
               }}>
-              Save password
+              Change password
             </Text>
           </TouchableOpacity>
         </View>
@@ -177,3 +201,5 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
 });
+
+

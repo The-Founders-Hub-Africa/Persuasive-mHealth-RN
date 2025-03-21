@@ -21,6 +21,40 @@ export const convertDate = (dateStr) => {
     return `${year}-${months[month]}-${day.padStart(2, '0')}`;
 };
 
+export const getPatientAgeGroups = (patients) => {
+
+    const calculateAge = (dateOfBirth) => {
+      if (!dateOfBirth) {
+        return 0
+      }
+      
+      const birthDate = new Date(convertDate(dateOfBirth));
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      return age;
+    };
+
+    const childrenCount = patients.filter(patient => {
+      let age = calculateAge(patient.date_of_birth)
+      return age && age < 13
+                }).length;
+    const teenageCount = patients.filter(patient => {
+      const age = calculateAge(patient.date_of_birth);
+      return age && age >= 13 && age <= 18;
+    }).length;
+    const adultCount = patients.filter(patient => {
+      let age = calculateAge(patient.date_of_birth)
+      return age && age > 18
+          }).length;
+
+    return { childrenCount, teenageCount, adultCount };
+  };
+
 let user_url = `${baseUrl}/edituser`
 let appointments_url = `${baseUrl}/event`
 let patient_url = `${baseUrl}/patient`

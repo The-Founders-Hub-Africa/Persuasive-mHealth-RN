@@ -1,11 +1,30 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import typography from "@/src/styles/typography";
 import theme from "@/src/styles/theme";
 import { PieChart } from "react-native-gifted-charts";
+import { useAppSelector } from "@/src/integrations/hooks";
 
 const AppointmentAnalysis = () => {
-  const pieData = [
+  
+  const appointments = useAppSelector(state => state.appointments.data);
+  const today = new Date().toISOString().split("T")[0];
+  
+  const getTodayAppointments = () => {
+    const totalAppointments = appointments.filter(
+      (appointment) => appointment.date === today
+    ).length;
+
+    const completedAppointments = appointments.filter(
+      (appointment) => appointment.date === today && appointment.status === "completed"
+    ).length;
+
+    return { totalAppointments, completedAppointments };
+  };
+
+  const [appointmentCount, setAppointmentCount] = useState({totalAppointments: 0, completedAppointments: 0});
+
+  const [pieData,setPieData] = useState([
     {
       value: 85,
       color: theme.colors["purple-700"],
@@ -17,7 +36,34 @@ const AppointmentAnalysis = () => {
       color: theme.colors["neutral-300"],
       gradientCenterColor: theme.colors["neutral-300"],
     },
-  ];
+  ]);
+
+  useEffect(() => {
+    const { totalAppointments, completedAppointments } = getTodayAppointments();
+    setAppointmentCount({ totalAppointments, completedAppointments });
+    let completedPercentage = 0;
+    let pendingPercentage = 100;
+
+    if (totalAppointments > 0) {
+      completedPercentage = (completedAppointments / totalAppointments) * 100;
+      completedPercentage = Math.round(completedPercentage);
+      pendingPercentage = 100 - completedPercentage; 
+    }
+    
+
+    setPieData([
+      {
+        ...pieData[0],
+        value: completedPercentage,
+      },
+      {
+        ...pieData[1],
+        value: pendingPercentage,
+      },
+    ]);
+  
+  }, [appointments]);
+
   return (
     <View>
       <Text style={style.title}>Appointments Analysis</Text>
@@ -41,7 +87,7 @@ const AppointmentAnalysis = () => {
                 width: "auto",
               },
             ]}>
-            02/03/2035
+            {new Date(today).toLocaleDateString("en-GB")}
           </Text>
         </View>
 
@@ -64,7 +110,7 @@ const AppointmentAnalysis = () => {
                       color: theme.colors["neutral-700"],
                       fontWeight: "bold",
                     }}>
-                    85%
+                    {appointmentCount.completedAppointments }
                   </Text>
                   <Text style={{ fontSize: 14, color: theme.colors["neutral-700"] }}>
                     Completed
@@ -94,27 +140,14 @@ const AppointmentAnalysis = () => {
                 gap: 8,
               },
             ]}>
-            <Text>3033</Text>
+            <Text>{appointmentCount.completedAppointments }</Text>
             <Text
               style={{
                 color: theme.colors["purple-700"],
               }}>
-              85%
+              {pieData[0].value}%
             </Text>
           </View>
-        </View>
-
-        <View style={style.demographics}>
-          <Text
-            style={[
-              style.left,
-              {
-                borderLeftColor: theme.colors["purple-300"],
-              },
-            ]}>
-            Average response time
-          </Text>
-          <Text style={style.right}>45 mins</Text>
         </View>
       </View>
     </View>

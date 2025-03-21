@@ -28,7 +28,6 @@ const MessageDetailsScreen = () => {
   const route = useRoute();
 
   // remember to uninstall expo-av expo-video-player react-native-sound-player react-native-video
- 
 
   const [audio, setAudio] = useState<{ [key: number]: string }>({});
   const [image, setImage] = useState<{ [key: number]: string }>({});
@@ -101,6 +100,10 @@ const MessageDetailsScreen = () => {
                             message.context != "medical_practitioner"
                               ? theme.colors["neutral-700"]
                               : theme.colors["purple-700"],
+                          textAlign:
+                            message.context == "medical_practitioner"
+                              ? "left"
+                              : "right",
                         }}>
                         {message.context != "medical_practitioner"
                           ? patientName
@@ -110,6 +113,10 @@ const MessageDetailsScreen = () => {
                         style={{
                           color: theme.colors["neutral-500"],
                           marginBlockEnd: 10,
+                          textAlign:
+                            message.context == "medical_practitioner"
+                              ? "left"
+                              : "right",
                         }}>
                         {message.timestamp}
                       </Text>
@@ -216,8 +223,12 @@ const MessageDetailsScreen = () => {
                         {message.timestamp}
                       </Text>
                       <Text>{video[message.id] ? "" : "Loading Video"}</Text>
-                      <View >
-                        {video[message.id] ? <VideoScreen videoSource={ video[message.id]} />:''}
+                      <View>
+                        {video[message.id] ? (
+                          <VideoScreen videoSource={video[message.id]} />
+                        ) : (
+                          ""
+                        )}
                       </View>
                     </View>
                   );
@@ -266,8 +277,12 @@ const MessageDetailsScreen = () => {
                         {message.timestamp}
                       </Text>
                       <Text>{audio[message.id] ? "" : "Audio Video"}</Text>
-                       <View >
-                        {audio[message.id] ? <AudioScreen audioSource={ audio[message.id]} />:''}
+                      <View>
+                        {audio[message.id] ? (
+                          <AudioScreen audioSource={audio[message.id]} />
+                        ) : (
+                          ""
+                        )}
                       </View>
                     </View>
                   );

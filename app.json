@@ -17,14 +17,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/whiteLogo.png",
-        "backgroundColor": "#7e22ce"
+      "foregroundImage": "./assets/whiteLogo.png",
+      "backgroundColor": "#7e22ce"
       },
       "permissions": [
-        "android.permission.RECORD_AUDIO",
-        "android.permission.MODIFY_AUDIO_SETTINGS"
-      ],
-      "package": "com.casper_emeka.persuasivemhealthrn"
+      "android.permission.RECORD_AUDIO",
+      "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
+    }
     },
     "web": {
       "favicon": "./assets/whiteLogoIcon.png"
@@ -34,9 +34,6 @@
       "expo-video"
     ],
     "extra": {
-      "eas": {
-        "projectId": "37c1006d-a6e5-4141-8554-fa5fc026cb07"
-      }
-    }
+    
   }
 }

@@ -15,13 +15,13 @@ import typography from "@/src/styles/typography";
 import { useRoute } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { useWhatsappRecordsMutation } from "@/src/integrations/features/apis/apiSlice";
-import { get_id, get_name } from "@/src/integrations/axios_store";
+import {  get_id, get_name } from "@/src/integrations/axios_store";
 import { addwhatsappMessage } from "@/src/integrations/features/whatsappMessages/whatsappMessageSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 // import Alert_System from "@/src/integrations/features/alert/Alert";
 import { getMediaFiles } from "@/src/integrations/mediaFiles";
 import VideoScreen from "./videoScreen";
-import AudioScreen from "./audioScreen";
+import AudioScreen from "./audioScreen__";
 
 const MessageDetailsScreen = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -44,6 +44,11 @@ const MessageDetailsScreen = () => {
   const [WhatsappMessage, { isLoading }] = useWhatsappRecordsMutation();
 
   useEffect(() => {
+
+    // axiosGetNgrokMediaFile(baseUrl,'1374851797212716',user.usertoken).then(response => {
+    //   console.log('ngrok',response)
+    // })
+
     let data = {
       data: { action: "get_patient_records", data: { patient_id: id } },
       token: user.usertoken,
@@ -278,7 +283,7 @@ const MessageDetailsScreen = () => {
                       </Text>
                       <Text>{audio[message.id] ? "" : "Audio Video"}</Text>
                       <View>
-                        {audio[message.id] ? (
+                        {audio[message.id] != undefined ? (
                           <AudioScreen audioSource={audio[message.id]} />
                         ) : (
                           ""

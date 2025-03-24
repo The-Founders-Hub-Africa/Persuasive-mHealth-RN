@@ -19,7 +19,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/whiteLogo.png",
         "backgroundColor": "#7e22ce"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.casper_emeka.persuasivemhealthrn"
     },
     "web": {
       "favicon": "./assets/whiteLogoIcon.png"
@@ -27,6 +32,11 @@
     "plugins": [
       "expo-audio",
       "expo-video"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "37c1006d-a6e5-4141-8554-fa5fc026cb07"
+      }
+    }
   }
 }

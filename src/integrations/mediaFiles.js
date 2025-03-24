@@ -37,11 +37,12 @@ export const getMediaFiles = async (data, video_state, set_video,
         image: [set_image, image_state]
     }
 
-    data.forEach(async message => {
+  data.forEach(async message => {
+      console.log('helllo from media files')
       if (message.record_type !== 'text') {
      
         let source = `${baseUrl}/platforms/get_media/${message.content}`;
-        if (message.record_type != 'video') {
+        if (message.record_type == 'image') {
            
         const response = await axiosGetMediaFile(message.content,token)
           if (response.success) {

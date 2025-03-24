@@ -190,3 +190,30 @@ export const axiosGetMediaFile = async (file_id,token) => {
         }
     });
 }
+
+export const axiosGetNgrokMediaFile = async (url, file_id, token) => {
+    // const imageUrl = `${url}/platforms/get_media/${file_id}`;
+    const imageUrl = `${url}`;
+    console.log('url_',imageUrl)
+    return axios.get(imageUrl, {
+        // responseType: 'blob',
+        headers: {
+            // 'Authorization': `Token ${token}`,
+            // "Content-Type": "application/json",
+            // "ngrok-skip-browser-warning": "102",
+        }
+    }).then(res => {
+        return {
+            data: res.data,
+            success: true,
+            status: res.status
+        };
+    }).catch(err => {
+        console.log('err',err)
+        return {
+            success: false,
+            data: err.response?.data || err.message,
+            status: err.response?.status || 500
+        };
+    });
+};

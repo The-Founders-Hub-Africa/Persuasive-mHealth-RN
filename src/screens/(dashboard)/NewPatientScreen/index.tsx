@@ -9,6 +9,7 @@ import {
   Modal,
   Alert,
   StyleSheet,
+  TouchableWithoutFeedbackBase,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -31,8 +32,8 @@ import {
   Patients,
 } from "@/src/integrations/axios_store";
 import { addPatientCount } from "@/src/integrations/features/user/usersSlice";
-// import DatePicker from "react-native-modern-datepicker";
-import DatePicker from "react-native-date-picker";
+import DatePicker from "react-native-modern-datepicker";
+// import DatePicker from "react-native-date-picker";
 // import Alert_System from "@/src/integrations/features/alert/Alert";
 import Toast from "toastify-react-native";
 
@@ -423,13 +424,21 @@ export default function NewPatientScreen() {
           </View>
 
           {/* Calendar Modal */}
-          {/* <Modal
+          <Modal
             visible={calendarVisible}
             transparent={true}
             animationType="slide"
             onRequestClose={() => setCalendarVisible(false)}
           >
+            {/* <TouchableWithoutFeedbackBase
+              onPress={() => setCalendarVisible(false)}
+            > */}
+            {/* <View style={modalStyles.modalBackdrop}> */}
             <View style={modalStyles.modalCntr}>
+              {/* <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                keyboardShouldPersistTaps="handled"
+              > */}
               <DatePicker
                 onSelectedChange={(date: string) => {
                   setValue("date_of_birth", date);
@@ -437,7 +446,7 @@ export default function NewPatientScreen() {
                 }}
                 current={getValues("date_of_birth")}
                 mode="calendar"
-                style={{ borderRadius: 10 }}
+                style={{ height: 400, borderRadius: 10 }}
                 options={{
                   textHeaderColor: theme.colors["purple-700"],
                   textDefaultColor: theme.colors["neutral-700"],
@@ -447,10 +456,13 @@ export default function NewPatientScreen() {
                   borderColor: "rgba(122, 146, 165, 0.1)",
                 }}
               />
+              {/* </ScrollView> */}
             </View>
-          </Modal> */}
+            {/* </View> */}
+            {/* </TouchableWithoutFeedbackBase> */}
+          </Modal>
 
-          <Modal
+          {/*<Modal
             visible={calendarVisible}
             transparent={true}
             animationType="slide"
@@ -474,7 +486,7 @@ export default function NewPatientScreen() {
                 <Text style={{ color: "white", marginTop: 10 }}>Confirm</Text>
               </TouchableOpacity>
             </View>
-          </Modal>
+          </Modal>*/}
 
           {/* Genotype */}
           <View style={formStyles.inputGroup}>

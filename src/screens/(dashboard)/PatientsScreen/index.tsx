@@ -1,8 +1,4 @@
-import {
-  View,
-  ScrollView,
-  Text,
-} from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import globalStyles from "@/src/styles/global";
 import SearchInput from "@/src/components/common/SearchInput";
@@ -20,14 +16,14 @@ const PatientsScreen = () => {
   const [search, setSearch] = useState("");
   const [patientsApi, { isLoading }] = usePatientMutation();
   const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.user);
-  const patients = useAppSelector(state => state.patients.data);
+  const user = useAppSelector((state) => state.user);
+  const patients = useAppSelector((state) => state.patients.data);
 
   const [state, setState] = useState(patients);
 
   useEffect(() => {
     if (search) {
-      const filtered = patients.filter(elem =>
+      const filtered = patients.filter((elem) =>
         search_name(elem.full_name, search)
       );
       setState(filtered);
@@ -41,7 +37,7 @@ const PatientsScreen = () => {
       data: { action: "get_all", data: {} },
       token: user.usertoken,
     };
-    patientsApi(data).then(data => {
+    patientsApi(data).then((data) => {
       if (data.error) {
         dispatch(addAlert({ ...data.error, page: "patient_screen" }));
       }
@@ -61,10 +57,12 @@ const PatientsScreen = () => {
           style={{
             marginVertical: 16,
             flexDirection: "row",
-            gap: 24,
+            gap: 10,
             justifyContent: "space-between",
+            alignItems: "center",
             width: "100%",
-          }}>
+          }}
+        >
           <View
             style={{
               gap: 4,
@@ -73,7 +71,8 @@ const PatientsScreen = () => {
               padding: 12,
               backgroundColor: theme.colors["purple-50"],
               borderRadius: theme.rounded.medium,
-            }}>
+            }}
+          >
             <MaterialCommunityIcons
               name="calendar-account-outline"
               size={24}
@@ -85,7 +84,8 @@ const PatientsScreen = () => {
                 {
                   textAlign: "center",
                 },
-              ]}>
+              ]}
+            >
               {user.patient_count}
             </Text>
             <Text
@@ -94,10 +94,12 @@ const PatientsScreen = () => {
                 {
                   textAlign: "center",
                 },
-              ]}>
+              ]}
+            >
               No of patients
             </Text>
           </View>
+
           <View
             style={{
               gap: 4,
@@ -106,7 +108,8 @@ const PatientsScreen = () => {
               padding: 12,
               backgroundColor: theme.colors["purple-50"],
               borderRadius: theme.rounded.medium,
-            }}>
+            }}
+          >
             <MaterialCommunityIcons
               name="calendar-account-outline"
               size={24}
@@ -118,7 +121,8 @@ const PatientsScreen = () => {
                 {
                   textAlign: "center",
                 },
-              ]}>
+              ]}
+            >
               {user.female_count}
             </Text>
             <Text
@@ -127,10 +131,12 @@ const PatientsScreen = () => {
                 {
                   textAlign: "center",
                 },
-              ]}>
+              ]}
+            >
               No of Females
             </Text>
           </View>
+
           <View
             style={{
               gap: 4,
@@ -139,7 +145,8 @@ const PatientsScreen = () => {
               padding: 12,
               backgroundColor: theme.colors["purple-50"],
               borderRadius: theme.rounded.medium,
-            }}>
+            }}
+          >
             <MaterialCommunityIcons
               name="calendar-account-outline"
               size={24}
@@ -151,7 +158,8 @@ const PatientsScreen = () => {
                 {
                   textAlign: "center",
                 },
-              ]}>
+              ]}
+            >
               {user.male_count}
             </Text>
             <Text
@@ -160,7 +168,8 @@ const PatientsScreen = () => {
                 {
                   textAlign: "center",
                 },
-              ]}>
+              ]}
+            >
               No of Males
             </Text>
           </View>

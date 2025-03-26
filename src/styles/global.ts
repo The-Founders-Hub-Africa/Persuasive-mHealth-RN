@@ -15,7 +15,7 @@ const globalStyles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingHorizontal: 28,
+    paddingHorizontal: 16,
     paddingBottom: 150,
     minHeight: "100%",
     backgroundColor: theme.colors.white,

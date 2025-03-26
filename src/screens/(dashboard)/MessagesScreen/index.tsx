@@ -68,7 +68,7 @@ const MessagesScreen = ({ canSearch }: { canSearch: boolean }) => {
         for (let index = 0; index < messages.length; index++) {
           let patientData = init;
 
-          patientData = { ...patientData, ...messages[0], ...patients[0] };
+          patientData = { ...patientData, ...messages[index], ...patients[index] };
           data.push(patientData);
         }
         data = data.slice(1);

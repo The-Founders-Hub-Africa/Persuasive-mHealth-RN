@@ -5,6 +5,12 @@ import {baseUrl} from './features/apis/apiSlice'
 export const get_id = (param) => param.id
 export const get_name = (param) => param.name
 
+export const formatTime = (milliseconds) => {
+    const minutes = Math.floor(milliseconds / 60000);
+    const seconds = Math.floor((milliseconds % 60000) / 1000);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+
 export const search_name = (fullname, name) => {
     fullname = fullname.toLocaleLowerCase()
     name = name.toLocaleLowerCase()

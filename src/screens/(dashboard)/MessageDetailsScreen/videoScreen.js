@@ -1,34 +1,34 @@
 import { useEvent } from 'expo';
 import { useVideoPlayer, VideoView } from 'expo-video';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View, Button,Text } from 'react-native';
+import { useEffect, useState } from 'react';
 
 export default function VideoScreen({ videoSource }) {
 
+  const [loading, setLoading] = useState(true);
+  const player = useVideoPlayer(videoSource);
 
-  
-  const player = useVideoPlayer(videoSource, player => {
-    player.loop = true;
-    player.play();
+  const { status, error } = useEvent(player, 'statusChange', { status: player.status });
+
+  useEffect(() => {
+   if (status === 'readyToPlay') {
+    setLoading(false);
+   }
+  }, [status])
+
+  useEvent(player, 'playToEnd', () => {
+    player.pause();
+
+    console.log('Video has ended and playback has stopped');
   });
-
-  // const player = useVideoPlayer(videoSource);
-
-// const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
 
   return (
     <View style={styles.contentContainer}>
+      {loading ? <Text>Loading Video ...</Text> : 
       <VideoView style={styles.video} player={player} allowsFullscreen allowsPictureInPicture />
+      }
+      
       <View style={styles.controlsContainer}>
-        {/* <Button
-          title={isPlaying ? 'Pause' : 'Play'}
-          onPress={() => {
-            if (isPlaying) {
-              player.pause();
-            } else {
-              player.play();
-            }
-          }}
-        /> */}
       </View>
     </View>
   );

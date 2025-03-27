@@ -21,7 +21,7 @@ import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 // import Alert_System from "@/src/integrations/features/alert/Alert";
 import { getMediaFiles } from "@/src/integrations/mediaFiles";
 import VideoScreen from "./videoScreen";
-import AudioScreen from "./audioScreen__";
+import AudioScreen from "./audioScreen";
 
 const MessageDetailsScreen = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -281,7 +281,7 @@ const MessageDetailsScreen = () => {
                         }>
                         {message.timestamp}
                       </Text>
-                      <Text>{audio[message.id] ? "" : "Audio Video"}</Text>
+                      <Text>{audio[message.id] ? "" : "Loading Video"}</Text>
                       <View>
                         {audio[message.id] != undefined ? (
                           <AudioScreen audioSource={audio[message.id]} />

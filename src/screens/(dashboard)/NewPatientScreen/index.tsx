@@ -9,6 +9,7 @@ import {
   Modal,
   Alert,
   StyleSheet,
+  TouchableWithoutFeedbackBase,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -32,6 +33,7 @@ import {
 } from "@/src/integrations/axios_store";
 import { addPatientCount } from "@/src/integrations/features/user/usersSlice";
 import DatePicker from "react-native-modern-datepicker";
+// import DatePicker from "react-native-date-picker";
 // import Alert_System from "@/src/integrations/features/alert/Alert";
 import Toast from "toastify-react-native";
 
@@ -62,6 +64,8 @@ export default function NewPatientScreen() {
   const [showModal, setShowModal] = useState(false);
   const [fileDetails, setfileDetails] = useState({ type: "", filename: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [date, setDate] = useState(new Date());
 
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
@@ -95,7 +99,10 @@ export default function NewPatientScreen() {
   const requestPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert("Permission to access camera roll is required!");
+      Alert.alert(
+        "Permission Denied",
+        "Permission to access camera roll is required!"
+      );
     }
   };
 
@@ -104,39 +111,69 @@ export default function NewPatientScreen() {
   }, []);
 
   const handleContinue = async (data: FormData) => {
-    console.log(data.date_of_birth);
-    let data_ = {
-      token: user.usertoken,
-      data: {
-        formdata: { ...data, date_of_birth: convertDate2(data.date_of_birth) },
-
-        img: fileDetails,
-      },
-    };
-    // console.log(data.date_of_birth);
-    console.log(data_);
     setIsSubmitting(true);
-    let res = await Patients(data_);
-    if (res.success) {
-      // reset form data here
+    try {
+      let response = await Patients({
+        token: user.usertoken,
+        data: {
+          formdata: {
+            ...data,
+            date_of_birth: convertDate2(data.date_of_birth),
+          },
+          img: fileDetails,
+        },
+      });
 
-      //
-
+      if (response.success) {
+        dispatch(addSinglePatient(response.data.patient));
+        dispatch(addPatientCount({ gender: response.data.patient.gender }));
+        setShowModal(true);
+        navigation.navigate("Patients");
+      } else {
+        dispatch(addAlert({ status: response.status, data: response.data }));
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      Alert.alert("Submission Failed", "An error occurred. Please try again.");
+    } finally {
       setIsSubmitting(false);
-      dispatch(addSinglePatient(res.data.patient));
-      dispatch(addPatientCount({ gender: res.data.patient.gender }));
-      setShowModal(true);
-      navigation.navigate("Patients");
-    } else {
-      setIsSubmitting(false);
-      let err = {
-        status: res.status,
-        data: res.data,
-        page: "new_patient_page",
-      };
-      dispatch(addAlert(err));
     }
   };
+
+  // const handleContinue = async (data: FormData) => {
+  //   console.log(data.date_of_birth);
+  //   let data_ = {
+  //     token: user.usertoken,
+  //     data: {
+  //       formdata: { ...data, date_of_birth: convertDate2(data.date_of_birth) },
+
+  //       img: fileDetails,
+  //     },
+  //   };
+
+  //   console.log(data_);
+  //   setIsSubmitting(true);
+  //   let res = await Patients(data_);
+  //   if (res.success) {
+  //     // reset form data here
+
+  //     //
+
+  //     setIsSubmitting(false);
+  //     dispatch(addSinglePatient(res.data.patient));
+  //     dispatch(addPatientCount({ gender: res.data.patient.gender }));
+  //     setShowModal(true);
+  //     navigation.navigate("Patients");
+  //   } else {
+  //     setIsSubmitting(false);
+  //     let err = {
+  //       status: res.status,
+  //       data: res.data,
+  //       page: "new_patient_page",
+  //     };
+  //     dispatch(addAlert(err));
+  //   }
+  // };
 
   // const handleImageUpload = async () => {
   //   let result = await ImagePicker.launchImageLibraryAsync({
@@ -377,7 +414,9 @@ export default function NewPatientScreen() {
                   control={control}
                   name="date_of_birth"
                   render={({ field: { value } }) => (
-                    <Text style={formStyles.inputText}>{value}</Text>
+                    <Text style={formStyles.inputText}>
+                      {value || "Select Date"}
+                    </Text>
                   )}
                 />
               </View>
@@ -391,7 +430,15 @@ export default function NewPatientScreen() {
             animationType="slide"
             onRequestClose={() => setCalendarVisible(false)}
           >
+            {/* <TouchableWithoutFeedbackBase
+              onPress={() => setCalendarVisible(false)}
+            > */}
+            {/* <View style={modalStyles.modalBackdrop}> */}
             <View style={modalStyles.modalCntr}>
+              {/* <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                keyboardShouldPersistTaps="handled"
+              > */}
               <DatePicker
                 onSelectedChange={(date: string) => {
                   setValue("date_of_birth", date);
@@ -399,7 +446,7 @@ export default function NewPatientScreen() {
                 }}
                 current={getValues("date_of_birth")}
                 mode="calendar"
-                style={{ borderRadius: 10 }}
+                style={{ height: 400, borderRadius: 10 }}
                 options={{
                   textHeaderColor: theme.colors["purple-700"],
                   textDefaultColor: theme.colors["neutral-700"],
@@ -409,8 +456,37 @@ export default function NewPatientScreen() {
                   borderColor: "rgba(122, 146, 165, 0.1)",
                 }}
               />
+              {/* </ScrollView> */}
             </View>
+            {/* </View> */}
+            {/* </TouchableWithoutFeedbackBase> */}
           </Modal>
+
+          {/*<Modal
+            visible={calendarVisible}
+            transparent={true}
+            animationType="slide"
+            onRequestClose={() => setCalendarVisible(false)}
+          >
+            <View style={modalStyles.modalCntr}>
+              <DatePicker
+                date={date}
+                mode="date"
+                onDateChange={(selectedDate) => setDate(selectedDate)}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  const formattedDate = date.toISOString().split("T")[0];
+                  setValue("date_of_birth", formattedDate, {
+                    shouldValidate: true,
+                  });
+                  setCalendarVisible(false);
+                }}
+              >
+                <Text style={{ color: "white", marginTop: 10 }}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>*/}
 
           {/* Genotype */}
           <View style={formStyles.inputGroup}>

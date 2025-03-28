@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Modal,
   StyleSheet,
+  Animated,
 } from "react-native";
 import globalStyles from "@/src/styles/global";
 import theme from "@/src/styles/theme";
@@ -15,17 +16,24 @@ import typography from "@/src/styles/typography";
 import { useRoute } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { useWhatsappRecordsMutation } from "@/src/integrations/features/apis/apiSlice";
-import {  get_id, get_name } from "@/src/integrations/axios_store";
+import { get_id, get_name } from "@/src/integrations/axios_store";
 import { addwhatsappMessage } from "@/src/integrations/features/whatsappMessages/whatsappMessageSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 // import Alert_System from "@/src/integrations/features/alert/Alert";
 import { getMediaFiles } from "@/src/integrations/mediaFiles";
 import VideoScreen from "./videoScreen";
 import AudioScreen from "./audioScreen";
+import {
+  GestureHandlerRootView,
+  PinchGestureHandler,
+  State,
+} from "react-native-gesture-handler";
+import ImageViewer from "react-native-image-zoom-viewer";
 
 const MessageDetailsScreen = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const route = useRoute();
+  const scale = new Animated.Value(1);
 
   // remember to uninstall expo-av expo-video-player react-native-sound-player react-native-video
 
@@ -38,13 +46,12 @@ const MessageDetailsScreen = () => {
   let patientName = get_name(param);
 
   const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.user);
-  const mgs = useAppSelector(state => state.whatsappMessage);
+  const user = useAppSelector((state) => state.user);
+  const mgs = useAppSelector((state) => state.whatsappMessage);
 
   const [WhatsappMessage, { isLoading }] = useWhatsappRecordsMutation();
 
   useEffect(() => {
-
     // axiosGetNgrokMediaFile(baseUrl,'1374851797212716',user.usertoken).then(response => {
     //   console.log('ngrok',response)
     // })
@@ -53,7 +60,7 @@ const MessageDetailsScreen = () => {
       data: { action: "get_patient_records", data: { patient_id: id } },
       token: user.usertoken,
     };
-    WhatsappMessage(data).then(response => {
+    WhatsappMessage(data).then((response) => {
       if (response.data) {
         dispatch(addwhatsappMessage(response.data));
         getMediaFiles(
@@ -72,6 +79,19 @@ const MessageDetailsScreen = () => {
       }
     });
   }, [user]);
+
+  const onPinchEvent = Animated.event([{ nativeEvent: { scale } }], {
+    useNativeDriver: true,
+  });
+
+  const onPinchStateChange = (event: any) => {
+    if (event.nativeEvent.scale === State.END) {
+      Animated.spring(scale, {
+        toValue: 1,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
 
   // const handleSaveToProfile = () => {
   //   Toast.show({ type: "success", text1: "Image saved to profile!" });
@@ -98,7 +118,8 @@ const MessageDetailsScreen = () => {
                               ? theme.colors["neutral-200"]
                               : theme.colors["purple-50"],
                         },
-                      ]}>
+                      ]}
+                    >
                       <Text
                         style={{
                           color:
@@ -109,7 +130,8 @@ const MessageDetailsScreen = () => {
                             message.context == "medical_practitioner"
                               ? "left"
                               : "right",
-                        }}>
+                        }}
+                      >
                         {message.context != "medical_practitioner"
                           ? patientName
                           : user.full_name}
@@ -122,7 +144,8 @@ const MessageDetailsScreen = () => {
                             message.context == "medical_practitioner"
                               ? "left"
                               : "right",
-                        }}>
+                        }}
+                      >
                         {message.timestamp}
                       </Text>
                       <Text key={index}>{message.content}</Text>
@@ -140,7 +163,8 @@ const MessageDetailsScreen = () => {
                               ? theme.colors["neutral-200"]
                               : theme.colors["purple-50"],
                         },
-                      ]}>
+                      ]}
+                    >
                       <Text
                         style={
                           message.context != "medical_practitioner"
@@ -151,7 +175,8 @@ const MessageDetailsScreen = () => {
                                 color: theme.colors["purple-700"],
                                 textAlign: "right",
                               }
-                        }>
+                        }
+                      >
                         {message.context != "medical_practitioner"
                           ? patientName
                           : user.full_name}
@@ -168,12 +193,15 @@ const MessageDetailsScreen = () => {
                                 textAlign: "right",
                                 marginBlockEnd: 10,
                               }
-                        }>
+                        }
+                      >
                         {message.timestamp}
                       </Text>
                       <TouchableOpacity
                         key={index}
-                        onPress={() => setSelectedImage("")}>
+                        // onPress={() => setSelectedImage("")}>
+                        onPress={() => setSelectedImage(image[message.id])}
+                      >
                         <Image
                           source={{
                             uri: image[message.id],
@@ -181,6 +209,67 @@ const MessageDetailsScreen = () => {
                           style={styles.image}
                         />
                       </TouchableOpacity>
+
+                      {/* <Modal
+                        visible={!!selectedImage}
+                        transparent={true}
+                        animationType="fade"
+                        onRequestClose={() => setSelectedImage(null)}
+                      >
+                        <View style={styles.modalContainer}>
+                          <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setSelectedImage(null)}
+                          >
+                            <Text style={styles.closeText}>Close</Text>
+                          </TouchableOpacity>
+                          <Image
+                            source={{ uri: selectedImage }}
+                            style={styles.fullScreenImage}
+                            resizeMode="contain"
+                          />
+                        </View>
+                      </Modal> */}
+
+                      <GestureHandlerRootView style={{ flex: 1 }}>
+                        <Modal
+                          visible={!!selectedImage}
+                          transparent={true}
+                          animationType="fade"
+                          onRequestClose={() => setSelectedImage(null)}
+                        >
+                          <View style={styles.modalContainer}>
+                            <TouchableOpacity
+                              style={styles.closeButton}
+                              onPress={() => setSelectedImage(null)}
+                            >
+                              <Text style={styles.closeText}>Close</Text>
+                            </TouchableOpacity>
+
+                            <PinchGestureHandler
+                              onGestureEvent={onPinchEvent}
+                              onHandlerStateChange={onPinchStateChange}
+                            >
+                              <Animated.Image
+                                source={{ uri: selectedImage }}
+                                style={[
+                                  styles.fullScreenImage,
+                                  { transform: [{ scale: 1 }] },
+                                ]}
+                                resizeMode="contain"
+                              />
+                            </PinchGestureHandler>
+                          </View>
+                        </Modal>
+                      </GestureHandlerRootView>
+
+                      {/* <Modal visible={!!selectedImage} transparent={true}>
+                        <ImageViewer
+                          imageUrls={[{ url: selectedImage }]}
+                          enableSwipeDown={true}
+                          onSwipeDown={() => setSelectedImage(null)}
+                        />
+                      </Modal> */}
                     </View>
                   );
                 case "video":
@@ -195,7 +284,8 @@ const MessageDetailsScreen = () => {
                               ? theme.colors["neutral-200"]
                               : theme.colors["purple-50"],
                         },
-                      ]}>
+                      ]}
+                    >
                       {" "}
                       <Text
                         style={
@@ -207,7 +297,8 @@ const MessageDetailsScreen = () => {
                                 color: theme.colors["purple-700"],
                                 textAlign: "right",
                               }
-                        }>
+                        }
+                      >
                         {message.context != "medical_practitioner"
                           ? patientName
                           : user.full_name}
@@ -224,7 +315,8 @@ const MessageDetailsScreen = () => {
                                 textAlign: "right",
                                 marginBlockEnd: 10,
                               }
-                        }>
+                        }
+                      >
                         {message.timestamp}
                       </Text>
                       <Text>{video[message.id] ? "" : "Loading Video"}</Text>
@@ -249,7 +341,8 @@ const MessageDetailsScreen = () => {
                               ? theme.colors["neutral-200"]
                               : theme.colors["purple-50"],
                         },
-                      ]}>
+                      ]}
+                    >
                       {" "}
                       <Text
                         style={
@@ -261,7 +354,8 @@ const MessageDetailsScreen = () => {
                                 color: theme.colors["purple-700"],
                                 textAlign: "right",
                               }
-                        }>
+                        }
+                      >
                         {message.context != "medical_practitioner"
                           ? patientName
                           : user.full_name}
@@ -278,7 +372,8 @@ const MessageDetailsScreen = () => {
                                 textAlign: "right",
                                 marginBlockEnd: 10,
                               }
-                        }>
+                        }
+                      >
                         {message.timestamp}
                       </Text>
                       <Text>{audio[message.id] ? "" : "Loading Video"}</Text>
@@ -298,11 +393,12 @@ const MessageDetailsScreen = () => {
         </View>
 
         {/* Modal for Expanded Image */}
-        <Modal visible={!!selectedImage} transparent animationType="fade">
+        {/* <Modal visible={!!selectedImage} transparent animationType="fade">
           <TouchableOpacity
             style={styles.overlay}
             activeOpacity={1}
-            onPress={() => setSelectedImage(null)}>
+            onPress={() => setSelectedImage(null)}
+          >
             {selectedImage && (
               <View style={styles.modalContent}>
                 <Image
@@ -312,7 +408,7 @@ const MessageDetailsScreen = () => {
               </View>
             )}
           </TouchableOpacity>
-        </Modal>
+        </Modal> */}
       </View>
     </ScrollView>
   );
@@ -370,6 +466,29 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.9)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fullScreenImage: {
+    width: "90%",
+    height: "80%",
+  },
+  closeButton: {
+    position: "absolute",
+    top: 40,
+    right: 20,
+    backgroundColor: "rgba(255,255,255,0.5)",
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeText: {
+    color: "#fff",
+    fontSize: 16,
   },
 });
 

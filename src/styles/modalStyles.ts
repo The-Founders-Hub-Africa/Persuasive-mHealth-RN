@@ -2,12 +2,24 @@ import { StyleSheet } from "react-native";
 import theme from "./theme";
 
 const modalStyles = StyleSheet.create({
+  // modalBackdrop: {
+  //   flex: 1,
+  //   backgroundColor: "rgba(0,0,0,0.5)",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
   modalCntr: {
+    // width: "90%",
+    // maxHeight: "80%",
+    // backgroundColor: "white",
+    // borderRadius: 10,
+    // padding: 20,
+    // alignSelf: "center",
     flex: 1,
     backgroundColor: theme.colors["black/50"],
     justifyContent: "center",
     alignItems: "center",
-    padding: 60,
+    padding: 10,
   },
   modalContent: {
     width: "100%",

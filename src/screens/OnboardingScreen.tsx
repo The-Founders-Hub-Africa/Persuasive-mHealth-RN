@@ -5,9 +5,8 @@ import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "../styles/typography";
 import formStyles from "../styles/formStyles";
-import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
+import { useAppDispatch } from "@/src/integrations/hooks";
 import { boardUser } from "../integrations/features/user/boarderUserSlice";
-import styles from "./SplashScreen/styles";
 
 const onboardingData = [
   {
@@ -41,60 +40,6 @@ export default function OnboardingScreen({
   const [index, setIndex] = useState(0);
 
   const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.user);
-   const board = useAppSelector(state => state.board);
-
-  
-  
-  // useEffect(() => {
-
-  //   if (board.navigate && board.boarded && board.registered) {
-  //     console.log('ran boarded login')
-  //     navigation.navigate("Login");
-  //   } else if (board.navigate && board.boarded) {
-  //     console.log('ran boarded signup')
-  //     navigation.navigate("Signup");
-  //   }
-
-  // }, [board])
-  
-  // useEffect(() => {
-  //   if (user.logedin) {
-  //     if (user.verified_number && user.full_name != 'Not Set') {
-  //       console.log('pushed to Dashboard')
-  //       navigation.navigate("Dashboard");
-  //     } else if (user.full_name == 'Not Set') {
-  //       console.log('profile not Set ooh')
-  //       navigation.navigate("Profile Setup");
-  //     }else {
-  //       navigation.navigate("OTP Verification");
-  //     }
-  //   }
-  // }, [user]);
-
-   useEffect(() => {
-    if (user.logedin) {
-      if (user.verified_number && user.full_name != 'Not Set') {
-        console.log('pushed to Dashboard')
-        navigation.navigate("Dashboard");
-      } else if (user.full_name == 'Not Set') {
-        console.log('profile not Set ooh')
-        navigation.navigate("Profile Setup");
-      }else {
-        navigation.navigate("OTP Verification");
-      }
-    } else {
-
-      if (board.navigate && board.boarded && board.registered) {
-      console.log('ran boarded login')
-      navigation.navigate("Login");
-    } else if (board.navigate && board.boarded) {
-      console.log('ran boarded signup')
-      navigation.navigate("Signup");
-    }
-      
-    }
-  }, [user,board]);
 
   const handleNext = () => {
     if (index < onboardingData.length - 1) {
@@ -111,16 +56,7 @@ export default function OnboardingScreen({
   };
 
   return (
-     board.boarded ?
-      ( <View style={styles.container}>
-      <Image
-        source={require("../../assets/images/whiteLogo.png")}
-        style={styles.logo}
-      />
-      </View>
-        )
-      :
-      (<ScrollView>
+          <ScrollView>
       <View style={[globalStyles.container]}>
         <Image
           source={onboardingData[index].image}
@@ -182,7 +118,7 @@ export default function OnboardingScreen({
           )}
         </View>
       </View>
-      </ScrollView>)
+      </ScrollView>
       
   );
 

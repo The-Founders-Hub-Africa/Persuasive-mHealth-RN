@@ -14,6 +14,8 @@ import { store } from "./src/integrations/store";
 import AnalyticsScreen from "./src/screens/(dashboard)/AnalyticsScreen";
 import ToastManager from "toastify-react-native";
 import Alert_System from "./src/integrations/features/alert/Alert";
+import DecisionScreen from "./src/screens/decisionscreen";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +24,17 @@ export default function App() {
     <Provider store={store}>
       <ToastManager textStyle={{ fontSize: 16, width: "100%" }} />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Onboarding">
+        <Stack.Navigator >
+
+          <Stack.Screen
+            name="DecisionScreen"
+            component={DecisionScreen}
+            options={{
+              headerShadowVisible: false,
+              headerTitle: "",
+            }}
+          />
+
           <Stack.Screen
             name="Onboarding"
             component={OnboardingScreen}
@@ -32,6 +44,7 @@ export default function App() {
             }}
           />
 
+          
           <Stack.Screen
             name="Signup"
             component={SignupScreen}

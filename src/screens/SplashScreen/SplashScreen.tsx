@@ -7,6 +7,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 type RootStackParamList = {
   SplashScreen: undefined;
+  DecisionScreen: undefined;
   Onboarding: undefined;
   Signup: undefined;
 };
@@ -18,8 +19,9 @@ export default function SplashScreen() {
     const timer = setTimeout(() => {
       navigation.reset({
         index: 0,
-        routes: [{ name: "Onboarding" }],
+        routes: [{ name: "DecisionScreen" }],
       });
+      // navigation.navigate("DecisionScreen");
     }, 1000);
 
     return () => clearTimeout(timer);

@@ -20,7 +20,7 @@ export default function SplashScreen() {
         index: 0,
         routes: [{ name: "Onboarding" }],
       });
-    }, 3000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [navigation]);

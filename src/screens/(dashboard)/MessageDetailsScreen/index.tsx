@@ -139,7 +139,7 @@ const MessageDetailsScreen = () => {
                       <Text
                         style={{
                           color: theme.colors["neutral-500"],
-                          marginBlockEnd: 10,
+                          marginBottom: 10,
                           textAlign:
                             message.context == "medical_practitioner"
                               ? "left"
@@ -186,12 +186,12 @@ const MessageDetailsScreen = () => {
                           message.context != "medical_practitioner"
                             ? {
                                 color: theme.colors["neutral-600"],
-                                marginBlockEnd: 10,
+                                marginBottom: 10,
                               }
                             : {
                                 color: theme.colors["purple-700"],
                                 textAlign: "right",
-                                marginBlockEnd: 10,
+                                marginBottom: 10,
                               }
                         }
                       >
@@ -251,7 +251,7 @@ const MessageDetailsScreen = () => {
                               onHandlerStateChange={onPinchStateChange}
                             >
                               <Animated.Image
-                                source={{ uri: selectedImage }}
+                                source={{ uri: selectedImage?selectedImage : "" }}
                                 style={[
                                   styles.fullScreenImage,
                                   { transform: [{ scale: 1 }] },
@@ -308,12 +308,12 @@ const MessageDetailsScreen = () => {
                           message.context != "medical_practitioner"
                             ? {
                                 color: theme.colors["neutral-600"],
-                                marginBlockEnd: 10,
+                                marginBottom: 10,
                               }
                             : {
                                 color: theme.colors["purple-700"],
                                 textAlign: "right",
-                                marginBlockEnd: 10,
+                                marginBottom: 10,
                               }
                         }
                       >
@@ -365,12 +365,12 @@ const MessageDetailsScreen = () => {
                           message.context != "medical_practitioner"
                             ? {
                                 color: theme.colors["neutral-600"],
-                                marginBlockEnd: 10,
+                                marginBottom: 10,
                               }
                             : {
                                 color: theme.colors["purple-700"],
                                 textAlign: "right",
-                                marginBlockEnd: 10,
+                                marginBottom: 10,
                               }
                         }
                       >

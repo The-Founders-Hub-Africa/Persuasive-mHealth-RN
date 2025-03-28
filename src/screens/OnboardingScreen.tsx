@@ -7,6 +7,7 @@ import typography from "../styles/typography";
 import formStyles from "../styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { boardUser } from "../integrations/features/user/boarderUserSlice";
+import styles from "./SplashScreen/styles";
 
 const onboardingData = [
   {
@@ -110,7 +111,16 @@ export default function OnboardingScreen({
   };
 
   return (
-    <ScrollView>
+     board.boarded ?
+      ( <View style={styles.container}>
+      <Image
+        source={require("../../assets/images/whiteLogo.png")}
+        style={styles.logo}
+      />
+      </View>
+        )
+      :
+      (<ScrollView>
       <View style={[globalStyles.container]}>
         <Image
           source={onboardingData[index].image}
@@ -172,6 +182,8 @@ export default function OnboardingScreen({
           )}
         </View>
       </View>
-    </ScrollView>
+      </ScrollView>)
+      
   );
+
 }

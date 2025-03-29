@@ -320,7 +320,7 @@ const MessageDetailsScreen = () => {
                         },
                       ]}
                     >
-                      {" "}
+
                       <Text
                         style={
                           message.context != "medical_practitioner"
@@ -353,12 +353,12 @@ const MessageDetailsScreen = () => {
                       >
                         {message.timestamp}
                       </Text>
-                      <Text>{video[message.id] ? "" : "Loading Video"}</Text>
+                      <Text>{video[message.id]? null : "Loading Video"}</Text>
                       <View>
                         {video[message.id] ? (
                           <VideoScreen videoSource={video[message.id]} />
                         ) : (
-                          ""
+                          null
                         )}
                       </View>
                     </View>
@@ -410,12 +410,12 @@ const MessageDetailsScreen = () => {
                       >
                         {message.timestamp}
                       </Text>
-                      <Text>{audio[message.id] ? "" : "Loading Video"}</Text>
+                      <Text>{audio[message.id]? null : "Loading Video"}</Text>
                       <View>
                         {audio[message.id] != undefined ? (
                           <AudioScreen audioSource={audio[message.id]} />
                         ) : (
-                          ""
+                          null
                         )}
                       </View>
                     </View>

@@ -80,6 +80,40 @@ const MessageDetailsScreen = () => {
     });
   }, [user]);
 
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      let data = {
+        data: { action: "get_patient_records", data: { patient_id: id } },
+        token: user.usertoken,
+      };
+      WhatsappMessage(data).then((response) => {
+        if (response.data) {
+          let new_data = response.data.length !== mgs.data.length
+          if(new_data){
+          dispatch(addwhatsappMessage(response.data));
+          getMediaFiles(
+            response.data,
+            video,
+            setVideo,
+            audio,
+            setAudio,
+            image,
+            setImage,
+            user.usertoken
+          );
+        }
+        }
+        if (response.error) {
+          dispatch(addAlert({ ...response.error, page: "message_details" }));
+        }
+      });
+    }, 1200000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
   const onPinchEvent = Animated.event([{ nativeEvent: { scale } }], {
     useNativeDriver: true,
   });

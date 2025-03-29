@@ -16,11 +16,6 @@ export default function VideoScreen({ videoSource }) {
    }
   }, [status])
 
-  useEvent(player, 'playToEnd', () => {
-    player.pause();
-
-    console.log('Video has ended and playback has stopped');
-  });
 
   return (
     <View style={styles.contentContainer}>

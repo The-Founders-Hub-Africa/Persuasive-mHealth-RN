@@ -133,6 +133,7 @@ useEffect(() => {
 
 
   async function preLoad() {
+    console.log('Loading Sound from preLoad');
     // console.log('Loading Sound from playSound');
   const { sound } = await Audio.Sound.createAsync( 
         {uri: audioSource}
@@ -157,11 +158,12 @@ useEffect(() => {
 
   }
   
-  if (!sound) {
+ 
+  useEffect(() => {
+   if (!sound) {
      preLoad();
-    // console.log('sound in',sound)
   }
-  
+  }, [])
  
   // console.log('sound out',sound)
       

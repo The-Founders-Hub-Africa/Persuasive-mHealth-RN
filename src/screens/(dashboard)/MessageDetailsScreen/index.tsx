@@ -377,7 +377,6 @@ const MessageDetailsScreen = () => {
                         },
                       ]}
                     >
-                      {" "}
                       <Text
                         style={
                           message.context != "medical_practitioner"
@@ -410,7 +409,7 @@ const MessageDetailsScreen = () => {
                       >
                         {message.timestamp}
                       </Text>
-                      <Text>{audio[message.id]? null : "Loading Video"}</Text>
+                      <Text>{audio[message.id]? null : "Loading Audio"}</Text>
                       <View>
                         {audio[message.id] != undefined ? (
                           <AudioScreen audioSource={audio[message.id]} />

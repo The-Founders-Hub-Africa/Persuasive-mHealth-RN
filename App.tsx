@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import OnboardingScreen from "./src/screens/OnboardingScreen";
 import SignupScreen from "./src/screens/(auth)/SignupScreen";
 import LoginScreen from "./src/screens/(auth)/LoginScreen";
-import ResetPasswordScreen from "./src/screens/(auth)/ResetPasswordScreen";
+import ResetPasswordScreen from "./src/screens/(auth)/resetpasswordscreen";
 import ForgotPasswordScreen from "./src/screens/(auth)/ForgotPasswordScreen";
 import OTPVerificationScreen from "./src/screens/(auth)/OTPVerificationScreen";
 import ProfileSetupScreen from "./src/screens/(dashboard)/ProfileSetupScreen";
@@ -15,17 +15,23 @@ import AnalyticsScreen from "./src/screens/(dashboard)/AnalyticsScreen";
 import ToastManager from "toastify-react-native";
 import Alert_System from "./src/integrations/features/alert/Alert";
 import DecisionScreen from "./src/screens/decisionscreen";
+import * as Linking from "expo-linking";
+import { Text } from "react-native";
 
+const prefix = Linking.createURL("/");
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const linking = {
+    prefixes: ["mhealth://"],
+  };
+
   return (
     <Provider store={store}>
       <ToastManager textStyle={{ fontSize: 16, width: "100%" }} />
-      <NavigationContainer>
-        <Stack.Navigator >
-
+      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+        <Stack.Navigator>
           <Stack.Screen
             name="DecisionScreen"
             component={DecisionScreen}
@@ -44,7 +50,6 @@ export default function App() {
             }}
           />
 
-          
           <Stack.Screen
             name="Signup"
             component={SignupScreen}

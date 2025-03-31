@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   View,
@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { NavigationProp } from "@react-navigation/native";
+import * as Linking from "expo-linking";
 import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
@@ -26,6 +27,32 @@ export default function ResetPasswordScreen({
   navigation: NavigationProp<any>;
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Handle deep link when component mounts
+    const handleDeepLink = ({ url }: { url: string }) => {
+      const { queryParams } = Linking.parse(url);
+      if (queryParams?.token) {
+        setToken(typeof queryParams?.token === "string" ? queryParams.token : null);
+      }
+    };
+
+    // Get initial URL if app was opened through deep link
+    Linking.getInitialURL().then(url => {
+      if (url) {
+        handleDeepLink({ url });
+      }
+    });
+
+    // Listen for deep links while app is running
+    const subscription = Linking.addEventListener("url", handleDeepLink);
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
   const {
     control,
     handleSubmit,
@@ -39,6 +66,8 @@ export default function ResetPasswordScreen({
 
   const onSubmit = (data: FormData) => {
     if (data.password && data.confirmPassword === data.password) {
+      // Use the token here when resetting the password
+      console.log("Resetting password with token:", token);
       navigation.navigate("Login");
     } else {
       Alert.alert("Please fill all fields");

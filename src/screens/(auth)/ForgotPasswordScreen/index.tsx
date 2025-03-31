@@ -16,6 +16,7 @@ import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
+import * as Linking from "expo-linking";
 
 type FormData = {
   email: string;
@@ -50,8 +51,24 @@ export default function ForgotPasswordScreen({
     }
   };
 
-  const handleOpenEmailApp = () => {
-    navigation.navigate("Reset Password");
+  const handleOpenEmailApp = async () => {
+    // Generate a reset token (in real app, this would come from your backend)
+    const resetToken = "example-token";
+
+    // Create the reset link that will be sent in email
+    const resetLink = Linking.createURL("reset-password", {
+      queryParams: { token: resetToken },
+    });
+
+    // In real implementation, you would send this link via your backend
+    console.log("Reset link to be sent in email:", resetLink);
+
+    // Open email app
+    try {
+      await Linking.openURL("mailto:");
+    } catch (error) {
+      Alert.alert("Error", "Could not open email app");
+    }
   };
 
   return (

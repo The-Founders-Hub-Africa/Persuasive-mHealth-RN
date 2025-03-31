@@ -26,7 +26,7 @@ import { usePatientMutation } from "@/src/integrations/features/apis/apiSlice";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addPatients } from "@/src/integrations/features/patient/patientsSlice";
-import { Appointments, convertDate } from "@/src/integrations/axios_store";
+import { Appointments, convertDate, convertDate2 } from "@/src/integrations/axios_store";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { addSingleAppointment } from "@/src/integrations/features/appointment/appointmentsSlice";
@@ -109,7 +109,10 @@ const NewAppointmentsScreen = () => {
     let data_ = {
       token: user.usertoken,
       data: {
-        formdata: data,
+        formdata: {
+                    ...data,
+                    date: convertDate2(data.date),
+                  },
         img: fileDetails,
       },
     };

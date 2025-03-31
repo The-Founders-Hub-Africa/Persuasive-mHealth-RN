@@ -25,6 +25,7 @@ import {
   Appointments,
   get_id,
   convertDate,
+  convertDate2,
 } from "@/src/integrations/axios_store";
 import { useRoute } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
@@ -99,6 +100,7 @@ const EditAppointmentScreen = () => {
       ...data,
       patient: appointment.patient,
       medical_practitioner: user.id,
+      date: convertDate2(data.date),
       id: appointment.id,
     };
     let data_ = {

@@ -28,7 +28,7 @@ import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
 import { useAppDispatch, useAppSelector } from "@/src/integrations/hooks";
-import { convertDate, UserProfile } from "@/src/integrations/axios_store";
+import { convertDate, convertDate2, UserProfile } from "@/src/integrations/axios_store";
 import { loginUser } from "@/src/integrations/features/user/usersSlice";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { baseUrl } from "@/src/integrations/features/apis/apiSlice";
@@ -94,7 +94,10 @@ export default function EditProfileScreen() {
     let data_ = {
       token: user.usertoken,
       data: {
-        formdata: data,
+        formdata: {
+                    ...data,
+                    date_of_birth: convertDate2(data.date_of_birth),
+                  },
         img: imageDetails,
       },
     };

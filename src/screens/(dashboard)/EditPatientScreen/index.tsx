@@ -29,7 +29,7 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { convertDate, get_id, Patients } from "@/src/integrations/axios_store";
+import { convertDate, convertDate2, get_id, Patients } from "@/src/integrations/axios_store";
 import { addAlert } from "@/src/integrations/features/alert/alertSlice";
 import { addSinglePatient } from "@/src/integrations/features/patient/patientsSlice";
 
@@ -107,6 +107,7 @@ export default function EditPatientScreen() {
     setIsSubmitting(true)
     let newData = {
       ...data,
+      date_of_birth: convertDate2(data.date_of_birth),
       medical_practitioner: user.id,
       identifier: "",
       id: patient?.id,

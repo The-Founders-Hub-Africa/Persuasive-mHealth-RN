@@ -29,7 +29,6 @@ const AppointmentsScreen = () => {
       data: { action: "get_all", data: {} },
       token: user.usertoken,
     };
-    console.log(data.token);
     appointmentApi(data).then(data => {
       if (data.error) {
         dispatch(addAlert({ ...data.error, page: "appointment page" }));
@@ -40,35 +39,49 @@ const AppointmentsScreen = () => {
       }
     });
   }, []);
-  // console.log(appointmentsData)
-  // Filter for ongoing (pending) appointments
+  
 
-  useEffect(() => {}, [appointmentsData]);
 
-  const ongoingAppointments = appointmentsData
-    .filter(appointment => appointment.status === "pending")
-    .sort(
-      (a, b) =>
-        new Date(convertDate(b.date)).getTime() -
-        new Date(convertDate(a.date)).getTime()
-    );
+const [state, setState] = useState<{
+    history: AppointmentProps[];
+    ongoing: AppointmentProps[];
+}>({
+    history: [],
+    ongoing: [],
+});
+    
+let historyAppointments: AppointmentProps[] = [];
+let ongoingAppointments: AppointmentProps[] = []
 
-  // Filter for history appointments (completed or cancelled)
-  const historyAppointments = appointmentsData
-    .filter(
-      appointment =>
-        appointment.status === "completed" || appointment.status === "cancelled"
-    )
-    .sort(
-      (a, b) =>
-        new Date(convertDate(b.date)).getTime() -
-        new Date(convertDate(a.date)).getTime()
-    );
+  useEffect(() => { 
+  ongoingAppointments = appointmentsData
+  .filter(appointment => appointment.status === "pending")
+  .sort(
+    (a, b) =>
+      new Date(convertDate(b.date)).getTime() -
+      new Date(convertDate(a.date)).getTime()
+  );
 
-  const [state, setState] = useState({
+// Filter for history appointments (completed or cancelled)
+const historyAppointments = appointmentsData
+  .filter(
+    appointment =>
+      appointment.status === "completed" || appointment.status === "cancelled"
+  )
+  .sort(
+    (a, b) =>
+      new Date(convertDate(b.date)).getTime() -
+      new Date(convertDate(a.date)).getTime()
+  );
+
+  setState({
     history: historyAppointments,
     ongoing: ongoingAppointments,
-  });
+    });
+  
+
+  }, [appointmentsData]);
+
 
   useEffect(() => {
     if (search) {

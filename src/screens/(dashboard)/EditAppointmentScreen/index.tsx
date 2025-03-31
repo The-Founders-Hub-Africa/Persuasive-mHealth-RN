@@ -101,6 +101,7 @@ const EditAppointmentScreen = () => {
       patient: appointment.patient,
       medical_practitioner: user.id,
       date: convertDate2(data.date),
+      status:'pending',
       id: appointment.id,
     };
     let data_ = {

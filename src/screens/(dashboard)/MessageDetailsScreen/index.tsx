@@ -60,6 +60,7 @@ const MessageDetailsScreen = () => {
       data: { action: "get_patient_records", data: { patient_id: id } },
       token: user.usertoken,
     };
+    if(user.logedin){
     WhatsappMessage(data).then((response) => {
       if (response.data) {
         dispatch(addwhatsappMessage(response.data));
@@ -78,6 +79,7 @@ const MessageDetailsScreen = () => {
         dispatch(addAlert({ ...response.error, page: "message_details" }));
       }
     });
+  }
   }, [user]);
 
 

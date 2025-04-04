@@ -61,6 +61,7 @@ const NewAppointmentsScreen = () => {
       data: { action: "get_all", data: {} },
       token: user.usertoken,
     };
+    if (user.logedin){
     patientsApi(data).then(data => {
       if (data.error) {
         dispatch(addAlert({ ...data.error, page: "new appointment page" }));
@@ -70,6 +71,7 @@ const NewAppointmentsScreen = () => {
         dispatch(addPatients({ data: data.data, save: true }));
       }
     });
+  }
   }, [user]);
 
   const formatTime = ({

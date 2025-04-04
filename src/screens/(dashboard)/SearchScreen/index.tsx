@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import globalStyles from "@/src/styles/global";
 import SearchInput from "@/src/components/common/SearchInput";
 import theme from "@/src/styles/theme";
-import { appointmentsData, messagesData, patientsData } from "@/src/helpers";
 import PatientCard from "@/src/components/common/PatientList";
 import AppointmentsList from "@/src/components/common/AppointmentsList";
 import MessageList from "@/src/components/common/MessageList";
@@ -60,6 +59,7 @@ const SearchScreen = () => {
             data: { action: 'get_all', data:{} },
             token: user.usertoken
           }
+        if(user.logedin){
         patientsApi(data).then(data => {
           if (data.error) {
             dispatch(addAlert({ ...data.error, page: "search_screen" }))
@@ -97,7 +97,8 @@ const SearchScreen = () => {
             dispatch(addPatientAndMessage({ ...data.data, save: true }));
           }
         });
-             
+        
+      }      
       
       }, [user])
   

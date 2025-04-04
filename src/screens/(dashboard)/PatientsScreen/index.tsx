@@ -37,6 +37,7 @@ const PatientsScreen = () => {
       data: { action: "get_all", data: {} },
       token: user.usertoken,
     };
+    if (user.logedin){
     patientsApi(data).then((data) => {
       if (data.error) {
         dispatch(addAlert({ ...data.error, page: "patient_screen" }));
@@ -46,6 +47,7 @@ const PatientsScreen = () => {
         dispatch(addPatients({ data: data.data, save: true }));
       }
     });
+  }
   }, [user]);
 
   return (

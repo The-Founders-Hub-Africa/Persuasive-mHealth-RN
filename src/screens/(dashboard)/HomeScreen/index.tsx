@@ -27,6 +27,7 @@ const HomeScreen = () => {
   const [appointmentApi, { isLoading:isloading }] = useAppointmentsMutation();
 
     useEffect(() => {
+      if(user.logedin){
         let data = {
           data: { action: 'get_all', data:{} },
           token: user.usertoken
@@ -40,6 +41,7 @@ const HomeScreen = () => {
           dispatch(addPatients({ data: data.data,save:true }))
         }
       })
+    }
     
     }, [user])
   
@@ -49,16 +51,18 @@ const HomeScreen = () => {
               data: { action: 'get_all', data:{} },
               token: user.usertoken
             }
+            if (user.logedin){
             console.log(data.token)
           appointmentApi(data).then(data => {
             if (data.error) {
-              dispatch(addAlert({ ...data.error, page: "appointment page" }))
+              dispatch(addAlert({ ...data.error, page: "Home_Screen" }))
           }
             
             if (data.data) {
               dispatch(addAppointments({ data: data.data,save:true }))
             }
           })
+        }
         
    }, [user])
   

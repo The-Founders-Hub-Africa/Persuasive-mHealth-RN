@@ -16,6 +16,7 @@ import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
+import { Linking } from "react-native";
 
 type FormData = {
   email: string;
@@ -51,7 +52,7 @@ export default function ForgotPasswordScreen({
   };
 
   const handleOpenEmailApp = () => {
-    navigation.navigate("Reset Password");
+    Linking.openURL("mailto:");
   };
 
   return (

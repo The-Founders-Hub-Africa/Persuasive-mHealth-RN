@@ -14,6 +14,7 @@ import theme from "@/src/styles/theme";
 import globalStyles from "@/src/styles/global";
 import typography from "@/src/styles/typography";
 import formStyles from "@/src/styles/formStyles";
+import { useRoute, RouteProp } from "@react-navigation/native";
 
 type FormData = {
   password: string;
@@ -25,6 +26,15 @@ export default function ResetPasswordScreen({
 }: {
   navigation: NavigationProp<any>;
 }) {
+  type ResetPasswordRouteParams = {
+    params: {
+      token: string;
+    };
+  };
+  const route = useRoute<RouteProp<ResetPasswordRouteParams>>();
+  console.log("Route params:", route.params);
+  const token = route.params?.token;
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     control,

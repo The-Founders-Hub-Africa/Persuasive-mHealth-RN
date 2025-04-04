@@ -2,6 +2,7 @@
   "expo": {
     "name": "persuasive-mhealth-rn",
     "slug": "persuasive-mhealth-rn",
+    "scheme": "persuasivemhealth",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/whiteLogo.png",
@@ -13,27 +14,34 @@
       "backgroundColor": "#7e22ce"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.persuasivemhealthrn"
     },
     "android": {
       "adaptiveIcon": {
-      "foregroundImage": "./assets/whiteLogo.png",
-      "backgroundColor": "#7e22ce"
+        "foregroundImage": "./assets/whiteLogo.png",
+        "backgroundColor": "#7e22ce"
       },
       "permissions": [
-      "android.permission.RECORD_AUDIO",
-      "android.permission.MODIFY_AUDIO_SETTINGS"
-      ]
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.anonymous.persuasivemhealthrn"
     }
-    },
-    "web": {
-      "favicon": "./assets/whiteLogoIcon.png"
-    },
-    "plugins": [
-      "expo-audio",
-      "expo-video"
-    ],
-    "extra": {
-    
-  }
+  },
+  "name": "persuasive-mhealth-rn",
+  "slug": "persuasive-mhealth-rn",
+  "version": "1.0.0",
+  "scheme": "persuasivemhealth",
+  "web": {
+    "bundler": "metro",
+    "favicon": "./assets/whiteLogoIcon.png"
+  },
+  "plugins": [
+    "expo-audio",
+    "expo-video"
+  ],
+  "extra": {}
 }

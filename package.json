@@ -16,7 +16,8 @@
         "react-native-gesture-handler@~2.16.1",
         "react-native-screens@~3.31.1"
       ]
-    }
+    },
+    "scheme": "mhealthapp"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
@@ -72,4 +73,5 @@
     "typescript": "^5.7.3"
   },
   "private": true
+  
 }

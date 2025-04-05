@@ -145,7 +145,6 @@ const MessageDetailsScreen = () => {
                 case "text":
                   return (
                     <View
-                      key={index}
                       style={[
                         styles.messageText,
                         {
@@ -184,13 +183,13 @@ const MessageDetailsScreen = () => {
                       >
                         {message.timestamp}
                       </Text>
-                      <Text key={index}>{message.content}</Text>
+                      <Text>{message.content}</Text>
                     </View>
                   );
                 case "image":
                   return (
                     <View
-                      key={index}
+                      
                       style={[
                         styles.messageText,
                         {
@@ -311,7 +310,6 @@ const MessageDetailsScreen = () => {
                 case "video":
                   return (
                     <View
-                      key={index}
                       style={[
                         styles.messageText,
                         {
@@ -368,7 +366,6 @@ const MessageDetailsScreen = () => {
                 case "audio":
                   return (
                     <View
-                      key={index}
                       style={[
                         styles.messageText,
                         {

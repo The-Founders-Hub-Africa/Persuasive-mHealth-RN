@@ -183,7 +183,6 @@ const NewAppointmentsScreen = () => {
                   <Picker.Item label="Select Patient" value="" />
                   {patients.map((patient, index) => (
                     <Picker.Item
-                      key={index}
                       label={patient.full_name}
                       value={patient.id}
                     />

@@ -40,7 +40,7 @@ const theme = {
     small: 4,
     medium: 8,
     large: 16,
-    full: "50%",
+    full: 50,
   },
 };
 

@@ -13,8 +13,7 @@
       "backgroundColor": "#7e22ce"
     },
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.zexchsf.persuasivemhealthrn"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
@@ -24,21 +23,12 @@
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
-      ],
-      "package": "com.zexchsf.persuasivemhealthrn"
+      ]
     },
     "web": {
       "favicon": "./assets/whiteLogoIcon.png"
     },
-    "plugins": [
-      "expo-audio",
-      "expo-video"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "ffd7e45c-a5ed-4d2b-aa49-9f502a54190d"
-      }
-    },
-    "owner": "zexchsf"
+    "plugins": ["expo-audio", "expo-video"],
+    "extra": {}
   }
 }

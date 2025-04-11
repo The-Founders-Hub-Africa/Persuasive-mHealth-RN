@@ -40,48 +40,6 @@ const SettingsScreen = () => {
   return (
     <ScrollView>
       <View style={[globalStyles.dashboardContainer, { gap: 24 }]}>
-        <View
-          style={{
-            width: "100%",
-          }}>
-          <TouchableOpacity
-            style={globalStyles.searchInputCntr}
-            activeOpacity={0.7}>
-            <View
-              style={[
-                globalStyles.searchIconCntr,
-                {
-                  borderRightWidth: 1,
-                },
-              ]}>
-              <Ionicons
-                name="search"
-                size={16}
-                color={theme.colors["neutral-500"]}
-              />
-            </View>
-            <TextInput
-              style={[typography.textSmall_Light, globalStyles.searchInput]}
-              placeholder="Search"
-              value={value}
-              onChangeText={setValue}
-              placeholderTextColor={theme.colors["neutral-500"]}
-            />
-            <TouchableOpacity
-              style={{
-                backgroundColor: theme.colors["purple-700"],
-                padding: 12,
-                borderRadius: 10,
-                alignItems: "center",
-                height: "100%",
-                borderTopLeftRadius: 0,
-                borderBottomLeftRadius: 0,
-              }}>
-              <Text style={formStyles.submitText}>Cancel</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-        </View>
-
         {/* Top */}
         <TouchableOpacity
           onPress={() => navigation.navigate("View Profile")}
@@ -268,13 +226,14 @@ const SettingsScreen = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.groupSectionLink}   onPress={() => {
+          <TouchableOpacity
+            style={styles.groupSectionLink}
+            onPress={() => {
               const url = `https://wa.me/${user.api_number}`; // Replace with your WhatsApp link
               Linking.openURL(url).catch(err =>
-              console.error("Failed to open URL:", err)
+                console.error("Failed to open URL:", err)
               );
             }}>
-            
             <View style={styles.groupSectionLeft}>
               <View>
                 <Image

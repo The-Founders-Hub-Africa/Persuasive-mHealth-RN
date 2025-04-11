@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 import { useForm, Controller } from "react-hook-form";
 import { NavigationProp } from "@react-navigation/native";
 import theme from "@/src/styles/theme";
@@ -140,23 +140,22 @@ export default function OTPVerificationScreen({
                   marginBottom: 24,
                 },
               ]}>
-              We will send you a one-time password to your registered mobile
-              number.
+              We will send you a one-time password to your registered email.
             </Text>
 
-            {/* Phone Number Input */}
+            {/* Email Input */}
             <View style={formStyles.inputGroup}>
-              <Text style={formStyles.label}>Phone Number</Text>
+              <Text style={formStyles.label}>Email</Text>
               <View
                 style={[formStyles.inputCntr, formStyles.inputCntrDisabled]}>
-                <FontAwesome
-                  name="phone"
+                <SimpleLineIcons
+                  name="envelope"
                   size={20}
                   color={theme.colors["neutral-700"]}
                 />
                 <TextInput
                   style={[formStyles.inputText, formStyles.inputTextDisabled]}
-                  value={user.phone_number}
+                  value={user.email}
                   editable={false}
                 />
               </View>
@@ -193,7 +192,7 @@ export default function OTPVerificationScreen({
                   marginBottom: 24,
                 },
               ]}>
-              Enter the code sent to your mobile number.
+              Enter the code sent to your email.
             </Text>
             {/* OTP Input Fields */}
             <View
